@@ -976,6 +976,14 @@ def build_admin(cfg):
 </div></section>
 
 <section><div class="wrap" style="max-width:860px">
+  <div class="warnbox" id="httpWarn" hidden>
+    <strong>This site is being served over plain HTTP.</strong> Turn on
+    <em>Enforce HTTPS</em> in the repository's Settings &rarr; Pages. Until you do,
+    visitors see a &ldquo;Not secure&rdquo; warning in the address bar, Google Merchant
+    Center will not approve the store, and browsers switch off security features that
+    modern sites rely on.
+  </div>
+
   <form id="gate" class="form" style="max-width:420px">
     <div class="field"><label for="pass">Passphrase</label>
       <input id="pass" type="password" autocomplete="current-password"></div>
