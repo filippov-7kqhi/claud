@@ -80,14 +80,36 @@ Overwrite a file in `sites/<store>/assets/img/<machine>/` keeping the name, at 1
 
 1. **Real business identity.** Footers show `[Registered company name] Ltd`,
    `[Companies House number]`, `[VAT registration number]`, `[Registered address]`,
-   `[Town]`, `[Postcode]` and `[Add your phone number]`. Merchant Center verifies these.
-   Set them in the `CFG` dict of each config file and rebuild.
-2. **A payment provider.** Checkout collects the order then stops with an honest notice.
-   Wire Stripe Checkout or PayPal into the `checkoutForm` submit handler in
-   `assets/js/script.js`. Merchant Center requires a completable purchase.
+   `[Town]`, `[Postcode]` and `[Add your phone number]`. Merchant Center and Stripe both
+   verify these. Set them in the `CFG` dict of each config file and rebuild.
+2. **Paste the Stripe Payment Links.** See below — until they are in, checkout says
+   payment is not switched on.
 3. **Real stock and fulfilment.** Every page claims UK stock, 1–2 day dispatch and free
    mainland delivery. Those must be true.
 4. Verify and claim each domain in Merchant Center, then submit `feed.xml`.
+
+## Stripe
+
+Static sites cannot hold a secret key, and Stripe removed `redirectToCheckout` from
+Stripe.js, so the stores use **Payment Links** — Stripe's supported route for this case.
+
+Paste one link per machine into `sites/<store>/assets/js/stripe-config.js`. The file is
+generated once and never overwritten by a rebuild, so pasted links survive. Full setup
+in `stripe/README.md`.
+
+| Basket | Behaviour |
+|---|---|
+| **Buy now** on a product page | Straight to that machine's Stripe page |
+| One machine in the basket | **Pay securely with Stripe** |
+| Several different machines | Says so, offers a single invoice (a Payment Link covers one machine) |
+| A machine with no link pasted in | Says payment is not switched on, routes to an enquiry |
+
+For multi-machine baskets, `stripe/checkout-worker.js` is an optional Cloudflare Worker
+that creates a Checkout Session; set `checkoutEndpoint` in the config and the checkout
+switches to it. It reads prices from Stripe rather than the browser, so a tampered
+basket cannot change what is charged.
+
+**Never commit a secret key** (`sk_live_…`). Payment Link URLs are public by design.
 
 ## Run locally
 
