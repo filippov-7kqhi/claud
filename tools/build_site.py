@@ -39,7 +39,7 @@ def head(cfg, title, desc, path, extra="", noindex=False):
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="{cfg['fonts']}" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/style.css?v={cfg['ver_css']}">
 {extra}</head>
 <body>
 """
@@ -117,7 +117,7 @@ def footer(cfg):
     </div>
   </div>
 </footer>
-<script src="assets/js/script.js"></script>
+<script src="assets/js/script.js?v={cfg['ver_js']}"></script>
 </body>
 </html>
 """
@@ -340,12 +340,16 @@ def build_product(cfg, p):
     <div class="buyrow">
       <label class="qty"><span class="sr">Quantity</span>
         <input type="number" id="qty" value="1" min="1" max="5" inputmode="numeric"></label>
-      <button class="btn btn--primary btn--lg btn--grow" data-add="{p['sku']}"
+      <button class="btn btn--primary btn--lg btn--grow" data-add="{p['sku']}" data-buynow
         data-name="{e(p['name_full'])}" data-price="{p['price']}"
         data-img="{p['dir']}/01-hero.svg" data-url="{p['url']}" data-qty="#qty">
-        Add to basket &mdash; &pound;{p['price']:,}</button>
+        Buy now &mdash; &pound;{p['price']:,}</button>
     </div>
+    <button class="btn btn--ghost btn--lg btn--block" style="margin-top:.7rem" data-add="{p['sku']}"
+      data-name="{e(p['name_full'])}" data-price="{p['price']}"
+      data-img="{p['dir']}/01-hero.svg" data-url="{p['url']}" data-qty="#qty">Add to basket</button>
     <p class="added" data-added hidden>Added to your basket. <a href="cart.html">View basket</a></p>
+    <p class="buynote">Buy now takes you straight to checkout with this machine in your basket.</p>
 
     <ul class="delivery-summary">
       <li><strong>Delivery:</strong> free to UK mainland, 3&ndash;7 working days.
@@ -384,8 +388,12 @@ def build_product(cfg, p):
 
 <div class="stickybuy">
   <div><b>&pound;{p['price']:,}</b> <span class="muted" style="font-size:.8rem">inc. VAT</span></div>
-  <button class="btn btn--primary" data-add="{p['sku']}" data-name="{e(p['name_full'])}"
-    data-price="{p['price']}" data-img="{p['dir']}/01-hero.svg" data-url="{p['url']}">Add to basket</button>
+  <div class="stickybuy__btns">
+    <button class="btn btn--ghost" data-add="{p['sku']}" data-name="{e(p['name_full'])}"
+      data-price="{p['price']}" data-img="{p['dir']}/01-hero.svg" data-url="{p['url']}">Basket</button>
+    <button class="btn btn--primary" data-add="{p['sku']}" data-buynow data-name="{e(p['name_full'])}"
+      data-price="{p['price']}" data-img="{p['dir']}/01-hero.svg" data-url="{p['url']}">Buy now</button>
+  </div>
 </div>
 """ + footer(cfg))
 
