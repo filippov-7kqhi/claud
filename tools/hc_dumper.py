@@ -2,16 +2,15 @@
 import sys, math
 sys.path.insert(0,'/home/user/claud/tools')
 from svgkit import *
+import livery
 
-BRAND = "HAULCREST"
+
 MODEL = "TITAN 1000 HT"
-PAINT = paint_defs("hc", "#fbbf24", "#f59e0b", "#b45309")
-AMBER = "#f59e0b"
-SUN = "#fbbf24"
 GRAPH = "#2a2f38"
 
 
 def dumper(brand=True, tip_deg=0, load=False, lift=0):
+    L = livery.CUR; BRAND = L["brand"]
     g=[]; A=g.append
     # ---- undercarriage -----------------------------------------------------
     A(track(300, 540, 570, 80))
@@ -26,18 +25,18 @@ def dumper(brand=True, tip_deg=0, load=False, lift=0):
 
     # ---- skip / tub --------------------------------------------------------
     A(f'<g transform="translate({lift*0.16:.0f},{-lift}) rotate({-tip_deg} 700 300)">')
-    A(f'<path d="M300 252 L706 252 L672 396 L340 396 Z" fill="url(#hc)" stroke="#7c4a09" stroke-width="3"/>')
-    A(f'<path d="M300 252 L706 252 L678 228 L272 228 Z" fill="url(#hcTop)" stroke="#7c4a09" stroke-width="3"/>')
-    A(f'<path d="M330 274 L676 274 L652 344 L354 344 Z" fill="#b45309" opacity=".28"/>')
+    A(f'<path d="M300 252 L706 252 L672 396 L340 396 Z" fill="url(#paint)" stroke="{L["edge"]}" stroke-width="3"/>')
+    A(f'<path d="M300 252 L706 252 L678 228 L272 228 Z" fill="url(#paintTop)" stroke="{L["edge"]}" stroke-width="3"/>')
+    A(f'<path d="M330 274 L676 274 L652 344 L354 344 Z" fill="{L["g3"]}" opacity=".28"/>')
     A(f'<rect x="292" y="244" width="420" height="14" rx="7" fill="{GRAPH}"/>')
     A(bolts([(320,268),(690,268),(352,384),(660,384)]))
     if load:
         A(f'<path d="M312 244 q86 -46 190 -26 q104 20 190 26 z" fill="#8a6b45"/>')
         A(f'<path d="M340 236 q70 -32 148 -18" fill="none" stroke="#a8895f" stroke-width="8" stroke-linecap="round"/>')
     if brand:
-        A(decal(500, 314, BRAND, size=32, col="#1a1206", sub=MODEL, subcol="#4a3410"))
+        A(decal(500, 314, BRAND, size=32, col=L["ink"], sub=MODEL, subcol=L["sub"]))
         A(f'<text x="500" y="374" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" '
-          f'font-weight="800" font-size="19" letter-spacing="2.4" fill="#3a2708">1000 kg PAYLOAD</text>')
+          f'font-weight="800" font-size="19" letter-spacing="2.4" fill="{L["sub"]}">1000 kg PAYLOAD</text>')
     A(f'</g>')
 
     # ---- tipping ram -------------------------------------------------------
@@ -46,8 +45,8 @@ def dumper(brand=True, tip_deg=0, load=False, lift=0):
     A(f'<circle cx="420" cy="470" r="9" fill="#31363d" stroke="#8c939d" stroke-width="2"/>')
 
     # ---- power pack at the rear -------------------------------------------
-    A(f'<rect x="700" y="372" width="170" height="122" rx="12" fill="url(#hc)" stroke="#7c4a09" stroke-width="3"/>')
-    A(f'<path d="M700 372 L870 372 L844 346 L674 346 Z" fill="url(#hcTop)" stroke="#7c4a09" stroke-width="3"/>')
+    A(f'<rect x="700" y="372" width="170" height="122" rx="12" fill="url(#paint)" stroke="{L["edge"]}" stroke-width="3"/>')
+    A(f'<path d="M700 372 L870 372 L844 346 L674 346 Z" fill="url(#paintTop)" stroke="{L["edge"]}" stroke-width="3"/>')
     A(louvres(776, 394, 82, 84, n=6))
     A(f'<rect x="716" y="392" width="46" height="36" rx="6" fill="#12161b"/>')
     A(f'<circle cx="731" cy="410" r="7" fill="#dc2626"/><circle cx="751" cy="410" r="6" fill="#4ade80"/>')
@@ -60,7 +59,7 @@ def dumper(brand=True, tip_deg=0, load=False, lift=0):
     A(f'<path d="M936 306 L1004 288 M936 306 L994 332" stroke="#4b5563" stroke-width="13" stroke-linecap="round"/>')
     A(f'<circle cx="1010" cy="286" r="14" fill="{GRAPH}"/><circle cx="1000" cy="334" r="14" fill="{GRAPH}"/>')
     A(f'<rect x="912" y="258" width="86" height="46" rx="9" fill="#12161b" stroke="#171b21" stroke-width="2" transform="rotate(-14 912 258)"/>')
-    A(f'<g transform="rotate(-14 912 258)"><rect x="926" y="272" width="58" height="8" rx="4" fill="{SUN}"/>'
+    A(f'<g transform="rotate(-14 912 258)"><rect x="926" y="272" width="58" height="8" rx="4" fill="{L["hi"]}"/>'
       f'<circle cx="934" cy="290" r="6" fill="#dc2626"/></g>')
 
     # ---- decals ------------------------------------------------------------

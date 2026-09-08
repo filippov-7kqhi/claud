@@ -240,3 +240,8 @@ def tree(x, base, h, spread, trunk="#4a3a2a", leaf="#3f6b3a", op="1"):
             f'<ellipse cx="{x}" cy="{base-h*0.62}" rx="{spread}" ry="{h*0.34}" fill="{leaf}"/>'
             f'<ellipse cx="{x-spread*0.4}" cy="{base-h*0.5}" rx="{spread*0.6}" ry="{h*0.24}" fill="{leaf}" opacity=".85"/>'
             f'<ellipse cx="{x+spread*0.45}" cy="{base-h*0.55}" rx="{spread*0.55}" ry="{h*0.22}" fill="{leaf}" opacity=".8"/></g>')
+
+
+def livery_defs(l):
+    """Body-paint gradient for the active store livery."""
+    return paint_defs("paint", l["g1"], l["g2"], l["g3"])

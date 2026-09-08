@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Checkout — HaulCrest</title>
+<meta name="description" content="Secure checkout.">
+<link rel="canonical" href="https://haulcrest.shop/checkout.html">
+<meta name="robots" content="noindex,nofollow">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HaulCrest">
+<meta property="og:title" content="Checkout — HaulCrest">
+<meta property="og:description" content="Secure checkout.">
+<meta property="og:url" content="https://haulcrest.shop/checkout.html">
+<meta property="og:image" content="https://haulcrest.shop/assets/img/cyclone-150/01-hero.svg">
+<meta property="og:locale" content="en_GB">
+<meta name="theme-color" content="#0c0e12">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2327354a'/%3E%3Cpath d='M5 20 L11 9h10l6 11z' fill='none' stroke='%23f59e0b' stroke-width='2.2' stroke-linejoin='round'/%3E%3Cpath d='M4 24h24' stroke='%23f59e0b' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="topbar"><div class="wrap topbar__in"><span>&#128666; Free UK mainland delivery</span><span>&#8634; 30-day returns</span><span>&#128737; 2-year warranty</span><span>&#9993; sales@haulcrest.shop</span></div></div>
+<header class="header">
+  <div class="wrap header__in">
+    <a class="logo" href="index.html"><svg class="logo__mark" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M4 21 L10 9 h12 l6 12 z" fill="#27354a" stroke="#f59e0b" stroke-width="1.6" stroke-linejoin="round"/><path d="M3 24 h26" stroke="#f59e0b" stroke-width="2.2" stroke-linecap="round"/><circle cx="10" cy="27" r="2.4" fill="#f59e0b"/><circle cx="22" cy="27" r="2.4" fill="#f59e0b"/></svg><span>Haul<b>Crest</b></span></a>
+    <nav class="nav" id="nav" aria-label="Main"><a href="machines.html">Machines</a><a href="about.html">About</a><a href="contact.html">Contact</a><a href="track-order.html">Track Order</a>
+      <a class="btn btn--primary nav__cart" href="cart.html">Basket <span data-cart-count>0</span></a></nav>
+    <div class="header__right">
+      <a class="cartlink" href="cart.html" aria-label="Basket">&#128722;<span class="cartbadge" data-cart-count>0</span></a>
+      <button class="burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="nav">
+        <span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<main id="main">
+<section class="pagehead"><div class="wrap">
+  <nav class="crumbs"><a href="index.html">Home</a> / <a href="cart.html">Basket</a> / <span>Checkout</span></nav>
+  <h1>Checkout</h1>
+  <p class="muted">Step 1 of 2 &mdash; your details. Payment is taken on the next step by our
+     payment provider; card details are never entered on or stored by this site.</p>
+</div></section>
+<section><div class="wrap cartlayout">
+  <form class="form" id="checkoutForm" novalidate>
+    <fieldset><legend>Contact</legend>
+      <div class="field"><label for="ck-email">Email</label>
+        <input id="ck-email" name="email" type="email" autocomplete="email" required></div>
+      <div class="field"><label for="ck-phone">Phone (the carrier calls to book delivery)</label>
+        <input id="ck-phone" name="phone" type="tel" autocomplete="tel" required></div>
+    </fieldset>
+    <fieldset><legend>Delivery address</legend>
+      <div class="field"><label for="ck-name">Full name</label>
+        <input id="ck-name" name="name" autocomplete="name" required></div>
+      <div class="field"><label for="ck-addr">Address</label>
+        <input id="ck-addr" name="address" autocomplete="street-address" required></div>
+      <div class="field2">
+        <div class="field"><label for="ck-city">Town or city</label>
+          <input id="ck-city" name="city" autocomplete="address-level2" required></div>
+        <div class="field"><label for="ck-pc">Postcode</label>
+          <input id="ck-pc" name="postcode" autocomplete="postal-code" required></div>
+      </div>
+      <div class="field"><label for="ck-notes">Access notes (gradient, gate width, parking)</label>
+        <textarea id="ck-notes" name="notes" rows="3"></textarea></div>
+    </fieldset>
+    <fieldset><legend>Confirm</legend>
+      <label class="check"><input type="checkbox" id="ck-terms" required>
+        I have read and accept the <a href="terms.html">terms &amp; conditions</a>,
+        <a href="returns.html">returns policy</a> and <a href="privacy.html">privacy policy</a>.</label>
+    </fieldset>
+    <button class="btn btn--primary btn--lg btn--block" type="submit">Continue to payment</button>
+    <p class="formnote">You will be taken to our payment provider to pay by card, PayPal or Apple Pay.
+      Your order is not placed until payment completes.</p>
+  </form>
+  <aside class="summary">
+    <h2>Order summary</h2>
+    <div id="checkoutItems" class="checkitems"></div>
+    <dl>
+      <div><dt>Subtotal (ex. VAT)</dt><dd data-sum-net>&pound;0</dd></div>
+      <div><dt>VAT at 20%</dt><dd data-sum-vat>&pound;0</dd></div>
+      <div><dt>Delivery</dt><dd>Free (UK mainland)</dd></div>
+      <div class="total"><dt>Total to pay</dt><dd data-sum-total>&pound;0</dd></div>
+    </dl>
+    <ul class="minipolicy">
+      <li><a href="returns.html">30-day returns</a></li>
+      <li><a href="shipping.html">Delivery &amp; shipping</a></li>
+      <li><a href="payment.html">Payment &amp; billing</a></li>
+      <li><a href="privacy.html">Privacy</a></li>
+    </ul>
+  </aside>
+</div></section>
+<div class="result" id="ckResult" role="status"></div></main>
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__grid">
+      <div>
+        <a class="logo" href="index.html"><svg class="logo__mark" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M4 21 L10 9 h12 l6 12 z" fill="#27354a" stroke="#f59e0b" stroke-width="1.6" stroke-linejoin="round"/><path d="M3 24 h26" stroke="#f59e0b" stroke-width="2.2" stroke-linecap="round"/><circle cx="10" cy="27" r="2.4" fill="#f59e0b"/><circle cx="22" cy="27" r="2.4" fill="#f59e0b"/></svg><span>Haul<b>Crest</b></span></a>
+        <p class="muted" style="margin-top:1rem;max-width:38ch;font-size:.93rem">UK supplier of tracked dumpers, compact loaders, chippers and stump grinders. Machines held in stock, spares held in stock, and capacities quoted to the standard.</p>
+        <p class="muted" style="font-size:.88rem;line-height:1.8">
+          <strong style="color:var(--ink)">[Registered company name] Ltd</strong><br>
+          [Registered address]<br>[Town] [Postcode]<br>United Kingdom<br>
+          <a href="mailto:sales@haulcrest.shop">sales@haulcrest.shop</a><br>
+          <a href="tel:">[Add your phone number]</a><br>
+          <span class="muted">Company no. [Companies House number] &middot; VAT no. [VAT registration number]</span>
+        </p>
+      </div>
+      <div><h4>Machines</h4><ul><li><a href="cyclone-150-td.html">Cyclone 150 TD</a></li><li><a href="grindmaster-380-tx.html">Grindmaster 380 TX</a></li><li><a href="titan-1000-ht.html">Titan 1000 HT</a></li><li><a href="vanguard-850-sl.html">Vanguard 850 SL</a></li></ul></div>
+      <div><h4>Customer service</h4><ul>
+        <li><a href="contact.html">Contact us</a></li>
+        <li><a href="track-order.html">Track your order</a></li>
+        <li><a href="about.html">About us</a></li>
+        <li><a href="machines.html">All machines</a></li></ul></div>
+      <div><h4>Policies</h4><ul><li><a href="shipping.html">Delivery &amp; shipping</a></li><li><a href="returns.html">Returns &amp; refunds</a></li><li><a href="payment.html">Payment &amp; billing</a></li><li><a href="returns.html#warranty">Warranty</a></li><li><a href="privacy.html">Privacy</a></li><li><a href="terms.html">Terms &amp; conditions</a></li></ul></div>
+    </div>
+    <div class="footer__pay">
+      <span class="muted">We accept</span>
+      <span class="paychip">VISA</span><span class="paychip">Mastercard</span>
+      <span class="paychip">AmEx</span><span class="paychip">PayPal</span>
+      <span class="paychip">Apple&nbsp;Pay</span>
+    </div>
+    <div class="footer__bot">
+      <span>&copy; <span data-year></span> [Registered company name] Ltd. All rights reserved.</span>
+      <span>All prices in GBP and include UK VAT at 20%. HaulCrest is an independent
+        supplier and is not affiliated with any equipment manufacturer.</span>
+    </div>
+  </div>
+</footer>
+<script src="assets/js/script.js"></script>
+</body>
+</html>

@@ -1,3 +1,0 @@
-User-agent: *
-Allow: /
-Sitemap: https://haulcrest.shop/sitemap.xml

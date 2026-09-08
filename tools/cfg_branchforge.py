@@ -146,30 +146,21 @@ GRIND = dict(
 CFG = dict(
     brand="BranchForge", brand_a="Branch", brand_b="Forge", domain="branchforge.shop",
     theme="#0b0f0d", logomark=LOGO,
-    fonts="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;600;700;800&display=swap",
     favicon="%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231f5c39'/%3E%3Cpath d='M16 6v20M16 12l6-5M16 17l-6-5M16 22l6-5' stroke='%23a3e635' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E",
-    title="BranchForge — Tree & Land Clearing Machinery, Delivered Free Across the UK",
-    desc="Road-towable diesel wood chippers and tracked stump grinders for UK tree surgeons, "
-         "landscapers and smallholders. Free mainland delivery, 30-day returns, 2-year warranty.",
-    email="sales@branchforge.shop", support_email="support@branchforge.shop",
-    phone="0330 828 4417", ref_prefix="BF",
-    company="BranchForge Equipment Ltd", address="Unit 12, Sherwood Trade Park, Nottingham NG16 3QW",
-    nav=[("Wood Chipper", "cyclone-150-td.html"), ("Stump Grinder", "grindmaster-380-tx.html"),
-         ("About", "about.html"), ("Contact", "contact.html"), ("Track Order", "track-order.html")],
-    topbar=["&#128666; Free UK mainland delivery", "&#8634; 30-day returns",
-            "&#128737; 2-year warranty", "&#9993; sales@branchforge.shop"],
-    products=[CYCLONE, GRIND],
-    hero_eyebrow="Tree & land clearing machinery",
+    title="BranchForge — Compact Groundcare & Earthmoving Machinery, Free UK Delivery",
+    desc="Wood chippers, stump grinders, tracked dumpers and compact loaders for UK tree surgeons, "
+         "landscapers and groundworkers. Free mainland delivery, 30-day returns, 2-year warranty.",
+    hero_eyebrow="Compact machinery for UK ground crews",
     hero_h1="Own the machine.<br>Stop paying the <span style='color:var(--brand)'>hire desk</span>.",
-    hero_lead="Two machines, chosen because they earn their keep on UK jobs: a road-towable 6″ diesel "
-              "chipper and a tracked stump grinder narrow enough for a back garden. Both in stock, "
-              "both delivered free to the mainland, both under the weight limits that keep them legal "
-              "behind a normal vehicle.",
+    hero_lead="Four machines, chosen because they earn their keep on UK jobs: a road-towable 6″ diesel "
+              "chipper, a stump grinder that fits a side gate, a tracked dumper that fits a doorway "
+              "and a stand-on loader that takes any skid-steer attachment. All four in UK stock, all "
+              "four delivered free to the mainland, all four movable on a car trailer.",
     hero_pills=["&#10003; In UK stock now", "&#10003; Free mainland delivery",
                 "&#10003; 2-year parts warranty", "&#10003; Finance from £68/mo"],
-    range_h2="Two machines. No filler.",
-    range_lead="We stock what pays for itself. A chipper for the brash and a grinder for what is left "
-               "in the ground — the two jobs a tree crew sub-contracts most often.",
+    range_h2="Four machines. No filler.",
+    range_lead="We stock what pays for itself: the brash, the stump, the spoil and the load. Four "
+               "machines that cover the jobs a ground crew still sub-contracts most often.",
     why_h2="A hire booking costs £150 a day. These stop that.",
     why_lead="Straightforward buying: UK stock, UK spares, honest weights and no dealer forecourt margin.",
     why=[("&#128230;", "Shipped from UK stock", "Crated in Nottingham, not on a boat. Order by 2pm and it "
@@ -188,15 +179,6 @@ CFG = dict(
             "no all-day waiting."),
            ("First job", "Manual, PPE and starter spares are in the crate. Call us if anything is unclear "
             "before you start.")],
-    reviews=[("Bought the Cyclone to stop hiring one every fortnight. Eight jobs in and it has already "
-              "covered a season of hire fees. The no-stress feed genuinely works — it has not stalled on me yet.",
-              "Dan H., tree surgeon, Derbyshire"),
-             ("The gate width was the whole reason I bought the Grindmaster. It goes down the side of a "
-              "terrace with about 20 mm spare. Handset takes an afternoon to get used to and then you would "
-              "not go back.", "Marie O., grounds maintenance, Bristol"),
-             ("Delivery was crated and on time, and the pre-delivery sheet was actually filled in. Spares "
-              "turned up in two days when I bent a tooth on a bit of buried wire. No complaints.",
-              "Steve P., smallholder, Powys")],
     faq=[("Are these machines new?", "<p>Yes — every machine ships new and unregistered, with a full "
           "pre-delivery inspection and the inspection sheet in the crate.</p>"),
          ("Do you deliver to Scotland, Northern Ireland or the islands?",
@@ -215,73 +197,46 @@ CFG = dict(
     cta_h2="Stop renting. Start owning.",
     cta_lead="Both machines are in stock and shipping this week. Reserve one now, or talk it through "
              "with someone who has actually run them before you commit.",
-    about_h1="We sell two machines, and we know both of them properly",
+    about_h1="We sell four machines, and we know all of them properly",
     about_desc="BranchForge is a UK equipment supplier stocking tree and land-clearing machinery.",
     about_paras=[
         "BranchForge started because buying a chipper in the UK was needlessly hard. The choice was a "
         "main dealer charging showroom prices, or an import listing with a photograph, no weights that "
         "meant anything, and no answer when a belt failed.",
-        "So we do the opposite. We stock two machines — a road-towable diesel chipper and a tracked "
-        "stump grinder — hold them in a Nottingham warehouse, and keep the wear parts for both on our "
-        "own shelves. Two products means we can tell you the real gross weight, the real gate clearance "
-        "and the real cost of a set of teeth, without checking a catalogue.",
+        "So we do the opposite. We stock four machines — a diesel chipper, a stump grinder, a tracked "
+        "dumper and a compact loader — hold them in one warehouse, and keep the wear parts for all four "
+        "on our own shelves. A short range means we can tell you the real gross weight, the real gate "
+        "clearance and the real cost of a set of teeth, without checking a catalogue.",
         "We are not a manufacturer and we do not pretend to be. We specify the machines, inspect every "
         "one before it ships, and stand behind them for two years. If a third machine ever earns a place "
-        "here, it will be because it pays for itself as clearly as these two do."],
+        "here, it will be because it pays for itself as clearly as these four do."],
     about_tiles=[("Stock, not drop-ship", "Machines sit in our warehouse in Nottingham. When the site says "
                   "in stock, there is one on the floor with a serial number."),
                  ("Inspected before it ships", "Fluids, fasteners and a running test on every unit. The "
                   "signed sheet travels in the crate with the machine."),
                  ("Parts on the shelf", "Blades, teeth, belts, filters and rollers held in the UK and "
                   "dispatched within 48 hours of your call.")],
-    footer_blurb="UK supplier of road-towable wood chippers and tracked stump grinders. Machines held in "
-                 "stock, spares held in stock, and weights quoted honestly.",
-    footer_cols=[("Machines", [("Cyclone 150 TD Chipper", "cyclone-150-td.html"),
-                               ("Grindmaster 380 TX Grinder", "grindmaster-380-tx.html")]),
-                 ("Company", [("About BranchForge", "about.html"), ("Contact us", "contact.html"),
-                              ("Track your order", "track-order.html")]),
-                 ("Policies", [("Delivery", "policies.html#delivery"), ("Returns", "policies.html#returns"),
-                               ("Warranty", "policies.html#warranty"), ("Privacy", "policies.html#privacy"),
-                               ("Terms", "policies.html#terms")])],
-    policies=[("delivery", "Delivery",
-               "<p>Delivery is free to UK mainland addresses, including mainland Scotland. Machines ship "
-               "crated on a pallet, on a tail-lift vehicle. The carrier telephones to agree a delivery "
-               "slot; we do not deliver without contacting you first.</p>"
-               "<p>Northern Ireland, the Scottish Highlands and Islands, the Isle of Man and the Channel "
-               "Islands are quoted case by case. Ask before ordering and we will confirm the cost in writing.</p>"
-               "<p>You must be able to accept a pallet at kerbside on firm, level ground. Deliveries to "
-               "soft verges, steep drives or unmade tracks may be refused by the carrier.</p>"),
-              ("returns", "Returns",
-               "<p>You may return a machine within 30 days of delivery for any reason. It must be complete, "
-               "in the original crate where possible, and in a condition that reflects normal inspection "
-               "rather than commercial use.</p>"
-               "<p>We arrange collection. Where the return is not due to a fault or a mis-description, the "
-               "cost of collection (typically £120–£180 depending on postcode) is deducted from your refund. "
-               "Faulty or wrongly described machines are collected at our cost with a full refund.</p>"
-               "<p>Refunds are issued to the original payment method within 14 days of the machine reaching us.</p>"),
-              ("warranty", "Warranty",
-               "<p>Machines carry a two-year warranty on parts we supply and a one-year engine warranty "
-               "backed by the engine manufacturer's UK service network.</p>"
-               "<p>Wear items are excluded: blades, carbide teeth, belts, filters, anvils, tyres and rubber "
-               "tracks. Damage caused by feeding stone, wire, metal or frozen material into a machine is not "
-               "covered, nor is damage from missed servicing.</p>"
-               "<p>Warranty work is carried out by our UK service partners or by parts dispatch, at our "
-               "discretion. Keep your service records — we will ask for them on any engine claim.</p>"),
-              ("privacy", "Privacy",
-               "<p>We collect only what we need to quote, sell and deliver: your name, contact details, "
-               "delivery address and order history. We do not sell or rent personal data to anyone.</p>"
-               "<p>Payment card details are never held on this website. Card processing is handled by our "
-               "payment provider, and this site does not take card numbers at any point.</p>"
-               "<p>You may ask for a copy of your data or its deletion at any time by emailing "
-               "support@branchforge.shop. We respond within 30 days as required by UK GDPR.</p>"),
-              ("terms", "Terms of sale",
-               "<p>All prices are in pounds sterling and include UK VAT at the prevailing rate. A VAT "
-               "invoice is issued with every order.</p>"
-               "<p>Title to a machine passes on full payment. Risk passes on delivery. Specifications are "
-               "nominal and may vary between production batches; where a difference would materially affect "
-               "your use, tell us within 30 days and the returns policy above applies.</p>"
-               "<p>Nothing in these terms limits your statutory rights under the Consumer Rights Act 2015. "
-               "These terms are governed by the law of England and Wales.</p>"
-               "<p>BranchForge Equipment Ltd is an independent supplier and is not affiliated with, "
-               "endorsed by or an agent of any equipment manufacturer named on this site.</p>")],
+    footer_blurb="UK supplier of wood chippers, stump grinders, tracked dumpers and compact loaders. "
+                 "Machines held in stock, spares held in stock, and weights quoted honestly.",
+
+    fonts="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;600;700;800&display=swap",
+    email="sales@branchforge.shop", support_email="support@branchforge.shop",
+    phone="[Add your phone number]", phone_link="", ref_prefix="BF",
+    company="[Registered company name] Ltd",
+    company_no="[Companies House number]", vat_no="[VAT registration number]",
+    street="[Registered address]", city="[Town]", postcode="[Postcode]",
+    return_fee=150,
+    topbar=["&#128666; Free UK mainland delivery", "&#8634; 30-day returns",
+            "&#128737; 2-year warranty", "&#9993; sales@branchforge.shop"],
+    assurance=[
+      ("30 days to change your mind", "Return any machine within 30 days of delivery. Faulty or "
+       "mis-described machines are collected free with a full refund; a change of mind costs "
+       "\u00a3150 for collection and nothing else. We charge no restocking fee, ever."),
+      ("Two-year parts warranty", "Two years on parts we supply and one year on the engine through "
+       "the manufacturer's UK network. The warranty starts on delivery and transfers with the machine "
+       "if you sell it on."),
+      ("Your statutory rights, in full", "Under the Consumer Rights Act 2015 you have a 30-day right "
+       "to reject goods that are faulty or not as described. Everything we offer sits on top of that "
+       "and takes nothing away from it."),
+    ],
 )

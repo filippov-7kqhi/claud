@@ -153,30 +153,21 @@ VANGUARD = dict(
 CFG = dict(
     brand="HaulCrest", brand_a="Haul", brand_b="Crest", domain="haulcrest.shop",
     theme="#0c0e12", logomark=LOGO,
-    fonts="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Inter:wght@400;600;700;800&display=swap",
     favicon="%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2327354a'/%3E%3Cpath d='M5 20 L11 9h10l6 11z' fill='none' stroke='%23f59e0b' stroke-width='2.2' stroke-linejoin='round'/%3E%3Cpath d='M4 24h24' stroke='%23f59e0b' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E",
-    title="HaulCrest — Tracked Dumpers & Compact Loaders, Delivered Free Across the UK",
-    desc="Tracked high-tip dumpers and stand-on compact loaders for UK groundworkers, landscapers "
-         "and builders. Free mainland delivery, 30-day returns, 2-year warranty.",
-    email="sales@haulcrest.shop", support_email="support@haulcrest.shop",
-    phone="0330 828 4419", ref_prefix="HC",
-    company="HaulCrest Plant Ltd", address="Unit 7, Calder Vale Industrial Estate, Wakefield WF1 5PN",
-    nav=[("Tracked Dumper", "titan-1000-ht.html"), ("Compact Loader", "vanguard-850-sl.html"),
-         ("About", "about.html"), ("Contact", "contact.html"), ("Track Order", "track-order.html")],
-    topbar=["&#128666; Free UK mainland delivery", "&#8634; 30-day returns",
-            "&#128737; 2-year warranty", "&#9993; sales@haulcrest.shop"],
-    products=[TITAN, VANGUARD],
-    hero_eyebrow="Tracked dumpers & compact loaders",
+    title="HaulCrest — Tracked Dumpers, Loaders & Site Machinery, Free UK Delivery",
+    desc="Tracked dumpers, compact loaders, wood chippers and stump grinders for UK groundworkers, "
+         "landscapers and builders. Free mainland delivery, 30-day returns, 2-year warranty.",
+    hero_eyebrow="Machinery for jobs a lorry can't reach",
     hero_h1="A tonne up the garden.<br>No <span style='color:var(--brand)'>plank</span>, no gang.",
-    hero_lead="Two machines built around the same idea: get a serious payload into a space a lorry "
-              "cannot reach. A 1-tonne tracked high-tip dumper that fits a doorway, and a stand-on "
-              "loader that takes any skid-steer attachment. Both in UK stock, both on a car trailer, "
-              "both delivered free to the mainland.",
+    hero_lead="Four machines built around the same idea: get real capability into a space a lorry cannot "
+              "reach. A 1-tonne high-tip dumper that fits a doorway, a stand-on loader that takes any "
+              "skid-steer attachment, a stump grinder that clears a side gate and a road-towable "
+              "chipper. All four in UK stock, all four on a car trailer, all delivered free.",
     hero_pills=["&#10003; In UK stock now", "&#10003; Free mainland delivery",
                 "&#10003; 2-year parts warranty", "&#10003; Finance from £63/mo"],
-    range_h2="Move it, then load it.",
-    range_lead="The dumper gets material in and spoil out. The loader digs, lifts, levels and "
-               "stacks it. Between them they cover the groundwork most crews still sub-contract.",
+    range_h2="Move it, load it, clear it.",
+    range_lead="The dumper gets material in and spoil out. The loader digs, lifts and stacks. The "
+               "grinder and chipper clear what is in the way first. Four machines, one site.",
     why_h2="Hiring a dumper is £95 a day. Owning one is a fortnight.",
     why_lead="Plain buying: UK stock, UK spares, and weights and capacities quoted the way the "
              "standards define them.",
@@ -196,15 +187,6 @@ CFG = dict(
             "slot — no all-day waiting."),
            ("First job", "Ramps, straps, manual and PPE are in the crate. Call us if anything is "
             "unclear before you load it.")],
-    reviews=[("The Titan paid for itself on one job. Rear garden, no access, forty tonnes of spoil out "
-              "through the house side. Would have been three men and a fortnight with barrows.",
-              "Aaron K., groundworker, Leeds"),
-             ("Bought the Vanguard mainly for the auger work and it has ended up doing everything — "
-              "muck away, hardcore, pallets off the wagon. The stand-on layout is right for domestic jobs.",
-              "Priya S., landscaper, Surrey"),
-             ("Straight dealing. The weights on the site matched the machine when it turned up, which "
-              "is more than I can say for the last one I imported. Spare track was in the crate as promised.",
-              "Gareth L., building contractor, Swansea")],
     faq=[("Are these machines new?", "<p>Yes — every machine ships new and unregistered, with a full "
           "pre-delivery inspection and the inspection sheet in the crate.</p>"),
          ("Do you deliver to Scotland, Northern Ireland or the islands?",
@@ -224,17 +206,17 @@ CFG = dict(
     cta_h2="Stop hiring. Start owning.",
     cta_lead="Both machines are in stock and shipping this week. Reserve one now, or talk the "
              "access through with someone who has moved spoil out of a terrace before.",
-    about_h1="Two machines for the jobs a lorry can't reach",
+    about_h1="Four machines for the jobs a lorry can't reach",
     about_desc="HaulCrest is a UK supplier of tracked dumpers and compact loaders.",
     about_paras=[
         "HaulCrest exists because access is the hard part of groundwork. The spoil is not the problem "
         "and the hardcore is not the problem — getting either through a 750 mm gap is the problem, and "
         "most of the machinery sold in the UK is either too wide for it or too small to be worth taking "
         "off the trailer.",
-        "So we stock two machines that solve exactly that: a 1-tonne tracked dumper that fits a doorway "
-        "and tips high enough to clear a skip wall, and a stand-on loader narrow enough for a double "
-        "gate that still runs standard skid-steer attachments. Both live in a Wakefield warehouse "
-        "alongside their wear parts.",
+        "So we stock four machines that solve exactly that: a 1-tonne tracked dumper that fits a doorway "
+        "and tips high enough to clear a skip wall, a stand-on loader narrow enough for a double gate "
+        "that still runs standard skid-steer attachments, and a grinder and chipper to clear the site "
+        "first. All four live in one warehouse alongside their wear parts.",
         "We are a supplier, not a manufacturer, and we say so. What we control is the specification, "
         "the pre-delivery inspection on every unit, the parts on the shelf, and a two-year warranty "
         "we actually honour. Where a figure has a standard behind it — rated operating capacity, "
@@ -245,54 +227,27 @@ CFG = dict(
                   "running test on every unit. The signed sheet travels in the crate."),
                  ("Parts on the shelf", "Rubber tracks, rollers, pumps, belts and filters held in the "
                   "UK and dispatched within 48 hours of your call.")],
-    footer_blurb="UK supplier of tracked high-tip dumpers and stand-on compact loaders. Machines held "
-                 "in stock, spares held in stock, and capacities quoted to the standard.",
-    footer_cols=[("Machines", [("Titan 1000 HT Dumper", "titan-1000-ht.html"),
-                               ("Vanguard 850 SL Loader", "vanguard-850-sl.html")]),
-                 ("Company", [("About HaulCrest", "about.html"), ("Contact us", "contact.html"),
-                              ("Track your order", "track-order.html")]),
-                 ("Policies", [("Delivery", "policies.html#delivery"), ("Returns", "policies.html#returns"),
-                               ("Warranty", "policies.html#warranty"), ("Privacy", "policies.html#privacy"),
-                               ("Terms", "policies.html#terms")])],
-    policies=[("delivery", "Delivery",
-               "<p>Delivery is free to UK mainland addresses, including mainland Scotland. Machines ship "
-               "crated on a pallet, on a tail-lift vehicle. The carrier telephones to agree a delivery "
-               "slot; we do not deliver without contacting you first.</p>"
-               "<p>Northern Ireland, the Scottish Highlands and Islands, the Isle of Man and the Channel "
-               "Islands are quoted case by case. Ask before ordering and we will confirm the cost in writing.</p>"
-               "<p>You must be able to accept a pallet at kerbside on firm, level ground. Deliveries to "
-               "soft verges, steep drives or unmade tracks may be refused by the carrier.</p>"),
-              ("returns", "Returns",
-               "<p>You may return a machine within 30 days of delivery for any reason. It must be complete, "
-               "in the original crate where possible, and in a condition that reflects normal inspection "
-               "rather than commercial use.</p>"
-               "<p>We arrange collection. Where the return is not due to a fault or a mis-description, the "
-               "cost of collection (typically £140–£200 depending on postcode) is deducted from your refund. "
-               "Faulty or wrongly described machines are collected at our cost with a full refund.</p>"
-               "<p>Refunds are issued to the original payment method within 14 days of the machine reaching us.</p>"),
-              ("warranty", "Warranty",
-               "<p>Machines carry a two-year warranty on parts we supply and a one-year engine warranty "
-               "backed by the engine manufacturer's UK service network.</p>"
-               "<p>Wear items are excluded: rubber tracks, rollers, bucket teeth, cutting edges, belts, "
-               "filters and tyres. Damage from overloading beyond the rated capacity, from operating "
-               "across a slope, or from missed servicing is not covered.</p>"
-               "<p>Warranty work is carried out by our UK service partners or by parts dispatch, at our "
-               "discretion. Keep your service records — we will ask for them on any engine or pump claim.</p>"),
-              ("privacy", "Privacy",
-               "<p>We collect only what we need to quote, sell and deliver: your name, contact details, "
-               "delivery address and order history. We do not sell or rent personal data to anyone.</p>"
-               "<p>Payment card details are never held on this website. Card processing is handled by our "
-               "payment provider, and this site does not take card numbers at any point.</p>"
-               "<p>You may ask for a copy of your data or its deletion at any time by emailing "
-               "support@haulcrest.shop. We respond within 30 days as required by UK GDPR.</p>"),
-              ("terms", "Terms of sale",
-               "<p>All prices are in pounds sterling and include UK VAT at the prevailing rate. A VAT "
-               "invoice is issued with every order.</p>"
-               "<p>Title to a machine passes on full payment. Risk passes on delivery. Specifications are "
-               "nominal and may vary between production batches; where a difference would materially affect "
-               "your use, tell us within 30 days and the returns policy above applies.</p>"
-               "<p>Nothing in these terms limits your statutory rights under the Consumer Rights Act 2015. "
-               "These terms are governed by the law of England and Wales.</p>"
-               "<p>HaulCrest Plant Ltd is an independent supplier and is not affiliated with, endorsed by "
-               "or an agent of any equipment manufacturer named on this site.</p>")],
+    footer_blurb="UK supplier of tracked dumpers, compact loaders, chippers and stump grinders. "
+                 "Machines held in stock, spares held in stock, and capacities quoted to the standard.",
+
+    fonts="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Inter:wght@400;600;700;800&display=swap",
+    email="sales@haulcrest.shop", support_email="support@haulcrest.shop",
+    phone="[Add your phone number]", phone_link="", ref_prefix="HC",
+    company="[Registered company name] Ltd",
+    company_no="[Companies House number]", vat_no="[VAT registration number]",
+    street="[Registered address]", city="[Town]", postcode="[Postcode]",
+    return_fee=170,
+    topbar=["&#128666; Free UK mainland delivery", "&#8634; 30-day returns",
+            "&#128737; 2-year warranty", "&#9993; sales@haulcrest.shop"],
+    assurance=[
+      ("30 days to change your mind", "Return any machine within 30 days of delivery. Faulty or "
+       "mis-described machines are collected free with a full refund; a change of mind costs "
+       "\u00a3170 for collection and nothing else. We charge no restocking fee, ever."),
+      ("Two-year parts warranty", "Two years on parts we supply and one year on the engine through "
+       "the manufacturer's UK network. The warranty starts on delivery and transfers with the machine "
+       "if you sell it on."),
+      ("Your statutory rights, in full", "Under the Consumer Rights Act 2015 you have a 30-day right "
+       "to reject goods that are faulty or not as described. Everything we offer sits on top of that "
+       "and takes nothing away from it."),
+    ],
 )
