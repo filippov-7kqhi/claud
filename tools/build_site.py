@@ -697,12 +697,20 @@ def build_privacy(cfg):
           "<p>Order and invoice records: six years after the end of the tax year, as HMRC requires. "
           "Warranty records: for the life of the warranty plus one year. Enquiries that do not become "
           "orders: two years. Marketing consent: until you withdraw it.</p>"),
-         ("cookies", "Cookies",
-          "<p>This site sets <strong>no advertising, analytics or tracking cookies</strong>. Your "
-          "basket is held in your own browser using local storage, which never leaves your device and "
-          "is not readable by us. Clearing your browser data clears your basket.</p>"
-          "<p>If we add analytics later, this page will be updated first and you will be asked to "
-          "consent before any non-essential cookie is set.</p>"),
+         ("cookies", "Cookies and analytics",
+          "<p>This site sets <strong>no advertising or cross-site tracking cookies</strong>, and we do "
+          "not use Google Analytics, Meta Pixel or any third-party tracker. Your basket is held in your "
+          "own browser using local storage, which never leaves your device. Clearing your browser data "
+          "clears your basket.</p>"
+          "<p>We do count visits, so we know which machines people are looking at. Each visit is given a "
+          "random reference that lives only for that browser session and is discarded when you close the "
+          "tab. Against it we record only the page you viewed, the machine you looked at, and whether a "
+          "basket or checkout was started.</p>"
+          "<p><strong>We do not record your name, email, IP address, device fingerprint or anything that "
+          "identifies you</strong>, and the reference cannot be linked back to you or followed onto any "
+          "other website. Counts are deleted after seven days. Because none of it identifies a person, "
+          "no consent banner is required &mdash; but if you would rather not be counted at all, any "
+          "browser setting that blocks background requests will stop it, with no effect on the site.</p>"),
          ("rights", "Your rights",
           "<p>Under UK GDPR you may ask for a copy of your data, ask us to correct or delete it, "
           "object to or restrict how we use it, ask for it in a portable format, and withdraw consent "
@@ -944,94 +952,197 @@ def write_site(cfg, root):
 
 
 def build_admin(cfg):
-    """Config editor. Deliberately holds nothing secret — see the notice on the page."""
-    rows = "".join(f"""
+    """Standalone admin dashboard. Live figures come from the analytics worker;
+    without one configured, every panel says so rather than inventing numbers."""
+    linkrows = "".join(f"""
       <div class="field">
-        <label for="pl-{p['sku']}">{e(p['name'])} <span class="muted">— &pound;{p['price']:,} · {p['sku']}</span></label>
-        <input id="pl-{p['sku']}" data-link="{p['sku']}" type="url" placeholder="https://buy.stripe.com/…"
-               autocomplete="off" spellcheck="false">
-      </div>""" for p in cfg['products'])
+        <label for="pl-{p['sku']}">{e(p['name'])} <span class="muted">&mdash; &pound;{p['price']:,} &middot; {p['sku']}</span></label>
+        <input id="pl-{p['sku']}" data-link="{p['sku']}" type="url"
+               placeholder="https://buy.stripe.com/…" autocomplete="off" spellcheck="false"></div>"""
+        for p in cfg['products'])
 
     biz = [("company", "Registered company name"), ("companyNo", "Companies House number"),
            ("vatNo", "VAT registration number"), ("street", "Registered address"),
            ("city", "Town or city"), ("postcode", "Postcode"), ("phone", "Phone number")]
-    bizrows = "".join(f"""
-      <div class="field"><label for="bz-{k}">{e(label)}</label>
-        <input id="bz-{k}" data-biz-field="{k}" autocomplete="off" spellcheck="false"></div>""" for k, label in biz)
+    bizrows = "".join(f"""<div class="field"><label for="bz-{k}">{e(l)}</label>
+        <input id="bz-{k}" data-biz-field="{k}" autocomplete="off" spellcheck="false"></div>"""
+        for k, l in biz)
 
-    return (head(cfg, f"Admin — {cfg['brand']}", "Store configuration.", "admin.html", noindex=True)
-            + header(cfg)
-            + f"""<section class="pagehead"><div class="wrap" style="max-width:860px">
+    tabs = [("live", "Live"), ("orders", "Orders"), ("customers", "Customers"),
+            ("abandoned", "Abandoned"), ("insights", "Insights"), ("settings", "Settings")]
+    tabbtns = "".join(
+        f'<button role="tab" data-tab="{k}" aria-selected="{"true" if i == 0 else "false"}">{e(l)}</button>'
+        for i, (k, l) in enumerate(tabs))
+
+    return f"""<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Store admin &mdash; {e(cfg['brand'])}</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="data:image/svg+xml,{cfg['favicon']}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/admin.css?v={cfg['ver_admin_css']}">
+</head>
+<body>
+
+<form class="gate" id="gate">
   <h1>Store admin</h1>
-  <div class="warnbox">
-    <strong>Read this once.</strong> This page is a <em>configuration editor</em>, not a
-    control panel. It cannot change the live site on its own: it produces a file that you
-    commit to GitHub, and your GitHub login is what actually authorises the change.
-    <br><br>
-    The passphrase below only hides the form from a casual visitor. This is a static site,
-    so the check runs in your browser and anyone can read it or skip it. Nothing on this
-    page is confidential &mdash; Payment Links, business details and prices are all public
-    anyway. <strong>Never put a Stripe secret key here or anywhere in the repository.</strong>
-  </div>
-</div></section>
+  <p>{e(cfg['brand'])} &mdash; {e(cfg['domain'])}</p>
+  <div class="field"><label for="pass">Passphrase</label>
+    <input id="pass" type="password" autocomplete="current-password"></div>
+  <button class="btn btn--primary" type="submit" style="width:100%;justify-content:center">Unlock</button>
+  <p class="gmsg" id="gateMsg"></p>
+</form>
 
-<section><div class="wrap" style="max-width:860px">
-  <div class="warnbox" id="httpWarn" hidden>
-    <strong>This site is being served over plain HTTP.</strong> Turn on
-    <em>Enforce HTTPS</em> in the repository's Settings &rarr; Pages. Until you do,
-    visitors see a &ldquo;Not secure&rdquo; warning in the address bar, Google Merchant
-    Center will not approve the store, and browsers switch off security features that
-    modern sites rely on.
-  </div>
-
-  <form id="gate" class="form" style="max-width:420px">
-    <div class="field"><label for="pass">Passphrase</label>
-      <input id="pass" type="password" autocomplete="current-password"></div>
-    <button class="btn btn--primary btn--lg" type="submit">Unlock</button>
-    <p class="formnote" id="gateMsg"></p>
-  </form>
-
-  <div id="panel" hidden>
-    <h2>Stripe Payment Links</h2>
-    <p class="muted">One per machine. Create them in the Stripe Dashboard under
-      <em>Payment Links</em>, with shipping address collection and adjustable quantity
-      switched on, and tax behaviour set to <em>inclusive</em>. Leave one blank and that
-      machine routes to an enquiry instead.</p>
-    <form class="form">{rows}</form>
-
-    <h2 style="margin-top:2.4rem">Business identity</h2>
-    <p class="muted">Shown in the footer of every page. Google Merchant Center and Stripe
-      both verify these against Companies House, so they must be your real details.</p>
-    <form class="form">{bizrows}</form>
-
-    <h2 style="margin-top:2.4rem">Save your changes</h2>
-    <p class="muted">This produces the contents of <code>assets/js/site-config.js</code>.
-      Copy it, open that file on GitHub, replace everything, and commit. The site picks it
-      up on the next load — no rebuild needed.</p>
-    <div class="btnrow">
-      <button class="btn btn--primary btn--lg" id="copyBtn" type="button">Copy file contents</button>
-      <button class="btn btn--ghost btn--lg" id="dlBtn" type="button">Download file</button>
+<div id="app" hidden>
+  <header class="abar"><div class="wrap abar__in">
+    <div><p class="abrand">{e(cfg['brand'])}</p><p class="atitle">Store admin</p></div>
+    <div class="row">
+      <a class="btn btn--sm" href="index.html">View store</a>
+      <button class="btn btn--sm" id="signout">Sign out</button>
     </div>
-    <p class="formnote" id="saveMsg"></p>
-    <textarea id="out" class="outbox" rows="18" readonly spellcheck="false"></textarea>
+  </div></header>
 
-    <h2 style="margin-top:2.4rem">Where everything else lives</h2>
-    <ul class="adminlinks">
-      <li><strong>Orders, refunds and payouts</strong> —
-        <a href="https://dashboard.stripe.com/payments" target="_blank" rel="noopener">Stripe Dashboard</a>.
-        A static site cannot hold order data; Stripe is your order admin.</li>
-      <li><strong>Product feed status</strong> —
-        <a href="https://merchants.google.com/" target="_blank" rel="noopener">Google Merchant Center</a>.</li>
-      <li><strong>Prices, specs, copy and images</strong> — these are built into the pages.
-        Ask for a change and it ships as a commit.</li>
-      <li><strong>Changing this passphrase</strong> — paste a new one below to get its hash,
-        then replace <code>admin.passHash</code> in the file above.</li>
-    </ul>
-    <form class="form" style="max-width:420px" id="hashForm">
-      <div class="field"><label for="newpass">New passphrase</label>
-        <input id="newpass" type="text" autocomplete="off" spellcheck="false"></div>
-      <button class="btn btn--ghost" type="submit">Show hash</button>
-      <p class="formnote" id="hashOut"></p>
-    </form>
+  <div class="wrap">
+    <div class="tabs" role="tablist">{tabbtns}</div>
+
+    <div class="notice danger" id="httpWarn" hidden>
+      <strong>This store is being served over plain HTTP.</strong> Switch on
+      <em>Enforce HTTPS</em> in Settings &rarr; Pages. Customers currently see
+      &ldquo;Not secure&rdquo;, and Merchant Center will not approve the store.
+    </div>
+
+    <div class="notice" id="noData" hidden>
+      <strong>No data source connected, so every figure below is empty rather than made up.</strong>
+      This store is static hosting &mdash; it has no server, so it cannot count visitors, hold
+      orders or total revenue on its own. Deploy the collector in
+      <code>stripe/analytics-worker.js</code> and put its URL in <code>analyticsEndpoint</code>
+      on the Settings tab. Setup is in <code>stripe/README.md</code>.
+    </div>
+
+    <!-- LIVE -->
+    <section data-panel="live">
+      <div class="grid g4">
+        <div class="card"><p class="stat__l">On the site now</p>
+          <p class="stat__v" data-k="active">&mdash;</p><p class="stat__s">Active in the last 5 minutes</p></div>
+        <div class="card"><p class="stat__l">Page views (24h)</p>
+          <p class="stat__v" data-k="pageViews">&mdash;</p><p class="stat__s">All pages</p></div>
+        <div class="card"><p class="stat__l">Checkouts started (24h)</p>
+          <p class="stat__v" data-k="checkoutStarted">&mdash;</p><p class="stat__s">Reached checkout</p></div>
+        <div class="card"><p class="stat__l">Revenue (24h)</p>
+          <p class="stat__v" data-k="revenue">&mdash;</p><p class="stat__s"><span data-k="orders">0</span> orders</p></div>
+      </div>
+
+      <div class="card" style="margin-top:1rem">
+        <div class="card__h"><h2>Conversion funnel &mdash; last 24 hours</h2>
+          <button class="btn btn--sm" id="refresh">Refresh</button></div>
+        <div class="funnel">
+          <div class="fstep"><b data-k="pageViews">&mdash;</b><span>Page views</span></div>
+          <div class="fstep"><b data-k="productViews">&mdash;</b><span>Product views</span></div>
+          <div class="fstep"><b data-k="addToCart">&mdash;</b><span>Add to basket</span></div>
+          <div class="fstep"><b data-k="checkoutStarted">&mdash;</b><span>Checkout started</span></div>
+          <div class="fstep"><b data-k="purchased">&mdash;</b><span>Purchased</span></div>
+        </div>
+        <div class="frates">
+          <span>View &rarr; basket: <b data-k="r1">&mdash;</b></span>
+          <span>Basket &rarr; checkout: <b data-k="r2">&mdash;</b></span>
+          <span>Checkout &rarr; paid: <b data-k="r3">&mdash;</b></span>
+        </div>
+      </div>
+
+      <div class="grid g2" style="margin-top:1rem">
+        <div class="card"><div class="card__h"><h2>Visitors right now</h2></div>
+          <div id="visitors"><p class="empty">Nobody browsing at the moment.</p></div></div>
+        <div class="card"><div class="card__h"><h2>Latest activity</h2></div>
+          <div class="feed" id="feed"><p class="empty">No activity recorded.</p></div></div>
+      </div>
+    </section>
+
+    <!-- ORDERS -->
+    <section data-panel="orders" hidden>
+      <div class="card">
+        <div class="card__h"><h2>Orders</h2>
+          <a class="btn btn--sm" href="https://dashboard.stripe.com/payments" target="_blank" rel="noopener">Open in Stripe</a></div>
+        <div id="ordersBody"><p class="empty">No orders to show.</p></div>
+        <p class="muted" style="font-size:.8rem;margin-top:1rem">Stripe is the record of every
+          payment, refund and payout. This table mirrors it; the Dashboard is authoritative.</p>
+      </div>
+    </section>
+
+    <!-- CUSTOMERS -->
+    <section data-panel="customers" hidden>
+      <div class="card"><div class="card__h"><h2>Customers</h2></div>
+        <div id="customersBody"><p class="empty">No customers yet.</p></div></div>
+    </section>
+
+    <!-- ABANDONED -->
+    <section data-panel="abandoned" hidden>
+      <div class="card"><div class="card__h"><h2>Abandoned baskets (7 days)</h2></div>
+        <div id="abandonedBody"><p class="empty">No abandoned baskets recorded.</p></div>
+        <p class="muted" style="font-size:.8rem;margin-top:1rem">A basket counts as abandoned once
+          checkout was reached but no payment followed within an hour.</p></div>
+    </section>
+
+    <!-- INSIGHTS -->
+    <section data-panel="insights" hidden>
+      <div class="card"><div class="card__h"><h2>Machines by interest (7 days)</h2></div>
+        <div id="insightsBody"><p class="empty">No product data yet.</p></div></div>
+    </section>
+
+    <!-- SETTINGS -->
+    <section data-panel="settings" hidden>
+      <div class="card">
+        <h3 class="sec">Stripe Payment Links</h3>
+        <p class="sub">One per machine. Create them in the Stripe Dashboard with shipping address
+          collection and adjustable quantity on, and tax behaviour set to <em>inclusive</em>.
+          Leave one blank and that machine routes to an enquiry instead of taking payment.</p>
+        {linkrows}
+
+        <h3 class="sec">Business identity</h3>
+        <p class="sub">Shown in the footer of every page. Google Merchant Center and Stripe both
+          verify these against Companies House, so they must be your real details.</p>
+        <div class="f2">{bizrows}</div>
+
+        <h3 class="sec">Data collector</h3>
+        <p class="sub">URL of the analytics worker that feeds the tabs above, and of the optional
+          checkout endpoint for baskets holding more than one machine.</p>
+        <div class="field"><label for="an-ep">Analytics endpoint</label>
+          <input id="an-ep" data-cfg="analyticsEndpoint" type="url" placeholder="https://…workers.dev" spellcheck="false"></div>
+        <div class="field"><label for="ck-ep">Checkout endpoint (optional)</label>
+          <input id="ck-ep" data-cfg="checkoutEndpoint" type="url" placeholder="https://…workers.dev/checkout" spellcheck="false"></div>
+
+        <h3 class="sec">Save</h3>
+        <p class="sub">This produces <code>assets/js/site-config.js</code>. Copy it, replace that file
+          on GitHub, and commit. The site picks it up on the next load &mdash; no rebuild needed.
+          <strong>Never put a Stripe secret key in it.</strong></p>
+        <div class="row" style="margin-bottom:.8rem">
+          <button class="btn btn--primary" id="copyBtn" type="button">Copy file contents</button>
+          <button class="btn" id="dlBtn" type="button">Download</button>
+          <span class="muted" id="saveMsg" style="font-size:.83rem"></span>
+        </div>
+        <textarea class="out" id="out" rows="16" readonly spellcheck="false"></textarea>
+
+        <h3 class="sec">Change the passphrase</h3>
+        <p class="sub">This gate runs in the browser and anyone can read past it &mdash; it keeps a
+          casual visitor out, nothing more. Nothing here is confidential; committing to GitHub is
+          what actually authorises a change.</p>
+        <div class="row">
+          <input id="newpass" placeholder="New passphrase" spellcheck="false"
+                 style="flex:1;min-width:220px;padding:.6rem .75rem;border:1px solid var(--line);border-radius:8px">
+          <button class="btn" id="hashBtn" type="button">Show hash</button>
+        </div>
+        <p class="muted" id="hashOut" style="font-family:ui-monospace,monospace;font-size:.8rem;margin-top:.6rem"></p>
+      </div>
+    </section>
   </div>
-</div></section>""" + footer(cfg))
+  <div style="height:3rem"></div>
+</div>
+
+<script src="assets/js/site-config.js?v={cfg['ver_stripe']}"></script>
+<script src="assets/js/admin.js?v={cfg['ver_admin_js']}"></script>
+</body>
+</html>
+"""
