@@ -147,7 +147,7 @@ VANGUARD = dict(
           "licence entitlement before loading.</p>"),
          ("How long do the rubber tracks last?",
           "<p>Typically 800–1200 hours on mixed ground, much less on hardcore and kerbs. A spare track "
-          "is supplied in the crate and replacements are £245 including VAT from our UK stock.</p>")],
+          "is supplied in the crate and replacements are £245 from our UK stock.</p>")],
 )
 
 CFG = dict(
@@ -232,10 +232,10 @@ CFG = dict(
 
     fonts="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Inter:wght@400;600;700;800&display=swap",
     email="sales@haulcrest.shop", support_email="support@haulcrest.shop",
-    phone="[Add your phone number]", phone_link="", ref_prefix="HC",
-    company="[Registered company name] Ltd",
-    company_no="[Companies House number]", vat_no="[VAT registration number]",
-    street="[Registered address]", city="[Town]", postcode="[Postcode]",
+    phone="", phone_link="", ref_prefix="HC",
+    company="HaulCrest Ltd",
+    company_no="", vat_no="",
+    street="", city="", postcode="",
     return_fee=170,
     topbar=["&#128666; Free UK mainland delivery", "&#8634; 30-day returns",
             "&#128737; 2-year warranty", "&#9993; sales@haulcrest.shop"],

@@ -136,7 +136,7 @@ GRIND = dict(
           "is what keeps it under the gate-width limit. A diesel of the same output would add roughly "
           "70 kg and 100 mm of width.</p>"),
          ("What does a set of teeth cost to replace?",
-          "<p>A full set of twelve reversible carbide teeth is £186 including VAT from our UK stock. "
+          "<p>A full set of twelve reversible carbide teeth is £186 from our UK stock. "
           "Reversing them first typically doubles the life, so most operators buy one set a season.</p>"),
          ("Can I hire it out to make it pay?",
           "<p>Owners do, but check your insurance first — most standard tool policies exclude hire to "
@@ -221,10 +221,10 @@ CFG = dict(
 
     fonts="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;600;700;800&display=swap",
     email="sales@branchforge.shop", support_email="support@branchforge.shop",
-    phone="[Add your phone number]", phone_link="", ref_prefix="BF",
-    company="[Registered company name] Ltd",
-    company_no="[Companies House number]", vat_no="[VAT registration number]",
-    street="[Registered address]", city="[Town]", postcode="[Postcode]",
+    phone="", phone_link="", ref_prefix="BF",
+    company="BranchForge Ltd",
+    company_no="", vat_no="",
+    street="", city="", postcode="",
     return_fee=150,
     topbar=["&#128666; Free UK mainland delivery", "&#8634; 30-day returns",
             "&#128737; 2-year warranty", "&#9993; sales@branchforge.shop"],

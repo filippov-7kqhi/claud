@@ -26,6 +26,41 @@ def feed_img(p):
     return src[:-4] + ".jpg" if src.endswith(".svg") else src
 
 
+# Payment marks, drawn inline so they need no network request. These are card-scheme
+# trademarks shown to indicate accepted methods; swap in the official artwork from
+# Stripe's brand kit if you want the exact registered marks.
+PAY_ICONS = (
+  '<span class="payico" title="Visa" aria-label="Visa">'
+  '<svg viewBox="0 0 48 30" role="img"><rect width="48" height="30" rx="4" fill="#fff"/>'
+  '<text x="24" y="20" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" '
+  'font-style="italic" font-weight="700" font-size="13" fill="#1a1f71">VISA</text></svg></span>'
+
+  '<span class="payico" title="Mastercard" aria-label="Mastercard">'
+  '<svg viewBox="0 0 48 30" role="img"><rect width="48" height="30" rx="4" fill="#fff"/>'
+  '<circle cx="19" cy="15" r="8.5" fill="#eb001b"/><circle cx="29" cy="15" r="8.5" fill="#f79e1b"/>'
+  '<path d="M24 8.7a8.5 8.5 0 0 0 0 12.6 8.5 8.5 0 0 0 0-12.6z" fill="#ff5f00"/></svg></span>'
+
+  '<span class="payico" title="American Express" aria-label="American Express">'
+  '<svg viewBox="0 0 48 30" role="img"><rect width="48" height="30" rx="4" fill="#2e77bc"/>'
+  '<text x="24" y="19" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" '
+  'font-weight="700" font-size="10" fill="#fff">AMEX</text></svg></span>'
+
+  '<span class="payico" title="PayPal" aria-label="PayPal">'
+  '<svg viewBox="0 0 48 30" role="img"><rect width="48" height="30" rx="4" fill="#fff"/>'
+  '<path d="M15 22l1.8-11h5.6c2.8 0 4.3 1.4 3.9 3.8-.4 2.6-2.4 4-5.3 4h-2.2L18.2 22z" fill="#002c8a"/>'
+  '<path d="M21 22l1.8-11h5.6c2.8 0 4.3 1.4 3.9 3.8-.4 2.6-2.4 4-5.3 4h-2.2L24.2 22z" fill="#009be1"/>'
+  '</svg></span>'
+
+  '<span class="payico" title="Apple Pay and Google Pay" aria-label="Apple Pay and Google Pay">'
+  '<svg viewBox="0 0 48 30" role="img"><rect width="48" height="30" rx="4" fill="#111"/>'
+  '<g fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round">'
+  '<path d="M17 11.5a7 7 0 0 1 0 7"/><path d="M20.5 9a11 11 0 0 1 0 12"/>'
+  '<path d="M24 6.5a15 15 0 0 1 0 17"/></g>'
+  '<text x="35" y="19" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" '
+  'font-weight="700" font-size="9" fill="#fff">PAY</text></svg></span>'
+)
+
+
 def head(cfg, title, desc, path, extra="", noindex=False):
     canon = f"https://{cfg['domain']}/{path}"
     robots = '<meta name="robots" content="noindex,nofollow">' if noindex else ""
@@ -101,13 +136,14 @@ def footer(cfg):
         <p class="muted" style="margin-top:1rem;max-width:38ch;font-size:.93rem">{e(cfg['footer_blurb'])}</p>
         <p class="muted" style="font-size:.88rem;line-height:1.8">
           <strong style="color:var(--ink)" data-biz="company">{e(cfg['company'])}</strong><br>
-          <span data-biz="street">{e(cfg['street'])}</span><br>
-          <span data-biz="city">{e(cfg['city'])}</span> <span data-biz="postcode">{e(cfg['postcode'])}</span><br>
-          United Kingdom<br>
-          <a href="mailto:{cfg['email']}">{cfg['email']}</a><br>
-          <a href="tel:{cfg['phone_link']}" data-biz="phone">{e(cfg['phone'])}</a><br>
-          <span class="muted">Company no. <span data-biz="companyNo">{e(cfg['company_no'])}</span>
-            &middot; VAT no. <span data-biz="vatNo">{e(cfg['vat_no'])}</span></span>
+          <span data-biz="street" data-hide-if-unset>{e(cfg['street'])}</span>
+          <span data-biz="city" data-hide-if-unset>{e(cfg['city'])}</span>
+          <span data-biz="postcode" data-hide-if-unset>{e(cfg['postcode'])}</span>
+          <span data-biz-line>United Kingdom</span>
+          <a href="mailto:{cfg['email']}">{cfg['email']}</a>
+          <a href="tel:{cfg['phone_link']}" data-biz="phone" data-hide-if-unset>{e(cfg['phone'])}</a>
+          <span class="muted" data-biz="companyNo" data-hide-if-unset
+                data-prefix="Company no. ">{e(cfg['company_no'])}</span>
         </p>
       </div>
       <div><h4>Machines</h4><ul>{machines}</ul></div>
@@ -120,14 +156,12 @@ def footer(cfg):
     </div>
     <div class="footer__pay">
       <span class="muted">We accept</span>
-      <span class="paychip">VISA</span><span class="paychip">Mastercard</span>
-      <span class="paychip">AmEx</span><span class="paychip">PayPal</span>
-      <span class="paychip">Apple&nbsp;Pay</span>
+      {PAY_ICONS}
     </div>
     <div class="footer__bot">
       <span>&copy; <span data-year></span> <span data-biz="company">{e(cfg['company'])}</span>. All rights reserved.</span>
-      <span>All prices in GBP and include UK VAT at 20%. {e(cfg['brand'])} is an independent
-        supplier and is not affiliated with any equipment manufacturer.</span>
+      <span>All prices in GBP. {e(cfg['brand'])} is an independent supplier and is not
+        affiliated with any equipment manufacturer.</span>
     </div>
   </div>
 </footer>
@@ -151,8 +185,7 @@ def product_card(p, featured=False):
     <h3><a href="{p['url']}">{e(p['name'])}</a></h3>
     <p class="muted" style="font-size:.93rem;margin:0">{e(p['short_desc'])}</p>
     <ul>{bullets}</ul>
-    <div class="card__price"><b>&pound;{p['price']:,}</b><s>&pound;{p['was']:,}</s>
-      <span class="incvat">inc. VAT</span></div>
+    <div class="card__price"><b>&pound;{p['price']:,}</b><s>&pound;{p['was']:,}</s></div>
     <div class="card__actions">
       <a class="btn btn--primary btn--block" href="{p['url']}">View machine</a>
       <button class="btn btn--ghost btn--block" data-add="{p['sku']}"
@@ -274,7 +307,7 @@ def build_machines(cfg):
   <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a> / <span>Machines</span></nav>
   <h1>All four machines</h1>
   <p class="muted" style="max-width:64ch">Every machine below is held in UK stock, ships crated on a
-     tail-lift vehicle, and carries the same delivery, returns and warranty terms. Prices include VAT.</p>
+     tail-lift vehicle, and carries the same delivery, returns and warranty terms.</p>
 </div></section>"""
             + range_section(cfg, "The full range", cfg['range_lead']) + cta(cfg) + footer(cfg))
 
@@ -288,7 +321,7 @@ def attachments_block(p, cfg):
     return f"""<section class="band"><div class="wrap" style="max-width:900px">
   <div class="sec-head" data-reveal><p class="eyebrow">Attachments</p>
     <h2>What else it will run</h2>
-    <p class="muted">Prices include VAT. All change over on the quick hitch. Tell us which you want
+    <p class="muted">All change over on the quick hitch. Tell us which you want
       and we will add them to your order &mdash; they ship in the same crate.</p></div>
   <table class="spectable" data-reveal><tbody>{rows}</tbody></table>
 </div></section>"""
@@ -324,7 +357,7 @@ def build_product(cfg, p):
      "shippingDestination":{{"@type":"DefinedRegion","addressCountry":"GB"}},
      "deliveryTime":{{"@type":"ShippingDeliveryTime",
        "handlingTime":{{"@type":"QuantitativeValue","minValue":1,"maxValue":2,"unitCode":"DAY"}},
-       "transitTime":{{"@type":"QuantitativeValue","minValue":2,"maxValue":5,"unitCode":"DAY"}}}}}},
+       "transitTime":{{"@type":"QuantitativeValue","minValue":6,"maxValue":10,"unitCode":"DAY"}}}}}},
    "hasMerchantReturnPolicy":{{"@type":"MerchantReturnPolicy",
      "applicableCountry":"GB","returnPolicyCategory":"https://schema.org/MerchantReturnFiniteReturnWindow",
      "merchantReturnDays":30,"returnMethod":"https://schema.org/ReturnByMail",
@@ -336,7 +369,7 @@ def build_product(cfg, p):
  {{"@type":"ListItem","position":2,"name":"Machines","item":"https://{cfg['domain']}/machines.html"}},
  {{"@type":"ListItem","position":3,"name":"{e(p['name'])}"}}]}}</script>"""
 
-    return (head(cfg, f"{p['name_full']} — £{p['price']:,} inc. VAT", p['meta_desc'], p['url'], ld)
+    return (head(cfg, f"{p['name_full']} — £{p['price']:,}", p['meta_desc'], p['url'], ld)
             + header(cfg, p['url'])
             + f"""<section class="pdp"><div class="wrap">
   <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a> /
@@ -360,9 +393,8 @@ def build_product(cfg, p):
         <s class="was">&pound;{p['was']:,}</s>
         <span class="save">SAVE {round((1-p['price']/p['was'])*100)}%</span>
       </div>
-      <p class="vatline">Price includes UK VAT at 20% (&pound;{round(p['price']-p['price']/1.2):,})
-         and free delivery to the UK mainland.</p>
-      <p class="vatline">Item code {p['sku']} &middot; new, unregistered, UK stock</p>
+      <p class="vatline">Includes free delivery to the UK mainland.</p>
+      <p class="vatline">New and unregistered, held in UK stock.</p>
     </div>
 
     <div class="specgrid">{specs_hi}</div>
@@ -382,7 +414,7 @@ def build_product(cfg, p):
     <p class="buynote">Buy now takes you straight to checkout with this machine in your basket.</p>
 
     <ul class="delivery-summary">
-      <li><strong>Delivery:</strong> free to UK mainland, 3&ndash;7 working days.
+      <li><strong>Delivery:</strong> free to UK mainland, 7&ndash;12 working days.
         <a href="shipping.html">Delivery details</a></li>
       <li><strong>Returns:</strong> 30 days from delivery. Collection from &pound;{cfg['return_fee']}
         unless faulty. <a href="returns.html">Returns policy</a></li>
@@ -419,7 +451,7 @@ def build_product(cfg, p):
 </div></section>
 
 <div class="stickybuy">
-  <div><b>&pound;{p['price']:,}</b> <span class="muted" style="font-size:.8rem">inc. VAT</span></div>
+  <div><b>&pound;{p['price']:,}</b></div>
   <div class="stickybuy__btns">
     <button class="btn btn--ghost" data-add="{p['sku']}" data-name="{e(p['name_full'])}"
       data-price="{p['price']}" data-img="{hero_img(p)}" data-url="{p['url']}">Basket</button>
@@ -446,8 +478,7 @@ def build_cart(cfg):
   <aside class="summary" id="cartSummary" hidden>
     <h2>Order summary</h2>
     <dl>
-      <div><dt>Subtotal (ex. VAT)</dt><dd data-sum-net>&pound;0</dd></div>
-      <div><dt>VAT at 20%</dt><dd data-sum-vat>&pound;0</dd></div>
+      <div><dt>Subtotal</dt><dd data-sum-net>&pound;0</dd></div>
       <div><dt>Delivery (UK mainland)</dt><dd>Free</dd></div>
       <div class="total"><dt>Total to pay</dt><dd data-sum-total>&pound;0</dd></div>
     </dl>
@@ -490,7 +521,7 @@ def build_checkout(cfg):
       <ul class="paylist">
         <li>Card, Apple&nbsp;Pay and Google&nbsp;Pay accepted</li>
         <li>Payment taken in full at checkout &mdash; no deposits, no recurring charges</li>
-        <li>A VAT invoice is emailed with your dispatch confirmation</li>
+        <li>An invoice is emailed with your dispatch confirmation</li>
       </ul>
     </div>
     <p class="formnote">Questions before you pay? Email
@@ -500,8 +531,7 @@ def build_checkout(cfg):
   <aside class="summary">
     <h2>Order summary</h2>
     <dl>
-      <div><dt>Subtotal (ex. VAT)</dt><dd data-sum-net>&pound;0</dd></div>
-      <div><dt>VAT at 20%</dt><dd data-sum-vat>&pound;0</dd></div>
+      <div><dt>Subtotal</dt><dd data-sum-net>&pound;0</dd></div>
       <div><dt>Delivery (UK mainland)</dt><dd>Free</dd></div>
       <div class="total"><dt>Total to pay</dt><dd data-sum-total>&pound;0</dd></div>
     </dl>
@@ -625,11 +655,11 @@ def build_shipping(cfg):
           "<p>Ask us for an exact figure before ordering and we will confirm it in writing. We never "
           "add a delivery charge after an order is placed.</p>"),
          ("time", "How long it takes",
-          "<p><strong>Dispatch:</strong> 1&ndash;2 working days from cleared payment. Orders placed "
-          "before 2pm on a working day are picked the same day.</p>"
-          "<p><strong>Transit:</strong> 2&ndash;5 working days on the UK mainland, so "
-          "<strong>3&ndash;7 working days from order to doorstep</strong>. Off-mainland addresses add "
-          "3&ndash;5 working days.</p>"
+          "<p><strong>7&ndash;12 working days from order to doorstep</strong> on the UK mainland. "
+          "That covers picking and the pre-delivery inspection at our end, and transit on a "
+          "tail-lift vehicle at the carrier's.</p>"
+          "<p>Off-mainland addresses add roughly 3&ndash;5 working days. If a machine is going to "
+          "miss the window we tell you before the window closes, not after.</p>"
           "<p>The carrier telephones you to agree a delivery slot. We do not send a machine without "
           "that call being made first.</p>"),
          ("access", "What we need at your end",
@@ -653,9 +683,9 @@ def build_shipping(cfg):
 
 def build_payment(cfg):
     return _policy_page(cfg, "payment.html", "Payment & billing",
-        "Accepted payment methods, currency, VAT, invoicing and finance.",
-        "All prices on this site are in pounds sterling and include UK VAT at 20%. What you see is "
-        "what you pay &mdash; we add nothing at checkout.",
+        "Accepted payment methods, currency, invoicing and finance.",
+        "All prices on this site are in pounds sterling. What you see is what you pay &mdash; we "
+        "add nothing at checkout.",
         [("methods", "How you can pay",
           "<p>We accept Visa, Mastercard and American Express credit and debit cards, PayPal, "
           "Apple&nbsp;Pay and Google&nbsp;Pay.</p>"
@@ -664,12 +694,11 @@ def build_payment(cfg):
           "stored by us</strong> &mdash; we receive only a confirmation that payment succeeded.</p>"
           "<p>Bank transfer is available for orders over &pound;5,000 and for trade accounts; email "
           f"<a href='mailto:{cfg['email']}'>{cfg['email']}</a> and we will issue a proforma invoice.</p>"),
-         ("vat", "VAT and invoicing",
-          f"<p>{e(cfg['company'])} is registered for VAT in the United Kingdom under number "
-          f"<strong>{e(cfg['vat_no'])}</strong>. Every displayed price includes VAT at the prevailing "
-          "standard rate of 20%.</p>"
-          "<p>A full VAT invoice is emailed with your dispatch confirmation and a paper copy travels "
-          "in the crate. VAT-registered businesses can reclaim the VAT element in the normal way.</p>"),
+         ("invoicing", "Invoicing",
+          "<p>An invoice is emailed with your dispatch confirmation and a paper copy travels in the "
+          "crate with the machine.</p>"
+          "<p>If you need it made out to a company name, or a purchase order number on it, tell us "
+          "when you order and we will raise it that way.</p>"),
          ("when", "When you are charged",
           "<p>Payment is taken in full when you place the order. We do not take deposits, we do not "
           "store card details for later, and there are no recurring or subscription charges of any "
@@ -710,7 +739,7 @@ def build_privacy(cfg):
           "cannot sell or deliver you a machine.</p>"
           "<p><strong>To answer enquiries</strong> &mdash; legitimate interests in responding to people "
           "who contact us.</p>"
-          "<p><strong>To meet legal duties</strong> &mdash; legal obligation, mainly keeping VAT and "
+          "<p><strong>To meet legal duties</strong> &mdash; legal obligation, mainly keeping "
           "accounting records for six years.</p>"
           "<p><strong>Marketing email</strong> &mdash; consent, and only if you opt in. Every marketing "
           "email carries a one-click unsubscribe that works immediately.</p>"),
@@ -755,8 +784,8 @@ def build_terms(cfg):
         "Nothing here limits your statutory rights.",
         [("who", "Who you are buying from",
           f"<p>You are buying from <strong>{e(cfg['company'])}</strong>, a company registered in "
-          f"England and Wales, company number {e(cfg['company_no'])}, VAT number {e(cfg['vat_no'])}, "
-          f"registered office {e(cfg['street'])}, {e(cfg['city'])} {e(cfg['postcode'])}.</p>"
+          f"England and Wales, company number {e(cfg['company_no'])}, registered office "
+          f"{e(cfg['street'])}, {e(cfg['city'])} {e(cfg['postcode'])}.</p>"
           f"<p>Contact us at <a href='mailto:{cfg['email']}'>{cfg['email']}</a> or "
           f"<a href='tel:{cfg['phone_link']}'>{e(cfg['phone'])}</a>.</p>"
           f"<p>{e(cfg['brand'])} is an independent supplier. We are not affiliated with, endorsed by, "
@@ -770,8 +799,8 @@ def build_terms(cfg):
           "published in obvious error. Where that happens you are refunded in full and owe us "
           "nothing.</p>"),
          ("prices", "Prices and specification",
-          "<p>Prices are in pounds sterling and include UK VAT at 20%. The price you see when you "
-          "place the order is the price you pay; we do not add fees at checkout.</p>"
+          "<p>Prices are in pounds sterling. The price you see when you place the order is the "
+          "price you pay; we do not add fees at checkout.</p>"
           "<p>Specifications are nominal and may vary slightly between production batches. Where a "
           "variation would materially affect your intended use, tell us within 30 days and the "
           "<a href='returns.html'>returns policy</a> applies in full.</p>"),
@@ -818,7 +847,6 @@ def build_about(cfg):
     <dl>
       <div><dt>Registered name</dt><dd>{e(cfg['company'])}</dd></div>
       <div><dt>Company number</dt><dd>{e(cfg['company_no'])}</dd></div>
-      <div><dt>VAT number</dt><dd>{e(cfg['vat_no'])}</dd></div>
       <div><dt>Registered office</dt><dd>{e(cfg['street'])}, {e(cfg['city'])} {e(cfg['postcode'])}, United Kingdom</dd></div>
       <div><dt>Email</dt><dd><a href="mailto:{cfg['email']}">{cfg['email']}</a></dd></div>
       <div><dt>Telephone</dt><dd><a href="tel:{cfg['phone_link']}">{e(cfg['phone'])}</a></dd></div>
@@ -870,7 +898,7 @@ def build_contact(cfg):
          <span class="muted">Replies within one working day. Parts dispatched from the UK in 48 hours.</span></p></div>
     <div class="tile"><h3>Registered office</h3>
       <p>{e(cfg['company'])}<br>{e(cfg['street'])}<br>{e(cfg['city'])} {e(cfg['postcode'])}<br>United Kingdom<br>
-      <span class="muted">Company no. {e(cfg['company_no'])}<br>VAT no. {e(cfg['vat_no'])}</span></p>
+      <span class="muted">Company no. {e(cfg['company_no'])}</span></p>
       <p class="muted" style="font-size:.86rem">Warehouse address &mdash; not a retail showroom.
         Please email before visiting.</p></div>
   </div>
@@ -932,7 +960,6 @@ def build_feed(cfg):
     <g:google_product_category>{p['gpc']}</g:google_product_category>
     <g:shipping><g:country>GB</g:country><g:service>Standard</g:service><g:price>0.00 GBP</g:price></g:shipping>
     <g:shipping_weight>{p['weight_kg']} kg</g:shipping_weight>
-    <g:tax><g:country>GB</g:country><g:rate>20</g:rate><g:tax_ship>n</g:tax_ship></g:tax>
   </item>"""
     return f"""<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">
@@ -996,7 +1023,7 @@ def build_admin(cfg):
         for p in cfg['products'])
 
     biz = [("company", "Registered company name"), ("companyNo", "Companies House number"),
-           ("vatNo", "VAT registration number"), ("street", "Registered address"),
+           ("street", "Registered address"),
            ("city", "Town or city"), ("postcode", "Postcode"), ("phone", "Phone number")]
     bizrows = "".join(f"""<div class="field"><label for="bz-{k}">{e(l)}</label>
         <input id="bz-{k}" data-biz-field="{k}" autocomplete="off" spellcheck="false"></div>"""
