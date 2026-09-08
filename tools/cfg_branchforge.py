@@ -146,6 +146,7 @@ GRIND = dict(
 CFG = dict(
     brand="BranchForge", brand_a="Branch", brand_b="Forge", domain="branchforge.shop",
     theme="#0b0f0d", logomark=LOGO,
+    fonts="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;600;700;800&display=swap",
     favicon="%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231f5c39'/%3E%3Cpath d='M16 6v20M16 12l6-5M16 17l-6-5M16 22l6-5' stroke='%23a3e635' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E",
     title="BranchForge — Tree & Land Clearing Machinery, Delivered Free Across the UK",
     desc="Road-towable diesel wood chippers and tracked stump grinders for UK tree surgeons, "

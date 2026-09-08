@@ -25,7 +25,7 @@ def head(cfg, title, desc, path, extra=""):
 <link rel="icon" href="data:image/svg+xml,{cfg['favicon']}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="{cfg['fonts']}" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
 {extra}</head>
 <body>
