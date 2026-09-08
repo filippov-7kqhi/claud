@@ -15,6 +15,17 @@ POLICY_LINKS = [("Delivery & shipping", "shipping.html"), ("Returns & refunds", 
                 ("Privacy", "privacy.html"), ("Terms & conditions", "terms.html")]
 
 
+def hero_img(p):
+    """First gallery image — not a hardcoded filename, since real photos are .jpg."""
+    return f"{p['dir']}/{p['images'][0][0]}" if p.get('images') else f"{p['dir']}/01-hero.svg"
+
+
+def feed_img(p):
+    """Merchant Center rejects SVG, so the feed and og:image always point at a raster."""
+    src = hero_img(p)
+    return src[:-4] + ".jpg" if src.endswith(".svg") else src
+
+
 def head(cfg, title, desc, path, extra="", noindex=False):
     canon = f"https://{cfg['domain']}/{path}"
     robots = '<meta name="robots" content="noindex,nofollow">' if noindex else ""
@@ -32,7 +43,7 @@ def head(cfg, title, desc, path, extra="", noindex=False):
 <meta property="og:title" content="{e(title)}">
 <meta property="og:description" content="{e(desc)}">
 <meta property="og:url" content="{canon}">
-<meta property="og:image" content="https://{cfg['domain']}/{cfg['products'][0]['dir']}/01-hero.svg">
+<meta property="og:image" content="https://{cfg['domain']}/{feed_img(cfg['products'][0])}">
 <meta property="og:locale" content="en_GB">
 <meta name="theme-color" content="{cfg['theme']}">
 <link rel="icon" href="data:image/svg+xml,{cfg['favicon']}">
@@ -133,7 +144,7 @@ def product_card(p, featured=False):
     return f"""<article class="card" data-reveal>
   <div class="card__media">
     <span class="card__tag">{e(p['tag'])}</span>
-    <a href="{p['url']}"><img src="{p['dir']}/01-hero.svg" width="1200" height="760"
+    <a href="{p['url']}"><img src="{hero_img(p)}" width="1200" height="760"
        alt="{e(p['name_full'])}" loading="lazy"></a>
   </div>
   <div class="card__body">
@@ -146,7 +157,7 @@ def product_card(p, featured=False):
       <a class="btn btn--primary btn--block" href="{p['url']}">View machine</a>
       <button class="btn btn--ghost btn--block" data-add="{p['sku']}"
         data-name="{e(p['name_full'])}" data-price="{p['price']}"
-        data-img="{p['dir']}/01-hero.svg" data-url="{p['url']}">Add to basket</button>
+        data-img="{hero_img(p)}" data-url="{p['url']}">Add to basket</button>
     </div>
   </div>
 </article>"""
@@ -168,7 +179,7 @@ def hero(cfg):
       <div class="hero__pills">{pills}</div>
     </div>
     <div class="hero__media" data-reveal>
-      <img src="{p['dir']}/01-hero.svg" width="1200" height="760"
+      <img src="{hero_img(p)}" width="1200" height="760"
            alt="{e(p['name_full'])} — {e(p['short_desc'])}">
     </div>
   </div>
@@ -285,7 +296,7 @@ def build_product(cfg, p):
     ld = f"""<script type="application/ld+json">{{
  "@context":"https://schema.org","@type":"Product",
  "name":"{e(p['name_full'])}",
- "image":[{",".join(f'"https://{cfg["domain"]}/{p["dir"]}/{f}"' for f, _ in p['images'][:4])}],
+ "image":[{",".join(f'"https://{cfg["domain"]}/{p["dir"]}/{(f[:-4] + ".jpg") if f.endswith(".svg") else f}"' for f, _ in p['images'][:4])}],
  "description":"{e(p['meta_desc'])}",
  "sku":"{p['sku']}","mpn":"{p['mpn']}",
  "brand":{{"@type":"Brand","name":"{e(cfg['brand'])}"}},
@@ -346,12 +357,12 @@ def build_product(cfg, p):
         <input type="number" id="qty" value="1" min="1" max="5" inputmode="numeric"></label>
       <button class="btn btn--primary btn--lg btn--grow" data-add="{p['sku']}" data-buynow
         data-name="{e(p['name_full'])}" data-price="{p['price']}"
-        data-img="{p['dir']}/01-hero.svg" data-url="{p['url']}" data-qty="#qty">
+        data-img="{hero_img(p)}" data-url="{p['url']}" data-qty="#qty">
         Buy now &mdash; &pound;{p['price']:,}</button>
     </div>
     <button class="btn btn--ghost btn--lg btn--block" style="margin-top:.7rem" data-add="{p['sku']}"
       data-name="{e(p['name_full'])}" data-price="{p['price']}"
-      data-img="{p['dir']}/01-hero.svg" data-url="{p['url']}" data-qty="#qty">Add to basket</button>
+      data-img="{hero_img(p)}" data-url="{p['url']}" data-qty="#qty">Add to basket</button>
     <p class="added" data-added hidden>Added to your basket. <a href="cart.html">View basket</a></p>
     <p class="buynote">Buy now takes you straight to checkout with this machine in your basket.</p>
 
@@ -394,9 +405,9 @@ def build_product(cfg, p):
   <div><b>&pound;{p['price']:,}</b> <span class="muted" style="font-size:.8rem">inc. VAT</span></div>
   <div class="stickybuy__btns">
     <button class="btn btn--ghost" data-add="{p['sku']}" data-name="{e(p['name_full'])}"
-      data-price="{p['price']}" data-img="{p['dir']}/01-hero.svg" data-url="{p['url']}">Basket</button>
+      data-price="{p['price']}" data-img="{hero_img(p)}" data-url="{p['url']}">Basket</button>
     <button class="btn btn--primary" data-add="{p['sku']}" data-buynow data-name="{e(p['name_full'])}"
-      data-price="{p['price']}" data-img="{p['dir']}/01-hero.svg" data-url="{p['url']}">Buy now</button>
+      data-price="{p['price']}" data-img="{hero_img(p)}" data-url="{p['url']}">Buy now</button>
   </div>
 </div>
 """ + footer(cfg))
@@ -892,8 +903,8 @@ def build_feed(cfg):
     <g:title>{e(p['name_full'])}</g:title>
     <g:description>{e(p['meta_desc'])}</g:description>
     <g:link>https://{d}/{p['url']}</g:link>
-    <g:image_link>https://{d}/{p['dir']}/01-hero.svg</g:image_link>
-    {"".join(f'<g:additional_image_link>https://{d}/{p["dir"]}/{f}</g:additional_image_link>' for f, _ in p['images'][1:6])}
+    <g:image_link>https://{d}/{feed_img(p)}</g:image_link>
+    {"".join(f'<g:additional_image_link>https://{d}/{p["dir"]}/{(f[:-4] + ".jpg") if f.endswith(".svg") else f}</g:additional_image_link>' for f, _ in p['images'][1:6])}
     <g:availability>in_stock</g:availability>
     <g:condition>new</g:condition>
     <g:price>{p['price']}.00 GBP</g:price>
@@ -930,6 +941,12 @@ def write_site(cfg, root):
     }
     for p in cfg['products']:
         pages[p['url']] = build_product(cfg, p)
+
+    # Remove pages from an earlier build that this one no longer produces,
+    # so a renamed product does not leave its old URL live.
+    for existing in os.listdir(root):
+        if existing.endswith(".html") and existing not in pages:
+            os.remove(os.path.join(root, existing))
 
     for name, content in pages.items():
         open(os.path.join(root, name), "w", encoding="utf-8").write(content)

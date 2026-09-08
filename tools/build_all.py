@@ -61,6 +61,23 @@ def write_site_config(cfg, root):
     return "created"
 
 
+def rasterise(root):
+    """Merchant Center rejects SVG. Emit a JPEG twin of every product SVG so the
+       feed, structured data and og:image always have a raster to point at."""
+    import glob, cairosvg
+    from PIL import Image
+    made = 0
+    for svg in glob.glob(f"{root}/assets/img/*/*.svg"):
+        jpg = svg[:-4] + ".jpg"
+        if os.path.exists(jpg) and os.path.getmtime(jpg) >= os.path.getmtime(svg):
+            continue
+        cairosvg.svg2png(url=svg, write_to="/tmp/_r.png", output_width=1200)
+        im = Image.open("/tmp/_r.png").convert("RGB")
+        im.save(jpg, "JPEG", quality=86, optimize=True, progressive=True)
+        made += 1
+    return made
+
+
 def digest(path):
     """Short content hash so a changed asset gets a new URL and can never be served stale."""
     return hashlib.sha256(open(path, 'rb').read()).hexdigest()[:10]
@@ -68,8 +85,10 @@ def digest(path):
 ROOT = '/home/user/claud/sites'
 for mod, prefix in ((cfg_branchforge, 'BF'), (cfg_haulcrest, 'HC')):
     cfg = dict(mod.CFG)
-    cfg['products'] = for_store(cfg['brand'], prefix)
-    key = cfg['domain'].split('.')[0]
+    key0 = cfg['domain'].split('.')[0]
+    rasterised = rasterise(f'{ROOT}/{key0}')
+    cfg['products'] = for_store(cfg['brand'], prefix, key0, f'{ROOT}/{key0}')
+    key = key0
     state = write_site_config(cfg, f'{ROOT}/{key}')
     cfg['ver_stripe'] = digest(f'{ROOT}/{key}/assets/js/site-config.js')
     cfg['ver_css'] = digest(f'{ROOT}/{key}/assets/css/style.css')
@@ -78,4 +97,5 @@ for mod, prefix in ((cfg_branchforge, 'BF'), (cfg_haulcrest, 'HC')):
     cfg['ver_js'] = digest(f'{ROOT}/{key}/assets/js/script.js')
     pages = write_site(cfg, f'{ROOT}/{key}')
     print(f"{cfg['brand']}: {len(pages)} pages, {len(cfg['products'])} products "
-          f"| css v{cfg['ver_css']} js v{cfg['ver_js']} | stripe-config {state}")
+          f"| css v{cfg['ver_css']} js v{cfg['ver_js']} | stripe-config {state}"
+          f" | rasterised {rasterised} svg")
