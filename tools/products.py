@@ -62,10 +62,12 @@ def for_store(brand, prefix, store_key=None, root=None):
     overrides = OVERRIDES.get(store_key or "", {})
     for i, base in enumerate(BASE):
         if base["slug"] in overrides:
-            real = copy.deepcopy(overrides[base["slug"]])
+            real = _rebrand(copy.deepcopy(overrides[base["slug"]]), brand)
             real["order"] = i
             real["brand"] = brand
             real["name_full"] = f"{brand} {real['name']}"
+            # SKUs carry the store prefix, or both stores ship colliding feed IDs
+            real["sku"] = f"{prefix}-{real['sku'].split('-', 1)[1]}"
             real["mpn"] = real["sku"]
             real.update({k: v for k, v in EXTRA[base["sku"]].items() if k in ("condition", "category", "gpc")})
             real.setdefault("weight_kg", "")
@@ -373,3 +375,12 @@ SKIDSTEER = dict(
 
 OVERRIDES["branchforge"]["grindmaster-380-tx"] = CREX10K
 OVERRIDES["branchforge"]["vanguard-850-sl"] = SKIDSTEER
+
+# HaulCrest sells the same four machines under its own brand; the photographs
+# show identical models, so the same definitions apply once rebranded.
+OVERRIDES["haulcrest"] = {
+    "cyclone-150-td": HC15H,
+    "grindmaster-380-tx": CREX10K,
+    "titan-1000-ht": MD500,
+    "vanguard-850-sl": SKIDSTEER,
+}

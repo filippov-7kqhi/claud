@@ -32,9 +32,9 @@ window.SITE_CONFIG = {
   // One Stripe Payment Link per machine. Blank = that machine routes to an
   // enquiry instead of pretending to take payment.
   paymentLinks: {
-    "BF-CY150": "",      // Cyclone 150 TD Wood Chipper - GBP 2,899
-    "BF-GM380": "",      // Grindmaster 380 TX Stump Grinder - GBP 3,449
-    "BF-TT1000": "",     // Titan 1000 HT Tracked Dumper - GBP 2,699
-    "BF-VG850": "",      // Vanguard 850 SL Compact Loader - GBP 3,299
+    "BF-HC15H": "",      // HC15H Towable Wood Chipper - GBP 2,899
+    "BF-CREX10K": "",    // CREX10-K Mini Excavator - GBP 3,449
+    "BF-MD500": "",      // MD-500HPRO Tracked Mini Dumper - GBP 2,699
+    "BF-MSS739": "",     // Mini Skid Steer Loader - GBP 3,299
   }
 };
