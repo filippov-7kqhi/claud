@@ -7,46 +7,54 @@ import hashlib
 
 CONFIG_TEMPLATE = """\
 /* ---------------------------------------------------------------------------
-   Stripe configuration for {brand}.
+   Runtime configuration for {brand}. Edited through /admin.html, or by hand.
 
-   This file is PUBLIC. Never put a secret key (sk_live_... / sk_test_...) here.
-   Payment Link URLs and publishable keys are safe to publish; secret keys are not.
-
-   HOW TO FILL THIS IN
-   1. Stripe Dashboard -> Product catalogue -> add each machine with its price
-      (prices below are GBP and already include 20% VAT).
-   2. For each product, create a Payment Link. On each link switch on:
-        - "Collect customers' addresses" -> Shipping
-        - "Let customers adjust quantity" (so a buyer can order two)
-        - a custom text field named "Delivery access notes" (gate width, gradient,
-          parking) so the carrier gets what it needs
-   3. Paste each Payment Link URL below, next to its item code.
-
-   Leave a link blank and that machine falls back to the enquiry route rather
-   than pretending to take payment.
+   THIS FILE IS PUBLIC. Everything in it ships to every visitor.
+   Payment Link URLs, business details and the admin hash are all fine to publish.
+   A Stripe SECRET key (sk_live_... / sk_test_...) is NOT. Never put one here.
 --------------------------------------------------------------------------- */
-window.STRIPE_CONFIG = {{
-  // Optional: a serverless endpoint that creates a Checkout Session.
-  // Needed only for baskets holding more than one different machine.
-  // See stripe/README.md. Leave "" while you are on GitHub Pages.
+window.SITE_CONFIG = {{
+  // SHA-256 of the admin passphrase. This only hides the form from a casual
+  // visitor -- anyone can read this file and bypass it. Nothing behind it is
+  // secret; the real gate on changing the live site is your GitHub login.
+  admin: {{ passHash: "{passhash}" }},
+
+  // Shown in the footer of every page. Google and Stripe both verify these.
+  business: {{
+    company:   "",
+    companyNo: "",
+    vatNo:     "",
+    street:    "",
+    city:      "",
+    postcode:  "",
+    phone:     ""
+  }},
+
+  // Optional serverless endpoint for baskets with more than one machine.
+  // See stripe/README.md. Leave "" while hosting on GitHub Pages.
   checkoutEndpoint: "",
 
+  // One Stripe Payment Link per machine. Blank = that machine routes to an
+  // enquiry instead of pretending to take payment.
   paymentLinks: {{
 {links}
   }}
 }};
 """
 
+ADMIN_PASS_HASH = "5b9e9741342f4f8a87a03b52634853031e9478d49220cadd57e189392e0b7bb3"
 
-def write_stripe_config(cfg, root):
-    """Written once; never overwritten, so pasted links survive a rebuild."""
-    path = f"{root}/assets/js/stripe-config.js"
+
+def write_site_config(cfg, root):
+    """Written once; never overwritten, so edits survive a rebuild."""
+    path = f"{root}/assets/js/site-config.js"
     if os.path.exists(path):
         return "kept"
     links = "\n".join(
-        f'    "{p["sku"]}": "",{" " * max(1, 14 - len(p["sku"]))}// {p["name"]} — £{p["price"]:,}'
+        f'    "{p["sku"]}": "",{" " * max(1, 14 - len(p["sku"]))}// {p["name"]} - GBP {p["price"]:,}'
         for p in cfg["products"])
-    open(path, "w").write(CONFIG_TEMPLATE.format(brand=cfg["brand"], links=links))
+    open(path, "w").write(CONFIG_TEMPLATE.format(
+        brand=cfg["brand"], links=links, passhash=ADMIN_PASS_HASH))
     return "created"
 
 
@@ -59,8 +67,8 @@ for mod, prefix in ((cfg_branchforge, 'BF'), (cfg_haulcrest, 'HC')):
     cfg = dict(mod.CFG)
     cfg['products'] = for_store(cfg['brand'], prefix)
     key = cfg['domain'].split('.')[0]
-    state = write_stripe_config(cfg, f'{ROOT}/{key}')
-    cfg['ver_stripe'] = digest(f'{ROOT}/{key}/assets/js/stripe-config.js')
+    state = write_site_config(cfg, f'{ROOT}/{key}')
+    cfg['ver_stripe'] = digest(f'{ROOT}/{key}/assets/js/site-config.js')
     cfg['ver_css'] = digest(f'{ROOT}/{key}/assets/css/style.css')
     cfg['ver_js'] = digest(f'{ROOT}/{key}/assets/js/script.js')
     pages = write_site(cfg, f'{ROOT}/{key}')

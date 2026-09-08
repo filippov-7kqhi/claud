@@ -89,11 +89,14 @@ def footer(cfg):
         <a class="logo" href="index.html">{cfg['logomark']}<span>{cfg['brand_a']}<b>{cfg['brand_b']}</b></span></a>
         <p class="muted" style="margin-top:1rem;max-width:38ch;font-size:.93rem">{e(cfg['footer_blurb'])}</p>
         <p class="muted" style="font-size:.88rem;line-height:1.8">
-          <strong style="color:var(--ink)">{e(cfg['company'])}</strong><br>
-          {e(cfg['street'])}<br>{e(cfg['city'])} {e(cfg['postcode'])}<br>United Kingdom<br>
+          <strong style="color:var(--ink)" data-biz="company">{e(cfg['company'])}</strong><br>
+          <span data-biz="street">{e(cfg['street'])}</span><br>
+          <span data-biz="city">{e(cfg['city'])}</span> <span data-biz="postcode">{e(cfg['postcode'])}</span><br>
+          United Kingdom<br>
           <a href="mailto:{cfg['email']}">{cfg['email']}</a><br>
-          <a href="tel:{cfg['phone_link']}">{e(cfg['phone'])}</a><br>
-          <span class="muted">Company no. {e(cfg['company_no'])} &middot; VAT no. {e(cfg['vat_no'])}</span>
+          <a href="tel:{cfg['phone_link']}" data-biz="phone">{e(cfg['phone'])}</a><br>
+          <span class="muted">Company no. <span data-biz="companyNo">{e(cfg['company_no'])}</span>
+            &middot; VAT no. <span data-biz="vatNo">{e(cfg['vat_no'])}</span></span>
         </p>
       </div>
       <div><h4>Machines</h4><ul>{machines}</ul></div>
@@ -111,13 +114,13 @@ def footer(cfg):
       <span class="paychip">Apple&nbsp;Pay</span>
     </div>
     <div class="footer__bot">
-      <span>&copy; <span data-year></span> {e(cfg['company'])}. All rights reserved.</span>
+      <span>&copy; <span data-year></span> <span data-biz="company">{e(cfg['company'])}</span>. All rights reserved.</span>
       <span>All prices in GBP and include UK VAT at 20%. {e(cfg['brand'])} is an independent
         supplier and is not affiliated with any equipment manufacturer.</span>
     </div>
   </div>
 </footer>
-<script src="assets/js/stripe-config.js?v={cfg['ver_stripe']}"></script>
+<script src="assets/js/site-config.js?v={cfg['ver_stripe']}"></script>
 <script src="assets/js/script.js?v={cfg['ver_js']}"></script>
 </body>
 </html>
@@ -915,6 +918,7 @@ def write_site(cfg, root):
         "track-order.html": build_track(cfg), "returns.html": build_returns(cfg),
         "shipping.html": build_shipping(cfg), "payment.html": build_payment(cfg),
         "privacy.html": build_privacy(cfg), "terms.html": build_terms(cfg),
+        "admin.html": build_admin(cfg),
     }
     for p in cfg['products']:
         pages[p['url']] = build_product(cfg, p)
@@ -925,7 +929,7 @@ def write_site(cfg, root):
     open(os.path.join(root, "feed.xml"), "w", encoding="utf-8").write(build_feed(cfg))
     open(os.path.join(root, "CNAME"), "w").write(cfg['domain'] + "\n")
 
-    indexable = [n for n in pages if n not in ("cart.html", "checkout.html")]
+    indexable = [n for n in pages if n not in ("cart.html", "checkout.html", "admin.html")]
     today = datetime.date.today().isoformat()
     urls = "".join(f"<url><loc>https://{cfg['domain']}/{n}</loc><lastmod>{today}</lastmod></url>"
                    for n in sorted(indexable))
@@ -934,5 +938,92 @@ def write_site(cfg, root):
         f'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{urls}</urlset>')
     open(os.path.join(root, "robots.txt"), "w").write(
         "User-agent: *\nAllow: /\nDisallow: /cart.html\nDisallow: /checkout.html\n"
+        "Disallow: /admin.html\n"
         f"Sitemap: https://{cfg['domain']}/sitemap.xml\n")
     return sorted(pages)
+
+
+def build_admin(cfg):
+    """Config editor. Deliberately holds nothing secret — see the notice on the page."""
+    rows = "".join(f"""
+      <div class="field">
+        <label for="pl-{p['sku']}">{e(p['name'])} <span class="muted">— &pound;{p['price']:,} · {p['sku']}</span></label>
+        <input id="pl-{p['sku']}" data-link="{p['sku']}" type="url" placeholder="https://buy.stripe.com/…"
+               autocomplete="off" spellcheck="false">
+      </div>""" for p in cfg['products'])
+
+    biz = [("company", "Registered company name"), ("companyNo", "Companies House number"),
+           ("vatNo", "VAT registration number"), ("street", "Registered address"),
+           ("city", "Town or city"), ("postcode", "Postcode"), ("phone", "Phone number")]
+    bizrows = "".join(f"""
+      <div class="field"><label for="bz-{k}">{e(label)}</label>
+        <input id="bz-{k}" data-biz-field="{k}" autocomplete="off" spellcheck="false"></div>""" for k, label in biz)
+
+    return (head(cfg, f"Admin — {cfg['brand']}", "Store configuration.", "admin.html", noindex=True)
+            + header(cfg)
+            + f"""<section class="pagehead"><div class="wrap" style="max-width:860px">
+  <h1>Store admin</h1>
+  <div class="warnbox">
+    <strong>Read this once.</strong> This page is a <em>configuration editor</em>, not a
+    control panel. It cannot change the live site on its own: it produces a file that you
+    commit to GitHub, and your GitHub login is what actually authorises the change.
+    <br><br>
+    The passphrase below only hides the form from a casual visitor. This is a static site,
+    so the check runs in your browser and anyone can read it or skip it. Nothing on this
+    page is confidential &mdash; Payment Links, business details and prices are all public
+    anyway. <strong>Never put a Stripe secret key here or anywhere in the repository.</strong>
+  </div>
+</div></section>
+
+<section><div class="wrap" style="max-width:860px">
+  <form id="gate" class="form" style="max-width:420px">
+    <div class="field"><label for="pass">Passphrase</label>
+      <input id="pass" type="password" autocomplete="current-password"></div>
+    <button class="btn btn--primary btn--lg" type="submit">Unlock</button>
+    <p class="formnote" id="gateMsg"></p>
+  </form>
+
+  <div id="panel" hidden>
+    <h2>Stripe Payment Links</h2>
+    <p class="muted">One per machine. Create them in the Stripe Dashboard under
+      <em>Payment Links</em>, with shipping address collection and adjustable quantity
+      switched on, and tax behaviour set to <em>inclusive</em>. Leave one blank and that
+      machine routes to an enquiry instead.</p>
+    <form class="form">{rows}</form>
+
+    <h2 style="margin-top:2.4rem">Business identity</h2>
+    <p class="muted">Shown in the footer of every page. Google Merchant Center and Stripe
+      both verify these against Companies House, so they must be your real details.</p>
+    <form class="form">{bizrows}</form>
+
+    <h2 style="margin-top:2.4rem">Save your changes</h2>
+    <p class="muted">This produces the contents of <code>assets/js/site-config.js</code>.
+      Copy it, open that file on GitHub, replace everything, and commit. The site picks it
+      up on the next load — no rebuild needed.</p>
+    <div class="btnrow">
+      <button class="btn btn--primary btn--lg" id="copyBtn" type="button">Copy file contents</button>
+      <button class="btn btn--ghost btn--lg" id="dlBtn" type="button">Download file</button>
+    </div>
+    <p class="formnote" id="saveMsg"></p>
+    <textarea id="out" class="outbox" rows="18" readonly spellcheck="false"></textarea>
+
+    <h2 style="margin-top:2.4rem">Where everything else lives</h2>
+    <ul class="adminlinks">
+      <li><strong>Orders, refunds and payouts</strong> —
+        <a href="https://dashboard.stripe.com/payments" target="_blank" rel="noopener">Stripe Dashboard</a>.
+        A static site cannot hold order data; Stripe is your order admin.</li>
+      <li><strong>Product feed status</strong> —
+        <a href="https://merchants.google.com/" target="_blank" rel="noopener">Google Merchant Center</a>.</li>
+      <li><strong>Prices, specs, copy and images</strong> — these are built into the pages.
+        Ask for a change and it ships as a commit.</li>
+      <li><strong>Changing this passphrase</strong> — paste a new one below to get its hash,
+        then replace <code>admin.passHash</code> in the file above.</li>
+    </ul>
+    <form class="form" style="max-width:420px" id="hashForm">
+      <div class="field"><label for="newpass">New passphrase</label>
+        <input id="newpass" type="text" autocomplete="off" spellcheck="false"></div>
+      <button class="btn btn--ghost" type="submit">Show hash</button>
+      <p class="formnote" id="hashOut"></p>
+    </form>
+  </div>
+</div></section>""" + footer(cfg))

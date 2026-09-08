@@ -19,7 +19,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=b80decb401">
+<link rel="stylesheet" href="assets/css/style.css?v=5202acb748">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -53,11 +53,14 @@
         <a class="logo" href="index.html"><svg class="logo__mark" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M16 2 L27 8 v10 c0 6-5 10-11 12C10 28 5 24 5 18V8z" fill="#1f5c39" stroke="#a3e635" stroke-width="1.6"/><path d="M16 8 v14 M16 13 l5-4 M16 17 l-5-4 M16 21 l5-4" stroke="#a3e635" stroke-width="1.8" stroke-linecap="round"/></svg><span>Branch<b>Forge</b></span></a>
         <p class="muted" style="margin-top:1rem;max-width:38ch;font-size:.93rem">UK supplier of wood chippers, stump grinders, tracked dumpers and compact loaders. Machines held in stock, spares held in stock, and weights quoted honestly.</p>
         <p class="muted" style="font-size:.88rem;line-height:1.8">
-          <strong style="color:var(--ink)">[Registered company name] Ltd</strong><br>
-          [Registered address]<br>[Town] [Postcode]<br>United Kingdom<br>
+          <strong style="color:var(--ink)" data-biz="company">[Registered company name] Ltd</strong><br>
+          <span data-biz="street">[Registered address]</span><br>
+          <span data-biz="city">[Town]</span> <span data-biz="postcode">[Postcode]</span><br>
+          United Kingdom<br>
           <a href="mailto:sales@branchforge.shop">sales@branchforge.shop</a><br>
-          <a href="tel:">[Add your phone number]</a><br>
-          <span class="muted">Company no. [Companies House number] &middot; VAT no. [VAT registration number]</span>
+          <a href="tel:" data-biz="phone">[Add your phone number]</a><br>
+          <span class="muted">Company no. <span data-biz="companyNo">[Companies House number]</span>
+            &middot; VAT no. <span data-biz="vatNo">[VAT registration number]</span></span>
         </p>
       </div>
       <div><h4>Machines</h4><ul><li><a href="cyclone-150-td.html">Cyclone 150 TD</a></li><li><a href="grindmaster-380-tx.html">Grindmaster 380 TX</a></li><li><a href="titan-1000-ht.html">Titan 1000 HT</a></li><li><a href="vanguard-850-sl.html">Vanguard 850 SL</a></li></ul></div>
@@ -75,13 +78,13 @@
       <span class="paychip">Apple&nbsp;Pay</span>
     </div>
     <div class="footer__bot">
-      <span>&copy; <span data-year></span> [Registered company name] Ltd. All rights reserved.</span>
+      <span>&copy; <span data-year></span> <span data-biz="company">[Registered company name] Ltd</span>. All rights reserved.</span>
       <span>All prices in GBP and include UK VAT at 20%. BranchForge is an independent
         supplier and is not affiliated with any equipment manufacturer.</span>
     </div>
   </div>
 </footer>
-<script src="assets/js/stripe-config.js?v=b894540f48"></script>
-<script src="assets/js/script.js?v=47a6303d33"></script>
+<script src="assets/js/site-config.js?v=d07f928b2f"></script>
+<script src="assets/js/script.js?v=17b110cfd1"></script>
 </body>
 </html>
