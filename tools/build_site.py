@@ -279,6 +279,21 @@ def build_machines(cfg):
             + range_section(cfg, "The full range", cfg['range_lead']) + cta(cfg) + footer(cfg))
 
 
+def attachments_block(p, cfg):
+    """Only rendered for machines that actually have a published attachment list."""
+    items = p.get("attachments")
+    if not items:
+        return ""
+    rows = "".join(f'<tr><th>{e(n)}</th><td><strong>&pound;{v:,}</strong></td></tr>' for n, v in items)
+    return f"""<section class="band"><div class="wrap" style="max-width:900px">
+  <div class="sec-head" data-reveal><p class="eyebrow">Attachments</p>
+    <h2>What else it will run</h2>
+    <p class="muted">Prices include VAT. All change over on the quick hitch. Tell us which you want
+      and we will add them to your order &mdash; they ship in the same crate.</p></div>
+  <table class="spectable" data-reveal><tbody>{rows}</tbody></table>
+</div></section>"""
+
+
 def build_product(cfg, p):
     thumbs = ""
     for i, (f, alt) in enumerate(p['images']):
@@ -393,6 +408,8 @@ def build_product(cfg, p):
   <p class="formnote" style="margin-top:1rem">Specifications are nominal and may vary slightly by
      production batch. Shipping weight {p['weight_kg']} kg, crated {p['box']}.</p>
 </div></section>
+
+{attachments_block(p, cfg)}
 
 {faq_block(p['faq'], 'About the ' + p['short'])}
 

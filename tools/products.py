@@ -223,3 +223,153 @@ MD500 = dict(
 
 # Which catalogue product each real machine replaces, per store.
 OVERRIDES = {"branchforge": {"cyclone-150-td": HC15H, "titan-1000-ht": MD500}}
+
+
+CREX10K = dict(
+    slug="crex10k-mini-excavator", url="crex10k-mini-excavator.html", dir="assets/img/crex10k",
+    sku="BF-CREX10K", name="CREX10-K Mini Excavator", short="CREX10-K",
+    short_desc="900 kg diesel mini excavator with a telescopic chassis that narrows to 800 mm "
+               "for gated access.",
+    lede="A 900 kg backhoe mini excavator on rubber tracks, with a dozer blade, boom swing and a "
+         "telescopic undercarriage that closes to 800 mm to get down the side of a house and opens "
+         "to 950 mm for stability once it is in.",
+    tag="Most capable", price=3449, was=4299, finance=81,
+    stockline="In stock — ships crated from our UK warehouse",
+    meta_desc="BranchForge CREX10-K mini excavator: 900 kg, KOOP 192 diesel, 1580 mm digging depth, "
+              "telescopic 800/950 mm chassis, rubber tracks. Free UK mainland delivery.",
+    images=[], bullets=[
+        "Telescopic chassis: 800 mm through a gate, 950 mm for working stability",
+        "900 kg operating weight — moves on a braked car trailer, no plant lorry",
+        "1580 mm digging depth and 3040 mm reach at ground level",
+        "Boom swing 50° left and 55° right, so you dig alongside a wall",
+        "Dozer blade for backfilling and levelling without a second machine",
+        "Rubber tracks and 30% gradeability for soft or sloping ground",
+        "Quick-hitch attachments: breaker, auger, grabber, rake, ripper and buckets"],
+    spec_hi=[("Operating weight", "900 kg"), ("Digging depth", "1580 mm"),
+             ("Chassis width", "800 / 950 mm"), ("Engine", "KOOP 192 diesel, 7 kW")],
+    specs=[("Model", "BranchForge CREX10-K"), ("Operating weight", "900 kg"),
+           ("Working device form", "Backhoe"), ("Standard bucket capacity", "0.02 m³"),
+           ("Engine model", "KOOP 192 diesel"), ("Rated power", "7 kW"),
+           ("Maximum torque", "25 N·m at 2860 rpm"),
+           ("Maximum travel speed", "1.4 km/h"), ("Swing speed", "11 rpm"),
+           ("Maximum gradeability", "30%"),
+           ("Max. digging depth", "1580 mm"), ("Max. vertical digging depth", "1340 mm"),
+           ("Max. digging radius on ground", "3040 mm"), ("Max. digging radius", "3135 mm"),
+           ("Max. digging height", "2620 mm"), ("Max. dumping height", "2000 mm"),
+           ("Min. swing radius", "1510 mm"),
+           ("Boom swing", "50° left, 55° right"),
+           ("Chassis width (telescopic)", "800 / 950 mm"),
+           ("Track width", "180 mm"), ("Track length", "1235 mm"), ("Wheel tread", "910 mm"),
+           ("Track material", "Rubber"), ("Track tension", "Screw adjustment"),
+           ("Platform tail turning radius", "680 mm"),
+           ("Transportation length", "2170 / 2850 mm"),
+           ("Max. blade lifting height", "140 mm"), ("Max. blade lifting depth", "200 mm"),
+           ("Hydraulic pump", "Gear oil pump"), ("Working pressure", "16 MPa"),
+           ("Flow rate", "19 L/min"), ("Hydraulic oil tank", "16.5 L"), ("Fuel tank", "11 L"),
+           ("Warranty", "2 years parts, 1 year engine")],
+    features_h2="A real excavator that fits down the side of a house",
+    features=[("Telescopic undercarriage", "Closed it is 800 mm across, which clears a standard "
+               "side gate. Once through, it opens to 950 mm so it is stable enough to dig against "
+               "rather than tipping toward the trench."),
+              ("900 kg", "Light enough for a braked car trailer, so you are not hiring a plant "
+               "lorry or waiting for a transport slot to start a job."),
+              ("Boom swing", "50° left and 55° right lets you dig parallel to a wall or a fence "
+               "without repositioning the tracks every metre."),
+              ("Dozer blade", "Backfill and level with the same machine that dug the trench. "
+               "It also stabilises the front while you are working."),
+              ("Diesel", "A KOOP 192 diesel at 7 kW, with 16 MPa hydraulics and 19 L/min of flow "
+               "— enough to run a breaker or an auger properly."),
+              ("Quick-hitch attachments", "Breaker, auger, log grabber, rake, ripper and buckets "
+               "from 200 mm to 800 mm all change over on the quick hitch.")],
+    attachments=[("200 mm bucket", 249), ("800 mm bucket", 299), ("Quick hitch", 165),
+                 ("Ripper", 159), ("Rake", 199), ("Log grabber", 339),
+                 ("Auger", 799), ("Hydraulic breaker", 1299)],
+    faq=[("Will it fit through a side gate?",
+          "<p>The chassis is telescopic: 800 mm closed and 950 mm open. A standard UK side gate "
+          "opening is 780–900 mm, so it fits the great majority with the tracks retracted. Measure "
+          "the narrowest point on the route, which is usually a gate post rather than the gate.</p>"),
+         ("How deep will it dig?",
+          "<p>1580 mm maximum digging depth, 1340 mm vertical, with a reach of 3040 mm at ground "
+          "level. That covers drainage, footings for a garden room, ponds and service trenches.</p>"),
+         ("How do I get it to site?",
+          "<p>900 kg operating weight, so a braked car trailer plated for a tonne or more will "
+          "carry it. Check your trailer plate and your licence entitlement before loading.</p>"),
+         ("Which attachments are included?",
+          "<p>The machine ships with its standard bucket. The breaker, auger, grabber, rake, "
+          "ripper, quick hitch and the wider buckets are separate — current prices are listed on "
+          "this page. Ask us to add any of them to your order.</p>"),
+         ("Do I need a licence or a card?",
+          "<p>No legal licence to own or use one on private land. For paid work on a commercial "
+          "site most principal contractors want a CPCS or NPORS card for 360° excavators under "
+          "10 tonnes. That is a site-access requirement rather than a legal one, and we do not "
+          "provide certification.</p>")],
+)
+
+SKIDSTEER = dict(
+    slug="mini-skid-steer-loader", url="mini-skid-steer-loader.html", dir="assets/img/mini-skid-steer",
+    sku="BF-MSS739", name="Mini Skid Steer Loader", short="Mini Skid Steer",
+    short_desc="739 cc petrol tracked loader with auxiliary hydraulics — the machine that "
+               "replaces the gang.",
+    lede="A tracked stand-on loader with a 739 cc petrol engine, a quick-attach bucket and "
+         "auxiliary hydraulic couplers on the arm, so it lifts, carries and runs powered "
+         "attachments on ground a wheeled loader would tear up.",
+    tag="Highest margin", price=3299, was=4199, finance=77,
+    stockline="In stock — ships crated from our UK warehouse",
+    meta_desc="BranchForge mini skid steer loader: 739 cc petrol, rubber tracks, quick-attach "
+              "bucket, auxiliary hydraulics. Free UK mainland delivery.",
+    images=[], bullets=[
+        "739 cc petrol engine, key start, with an hour meter and oil temperature gauge",
+        "Rubber tracks spread the weight — crosses wet ground and finished lawns",
+        "Quick-attach plate, so the bucket comes off and other tools go on",
+        "Auxiliary hydraulic couplers on the arm for powered attachments",
+        "Loader arms lift clear above a trailer side or a skip wall",
+        "CE marked, 95 dB(A) guaranteed sound power",
+        "2-year parts warranty and UK-held spares"],
+    spec_hi=[("Engine", "739 cc petrol"), ("Drive", "Rubber tracks"),
+             ("Attachment", "Quick-attach plate"), ("Hydraulics", "Auxiliary couplers")],
+    specs=[("Model", "BranchForge Mini Skid Steer Loader"),
+           ("Engine", "739 cc petrol, air-cooled"),
+           ("Starting", "Electric key start"),
+           ("Instrumentation", "Hour meter and oil temperature gauge"),
+           ("Undercarriage", "Rubber tracks"),
+           ("Attachment interface", "Quick-attach plate, bucket supplied"),
+           ("Auxiliary hydraulics", "Quick couplers on the loader arm"),
+           ("Sound power", "95 dB(A) guaranteed (Lwa)"),
+           ("Conformity", "CE marked"),
+           ("Warranty", "2 years parts, 1 year engine")],
+    features_h2="One machine, the whole muck-away job",
+    features=[("739 cc petrol", "Enough engine to lift and drive attachments, while staying light "
+               "enough to trailer and simple enough to service without a dealer."),
+              ("Rubber tracks", "Weight spread across two tracks rather than four wheels, so it "
+               "works on wet clay and crosses a customer's lawn without cutting ruts."),
+              ("Quick-attach plate", "The bucket comes off in a minute. Forks, grapples and "
+               "augers go on in its place without tools."),
+              ("Auxiliary hydraulics", "Quick couplers are already plumbed to the arm, so a "
+               "powered attachment connects and works rather than needing a conversion."),
+              ("Hour meter and oil temperature", "You can see what the machine has done and how "
+               "hard it is working — the two things that decide when to service it."),
+              ("Stand-on and compact", "Step off at every gate without shutting down, and turn "
+               "within the machine's own length in a back garden.")],
+    faq=[("What can it lift?",
+          "<p>We are confirming the rated operating capacity with the manufacturer and will publish "
+          "it here rather than estimate it. Rated capacity is conventionally half the static "
+          "tipping load — be wary of any seller quoting the tipping load as the lift. Email us if "
+          "you need the figure before ordering.</p>"),
+         ("Will other attachments fit?",
+          "<p>It uses a quick-attach plate with auxiliary hydraulics already run to the arm. Check "
+          "the plate standard and the flow requirement of any attachment against the machine before "
+          "buying it, and we will confirm compatibility in writing.</p>"),
+         ("How wide is it?",
+          "<p>We are confirming the exact track width and overall width with the manufacturer. "
+          "Measure the narrowest point on your access route and we will check it against the real "
+          "figure before you order.</p>"),
+         ("Petrol rather than diesel?",
+          "<p>Petrol keeps the weight down so the machine trailers easily and stays manoeuvrable "
+          "in a garden. It also avoids red-diesel record-keeping for commercial use.</p>"),
+         ("Is the bucket included?",
+          "<p>Yes — the machine ships with the bucket shown in the photographs. Other attachments "
+          "are separate; ask us for prices and we will quote them with your order.</p>")],
+)
+
+OVERRIDES["branchforge"]["grindmaster-380-tx"] = CREX10K
+OVERRIDES["branchforge"]["vanguard-850-sl"] = SKIDSTEER
