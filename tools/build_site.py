@@ -61,6 +61,13 @@ PAY_ICONS = (
 )
 
 
+def one_line_address(cfg):
+    """Street, town, postcode and country on a single line, skipping anything
+       not supplied so no stray commas appear."""
+    parts = [cfg.get("street"), cfg.get("city"), cfg.get("postcode"), "United Kingdom"]
+    return ", ".join(p.strip() for p in parts if p and p.strip())
+
+
 def head(cfg, title, desc, path, extra="", noindex=False):
     canon = f"https://{cfg['domain']}/{path}"
     robots = '<meta name="robots" content="noindex,nofollow">' if noindex else ""
@@ -135,11 +142,8 @@ def footer(cfg):
         <a class="logo" href="index.html">{cfg['logomark']}<span>{cfg['brand_a']}<b>{cfg['brand_b']}</b></span></a>
         <p class="muted" style="margin-top:1rem;max-width:38ch;font-size:.93rem">{e(cfg['footer_blurb'])}</p>
         <p class="muted" style="font-size:.88rem;line-height:1.8">
-          <strong style="color:var(--ink)" data-biz="company">{e(cfg['company'])}</strong><br>
-          <span data-biz="street" data-hide-if-unset>{e(cfg['street'])}</span>
-          <span data-biz="city" data-hide-if-unset>{e(cfg['city'])}</span>
-          <span data-biz="postcode" data-hide-if-unset>{e(cfg['postcode'])}</span>
-          <span data-biz-line>United Kingdom</span>
+          <strong style="color:var(--ink)" data-biz="company">{e(cfg['company'])}</strong>
+          <span data-biz-addr data-hide-if-unset>{e(one_line_address(cfg))}</span>
           <a href="mailto:{cfg['email']}">{cfg['email']}</a>
           <a href="tel:{cfg['phone_link']}" data-biz="phone" data-hide-if-unset>{e(cfg['phone'])}</a>
           <span class="muted" data-biz="companyNo" data-hide-if-unset
