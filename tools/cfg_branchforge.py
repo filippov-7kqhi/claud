@@ -221,10 +221,10 @@ CFG = dict(
 
     fonts="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;600;700;800&display=swap",
     email="sales@branchforge.shop", support_email="support@branchforge.shop",
-    phone="", phone_link="", ref_prefix="BF",
+    phone="+44 1905 420425", phone_link="+441905420425", ref_prefix="BF",
     company="BranchForge Ltd",
     company_no="", vat_no="",
-    street="", city="", postcode="",
+    street="3 Hopton St", city="Worcester", postcode="WR2 5LH",
     return_fee=150,
     topbar=["&#128666; Free UK mainland delivery", "&#8634; 30-day returns",
             "&#128737; 2-year warranty", "&#9993; sales@branchforge.shop"],

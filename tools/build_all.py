@@ -94,7 +94,12 @@ for mod, prefix in ((cfg_branchforge, 'BF'), (cfg_haulcrest, 'HC')):
     cfg['ver_css'] = digest(f'{ROOT}/{key}/assets/css/style.css')
     cfg['ver_admin_css'] = digest(f'{ROOT}/{key}/assets/css/admin.css')
     cfg['ver_admin_js'] = digest(f'{ROOT}/{key}/assets/js/admin.js')
+    # catalogue is written by write_site, so hash the previous copy if present
+    catp = f'{ROOT}/{key}/assets/js/catalogue.js'
+    cfg['ver_cat'] = digest(catp) if os.path.exists(catp) else '0'
     cfg['ver_js'] = digest(f'{ROOT}/{key}/assets/js/script.js')
+    pages = write_site(cfg, f'{ROOT}/{key}')
+    cfg['ver_cat'] = digest(catp)          # now it exists; rebuild so the URL matches
     pages = write_site(cfg, f'{ROOT}/{key}')
     print(f"{cfg['brand']}: {len(pages)} pages, {len(cfg['products'])} products "
           f"| css v{cfg['ver_css']} js v{cfg['ver_js']} | stripe-config {state}"

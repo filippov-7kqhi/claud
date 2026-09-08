@@ -232,10 +232,10 @@ CFG = dict(
 
     fonts="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Inter:wght@400;600;700;800&display=swap",
     email="sales@haulcrest.shop", support_email="support@haulcrest.shop",
-    phone="", phone_link="", ref_prefix="HC",
+    phone="+44 1905 741210", phone_link="+441905741210", ref_prefix="HC",
     company="HaulCrest Ltd",
     company_no="", vat_no="",
-    street="", city="", postcode="",
+    street="Kingham", city="Chipping Norton", postcode="OX7 6YA",
     return_fee=170,
     topbar=["&#128666; Free UK mainland delivery", "&#8634; 30-day returns",
             "&#128737; 2-year warranty", "&#9993; sales@haulcrest.shop"],
