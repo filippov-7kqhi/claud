@@ -61,10 +61,28 @@ PAY_ICONS = (
 )
 
 
+def company_no_row(cfg):
+    """A definition row only when a company number has actually been supplied."""
+    n = (cfg.get("company_no") or "").strip()
+    return f"<div><dt>Company number</dt><dd>{e(n)}</dd></div>" if n else ""
+
+
+def company_no_line(cfg):
+    n = (cfg.get("company_no") or "").strip()
+    return f'<br><span class="muted">Company no. {e(n)}</span>' if n else ""
+
+
+def company_no_clause(cfg):
+    n = (cfg.get("company_no") or "").strip()
+    return f", company number {e(n)}" if n else ""
+
+
 def one_line_address(cfg):
-    """Street, town, postcode and country on a single line, skipping anything
-       not supplied so no stray commas appear."""
-    parts = [cfg.get("street"), cfg.get("city"), cfg.get("postcode"), "United Kingdom"]
+    """Street, town, postcode and country on a single line, skipping anything not
+       supplied. Town and postcode sit together without a comma, as UK addresses
+       are written."""
+    town = " ".join(x.strip() for x in (cfg.get("city"), cfg.get("postcode")) if x and x.strip())
+    parts = [cfg.get("street"), town, "United Kingdom"]
     return ", ".join(p.strip() for p in parts if p and p.strip())
 
 
@@ -783,8 +801,8 @@ def build_terms(cfg):
         "Nothing here limits your statutory rights.",
         [("who", "Who you are buying from",
           f"<p>You are buying from <strong>{e(cfg['company'])}</strong>, a company registered in "
-          f"England and Wales, company number {e(cfg['company_no'])}, registered office "
-          f"{e(cfg['street'])}, {e(cfg['city'])} {e(cfg['postcode'])}.</p>"
+          f"England and Wales{company_no_clause(cfg)}, registered office "
+          f"{e(one_line_address(cfg))}.</p>"
           f"<p>Contact us at <a href='mailto:{cfg['email']}'>{cfg['email']}</a> or "
           f"<a href='tel:{cfg['phone_link']}'>{e(cfg['phone'])}</a>.</p>"
           f"<p>{e(cfg['brand'])} is an independent supplier. We are not affiliated with, endorsed by, "
@@ -845,7 +863,7 @@ def build_about(cfg):
     <h3>Business details</h3>
     <dl>
       <div><dt>Registered name</dt><dd>{e(cfg['company'])}</dd></div>
-      <div><dt>Company number</dt><dd>{e(cfg['company_no'])}</dd></div>
+      {company_no_row(cfg)}
       <div><dt>Registered office</dt><dd>{e(cfg['street'])}, {e(cfg['city'])} {e(cfg['postcode'])}, United Kingdom</dd></div>
       <div><dt>Email</dt><dd><a href="mailto:{cfg['email']}">{cfg['email']}</a></dd></div>
       <div><dt>Telephone</dt><dd><a href="tel:{cfg['phone_link']}">{e(cfg['phone'])}</a></dd></div>
@@ -896,8 +914,7 @@ def build_contact(cfg):
       <p><a href="mailto:{cfg['support_email']}">{cfg['support_email']}</a><br>
          <span class="muted">Replies within one working day. Parts dispatched from the UK in 48 hours.</span></p></div>
     <div class="tile"><h3>Registered office</h3>
-      <p>{e(cfg['company'])}<br>{e(cfg['street'])}<br>{e(cfg['city'])} {e(cfg['postcode'])}<br>United Kingdom<br>
-      <span class="muted">Company no. {e(cfg['company_no'])}</span></p>
+      <p>{e(cfg['company'])}<br>{e(one_line_address(cfg))}{company_no_line(cfg)}</p>
       <p class="muted" style="font-size:.86rem">Warehouse address &mdash; not a retail showroom.
         Please email before visiting.</p></div>
   </div>
