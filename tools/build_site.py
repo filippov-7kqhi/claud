@@ -82,8 +82,32 @@ def one_line_address(cfg):
        supplied. Town and postcode sit together without a comma, as UK addresses
        are written."""
     town = " ".join(x.strip() for x in (cfg.get("city"), cfg.get("postcode")) if x and x.strip())
-    parts = [cfg.get("street"), town, "United Kingdom"]
-    return ", ".join(p.strip() for p in parts if p and p.strip())
+    supplied = [p.strip() for p in (cfg.get("street"), town) if p and p.strip()]
+    if not supplied:
+        return ""                       # a store that has not given us an address yet
+    return ", ".join(supplied + ["United Kingdom"])
+
+
+def phone_anchor(cfg):
+    """A tel: link, or nothing when no number has been supplied for this store."""
+    n = (cfg.get("phone") or "").strip()
+    return f'<a href="tel:{cfg["phone_link"]}">{e(n)}</a>' if n else ""
+
+
+def or_call(cfg, lead=" or call "):
+    """The 'or call 01234 567890' half of a sentence, dropped when there is no number."""
+    a = phone_anchor(cfg)
+    return f"{lead}{a}" if a else ""
+
+
+def address_row(cfg):
+    a = one_line_address(cfg)
+    return f"<div><dt>Registered office</dt><dd>{e(a)}</dd></div>" if a else ""
+
+
+def phone_row(cfg):
+    a = phone_anchor(cfg)
+    return f"<div><dt>Telephone</dt><dd>{a}</dd></div>" if a else ""
 
 
 def head(cfg, title, desc, path, extra="", noindex=False):
@@ -117,11 +141,18 @@ def head(cfg, title, desc, path, extra="", noindex=False):
 
 
 def org_ld(cfg):
+    # Google penalises structured data that contradicts the page, so a field we have
+    # nothing for is left out rather than emitted empty.
+    tel = (cfg.get("phone") or "").strip()
+    tel = f'\n "telephone":"{e(tel)}",' if tel else ""
+    addr = ""
+    if one_line_address(cfg):
+        addr = (f'\n "address":{{"@type":"PostalAddress","streetAddress":"{e(cfg["street"])}",'
+                f'\n   "addressLocality":"{e(cfg["city"])}","postalCode":"{e(cfg["postcode"])}",'
+                f'\n   "addressCountry":"GB"}},')
     return f"""<script type="application/ld+json">{{
  "@context":"https://schema.org","@type":"OnlineStore","name":"{e(cfg['brand'])}",
- "url":"https://{cfg['domain']}/","email":"{cfg['email']}","telephone":"{cfg['phone']}",
- "address":{{"@type":"PostalAddress","streetAddress":"{e(cfg['street'])}",
-   "addressLocality":"{e(cfg['city'])}","postalCode":"{e(cfg['postcode'])}","addressCountry":"GB"}},
+ "url":"https://{cfg['domain']}/","email":"{cfg['email']}",{tel}{addr}
  "currenciesAccepted":"GBP","paymentAccepted":"Visa, Mastercard, American Express, PayPal",
  "areaServed":"GB"
 }}</script>"""
@@ -163,7 +194,7 @@ def footer(cfg):
           <strong style="color:var(--ink)" data-biz="company">{e(cfg['company'])}</strong>
           <span data-biz-addr data-hide-if-unset>{e(one_line_address(cfg))}</span>
           <a href="mailto:{cfg['email']}">{cfg['email']}</a>
-          <a href="tel:{cfg['phone_link']}" data-biz="phone" data-hide-if-unset>{e(cfg['phone'])}</a>
+          <a {'href="tel:' + cfg['phone_link'] + '" ' if cfg['phone_link'] else ''}data-biz="phone" data-hide-if-unset>{e(cfg['phone'])}</a>
           <span class="muted" data-biz="companyNo" data-hide-if-unset
                 data-prefix="Company no. ">{e(cfg['company_no'])}</span>
         </p>
@@ -542,8 +573,7 @@ def build_checkout(cfg):
       </ul>
     </div>
     <p class="formnote">Questions before you pay? Email
-      <a href="mailto:{cfg['email']}">{cfg['email']}</a> or call
-      <a href="tel:{cfg['phone_link']}">{e(cfg['phone'])}</a>.</p>
+      <a href="mailto:{cfg['email']}">{cfg['email']}</a>{or_call(cfg)}.</p>
   </div>
   <aside class="summary">
     <h2>Order summary</h2>
@@ -801,10 +831,10 @@ def build_terms(cfg):
         "Nothing here limits your statutory rights.",
         [("who", "Who you are buying from",
           f"<p>You are buying from <strong>{e(cfg['company'])}</strong>, a company registered in "
-          f"England and Wales{company_no_clause(cfg)}, registered office "
-          f"{e(one_line_address(cfg))}.</p>"
-          f"<p>Contact us at <a href='mailto:{cfg['email']}'>{cfg['email']}</a> or "
-          f"<a href='tel:{cfg['phone_link']}'>{e(cfg['phone'])}</a>.</p>"
+          f"England and Wales{company_no_clause(cfg)}"
+          f"{', registered office ' + e(one_line_address(cfg)) if one_line_address(cfg) else ''}.</p>"
+          f"<p>Contact us at <a href='mailto:{cfg['email']}'>{cfg['email']}</a>"
+          f"{or_call(cfg)}.</p>"
           f"<p>{e(cfg['brand'])} is an independent supplier. We are not affiliated with, endorsed by, "
           "or an agent of any equipment manufacturer, and any manufacturer name on this site is used "
           "only to identify a component.</p>"),
@@ -864,9 +894,9 @@ def build_about(cfg):
     <dl>
       <div><dt>Registered name</dt><dd>{e(cfg['company'])}</dd></div>
       {company_no_row(cfg)}
-      <div><dt>Registered office</dt><dd>{e(cfg['street'])}, {e(cfg['city'])} {e(cfg['postcode'])}, United Kingdom</dd></div>
+      {address_row(cfg)}
       <div><dt>Email</dt><dd><a href="mailto:{cfg['email']}">{cfg['email']}</a></dd></div>
-      <div><dt>Telephone</dt><dd><a href="tel:{cfg['phone_link']}">{e(cfg['phone'])}</a></dd></div>
+      {phone_row(cfg)}
     </dl>
   </div>
 </div></section>
@@ -908,13 +938,13 @@ def build_contact(cfg):
   <div>
     <div class="tile" style="margin-bottom:1rem"><h3>Sales &amp; specification</h3>
       <p><a href="mailto:{cfg['email']}">{cfg['email']}</a><br>
-         <a href="tel:{cfg['phone_link']}">{e(cfg['phone'])}</a><br>
+         {phone_anchor(cfg) + "<br>" if phone_anchor(cfg) else ""}
          <span class="muted">Mon&ndash;Fri, 8am&ndash;6pm</span></p></div>
     <div class="tile" style="margin-bottom:1rem"><h3>Orders, returns &amp; parts</h3>
       <p><a href="mailto:{cfg['support_email']}">{cfg['support_email']}</a><br>
          <span class="muted">Replies within one working day. Parts dispatched from the UK in 48 hours.</span></p></div>
     <div class="tile"><h3>Registered office</h3>
-      <p>{e(cfg['company'])}<br>{e(one_line_address(cfg))}{company_no_line(cfg)}</p>
+      <p>{e(cfg['company'])}{"<br>" + e(one_line_address(cfg)) if one_line_address(cfg) else ""}{company_no_line(cfg)}</p>
       <p class="muted" style="font-size:.86rem">Warehouse address &mdash; not a retail showroom.
         Please email before visiting.</p></div>
   </div>
@@ -948,8 +978,7 @@ def build_track(cfg):
     <div class="step"><h3>Delivered</h3><p>Signed for kerbside. Inspect before signing and note any damage.</p></div>
   </div>
   <p class="center muted" style="margin-top:2rem">Still stuck? Email
-    <a href="mailto:{cfg['support_email']}">{cfg['support_email']}</a> or call
-    <a href="tel:{cfg['phone_link']}">{e(cfg['phone'])}</a>.</p>
+    <a href="mailto:{cfg['support_email']}">{cfg['support_email']}</a>{or_call(cfg)}.</p>
 </div></section>""" + footer(cfg))
 
 

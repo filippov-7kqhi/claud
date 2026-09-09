@@ -1,7 +1,8 @@
 import sys, os; sys.path.insert(0, '/home/user/claud/tools')
 from build_site import write_site
 from products import for_store
-import cfg_branchforge, cfg_haulcrest
+import cfg_branchforge, cfg_haulcrest, cfg_rootvexx, cfg_lawnstride
+import theme
 import hashlib
 
 
@@ -83,9 +84,13 @@ def digest(path):
     return hashlib.sha256(open(path, 'rb').read()).hexdigest()[:10]
 
 ROOT = '/home/user/claud/sites'
-for mod, prefix in ((cfg_branchforge, 'BF'), (cfg_haulcrest, 'HC')):
+STORES = ((cfg_branchforge, 'BF'), (cfg_haulcrest, 'HC'),
+          (cfg_rootvexx, 'RV'), (cfg_lawnstride, 'LS'))
+
+for mod, prefix in STORES:
     cfg = dict(mod.CFG)
     key0 = cfg['domain'].split('.')[0]
+    themed = theme.derive(key0, f'{ROOT}/{key0}')
     rasterised = rasterise(f'{ROOT}/{key0}')
     cfg['products'] = for_store(cfg['brand'], prefix, key0, f'{ROOT}/{key0}')
     key = key0
@@ -103,4 +108,4 @@ for mod, prefix in ((cfg_branchforge, 'BF'), (cfg_haulcrest, 'HC')):
     pages = write_site(cfg, f'{ROOT}/{key}')
     print(f"{cfg['brand']}: {len(pages)} pages, {len(cfg['products'])} products "
           f"| css v{cfg['ver_css']} js v{cfg['ver_js']} | stripe-config {state}"
-          f" | rasterised {rasterised} svg")
+          f" | rasterised {rasterised} svg | css {themed}")

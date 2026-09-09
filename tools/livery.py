@@ -16,7 +16,23 @@ HAULCREST = dict(
     glow="#f59e0b",
 )
 
-ALL = [BRANCHFORGE, HAULCREST]
+ROOTVEXX = dict(
+    key="rootvexx", brand="ROOTVEXX", site="rootvexx.shop",
+    g1="#ef4444", g2="#dc2626", g3="#991b1b",
+    edge="#6b1414", mid="#b91c1c", rec="#991b1b", rec2="#7f1d1d", lite="#dc2626",
+    ink="#ffffff", sub="#fecaca", acc="#ef4444", hi="#fca5a5", warm="#f97316",
+    glow="#ef4444",
+)
+
+LAWNSTRIDE = dict(
+    key="lawnstride", brand="LAWNSTRIDE", site="lawnstride.shop",
+    g1="#2dd4bf", g2="#14b8a6", g3="#0f766e",
+    edge="#083c37", mid="#0d9488", rec="#115e59", rec2="#0b3b36", lite="#14b8a6",
+    ink="#04211f", sub="#0b3b36", acc="#14b8a6", hi="#5eead4", warm="#f97316",
+    glow="#14b8a6",
+)
+
+ALL = [BRANCHFORGE, HAULCREST, ROOTVEXX, LAWNSTRIDE]
 
 # The module-level livery the machine drawings read while rendering.
 CUR = BRANCHFORGE
