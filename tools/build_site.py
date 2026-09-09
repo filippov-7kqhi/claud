@@ -351,9 +351,13 @@ def build_index(cfg):
 
 
 def build_machines(cfg):
+    # named from the range this store actually sells, not a fixed list
+    names = ", ".join(p["short_desc"].split(" — ")[0].split(" that ")[0].split(" with ")[0].lower()
+                      for p in cfg["products"][:-1])
+    last = cfg["products"][-1]["short_desc"].split(" — ")[0].split(" that ")[0].split(" with ")[0].lower()
     return (head(cfg, f"All machines — {cfg['brand']}",
-                 f"All four {cfg['brand']} machines: wood chipper, stump grinder, tracked dumper and "
-                 f"compact loader. UK stock, free mainland delivery.", "machines.html")
+                 f"All four {cfg['brand']} machines: {names} and {last}. "
+                 f"UK stock, free mainland delivery.", "machines.html")
             + header(cfg, "machines.html")
             + f"""<section class="pagehead"><div class="wrap">
   <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a> / <span>Machines</span></nav>

@@ -4,7 +4,14 @@ import copy
 from cfg_branchforge import CYCLONE, GRIND
 from cfg_haulcrest import TITAN, VANGUARD
 
-BASE = [CYCLONE, GRIND, TITAN, VANGUARD]
+from cat_compact import COMPACT
+
+CLASSIC = [CYCLONE, GRIND, TITAN, VANGUARD]
+
+# Not every store sells the same four machines.
+CATALOGUE = {"branchforge": CLASSIC, "haulcrest": CLASSIC,
+             "rootvexx": COMPACT, "lawnstride": COMPACT}
+BASE = CLASSIC
 
 # Store-neutral extras needed for a Google Merchant Center feed.
 EXTRA = {
@@ -16,9 +23,17 @@ EXTRA = {
                       gpc="5605", weight_kg=385, box="240 x 80 x 135 cm"),
     "HC-VG850": dict(condition="new", category="Business & Industrial > Heavy Machinery",
                      gpc="5605", weight_kg=738, box="255 x 100 x 140 cm"),
+    "XX-EX10": dict(condition="new", category="Business & Industrial > Heavy Machinery",
+                    gpc="5605", weight_kg=1050, box="285 x 100 x 230 cm"),
+    "XX-TD500": dict(condition="new", category="Business & Industrial > Heavy Machinery",
+                     gpc="5605", weight_kg=265, box="200 x 85 x 115 cm"),
+    "XX-LS22": dict(condition="new", category="Business & Industrial > Heavy Machinery",
+                    gpc="5605", weight_kg=285, box="245 x 95 x 110 cm"),
+    "XX-FM150": dict(condition="new", category="Business & Industrial > Heavy Machinery",
+                     gpc="5605", weight_kg=245, box="175 x 140 x 115 cm"),
 }
 
-_BRANDS = ("BranchForge", "HaulCrest")
+_BRANDS = ("BranchForge", "HaulCrest", "%BRAND%")
 
 
 def _rebrand(value, brand):
@@ -60,7 +75,7 @@ def for_store(brand, prefix, store_key=None, root=None):
        replaces the catalogue entry."""
     out = []
     overrides = OVERRIDES.get(store_key or "", {})
-    for i, base in enumerate(BASE):
+    for i, base in enumerate(CATALOGUE.get(store_key or "", CLASSIC)):
         if base["slug"] in overrides:
             real = _rebrand(copy.deepcopy(overrides[base["slug"]]), brand)
             real["order"] = i
@@ -80,7 +95,7 @@ def for_store(brand, prefix, store_key=None, root=None):
         p["order"] = i
         p["brand"] = brand
         p["name_full"] = f"{brand} {p['name']}"
-        p["mpn"] = p["sku"].replace("BF-", prefix + "-").replace("HC-", prefix + "-")
+        p["mpn"] = prefix + "-" + p["sku"].split("-", 1)[1]
         p.update(EXTRA[base["sku"]])
         p["sku"] = p["mpn"]
         out.append(p)

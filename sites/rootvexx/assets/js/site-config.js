@@ -32,9 +32,9 @@ window.SITE_CONFIG = {
   // One Stripe Payment Link per machine. Blank = that machine routes to an
   // enquiry instead of pretending to take payment.
   paymentLinks: {
-    "RV-CY150": "",      // Cyclone 150 TD Wood Chipper - GBP 2,899
-    "RV-GM380": "",      // Grindmaster 380 TX Stump Grinder - GBP 3,449
-    "RV-TT1000": "",     // Titan 1000 HT Tracked Dumper - GBP 2,699
-    "RV-VG850": "",      // Vanguard 850 SL Compact Loader - GBP 3,299
+    "RV-EX10": "",       // EX10 1 Tonne Mini Excavator - GBP 4,999
+    "RV-TD500": "",      // TD500 500 kg Tracked Mini Dumper - GBP 2,499
+    "RV-LS22": "",       // LS22 22 Tonne Petrol Log Splitter - GBP 2,199
+    "RV-FM150": "",      // FM150 15 hp ATV Flail Mower - GBP 2,599
   }
 };

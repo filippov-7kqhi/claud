@@ -3,78 +3,78 @@
 <channel>
   <title>LawnStride product feed</title>
   <link>https://lawnstride.shop/</link>
-  <description>Wood chippers, stump grinders, tracked dumpers and compact loaders for UK landscapers, grounds teams and garden contractors. Free mainland delivery, 30-day returns, 2-year warranty.</description>
+  <description>Mini excavators, tracked mini dumpers, petrol log splitters and ATV flail mowers for UK landscapers, grounds teams and smallholders. Free mainland delivery, 30-day returns, 2-year warranty.</description>
   <item>
-    <g:id>LS-CY150</g:id>
-    <g:title>LawnStride Cyclone 150 TD Wood Chipper</g:title>
-    <g:description>LawnStride Cyclone 150 TD: 6-inch road-towable diesel wood chipper, 25 hp Stage V, twin hydraulic feed rollers, 748 kg. Free UK mainland delivery.</g:description>
-    <g:link>https://lawnstride.shop/cyclone-150-td.html</g:link>
-    <g:image_link>https://lawnstride.shop/assets/img/cyclone-150/01-hero.jpg</g:image_link>
-    <g:additional_image_link>https://lawnstride.shop/assets/img/cyclone-150/02-side.jpg</g:additional_image_link><g:additional_image_link>https://lawnstride.shop/assets/img/cyclone-150/03-infeed.jpg</g:additional_image_link><g:additional_image_link>https://lawnstride.shop/assets/img/cyclone-150/04-engine.jpg</g:additional_image_link><g:additional_image_link>https://lawnstride.shop/assets/img/cyclone-150/05-controls.jpg</g:additional_image_link><g:additional_image_link>https://lawnstride.shop/assets/img/cyclone-150/06-dimensions.jpg</g:additional_image_link>
+    <g:id>LS-EX10</g:id>
+    <g:title>LawnStride EX10 1 Tonne Mini Excavator</g:title>
+    <g:description>LawnStride EX10 1 tonne mini excavator: 14 hp diesel, rubber tracks, variable-width undercarriage 930–1200 mm, 1.75 m dig depth. Free UK mainland delivery.</g:description>
+    <g:link>https://lawnstride.shop/ex10-mini-excavator.html</g:link>
+    <g:image_link>https://lawnstride.shop/assets/img/ex10-excavator/01-hero.jpg</g:image_link>
+    <g:additional_image_link>https://lawnstride.shop/assets/img/ex10-excavator/02-side.jpg</g:additional_image_link><g:additional_image_link>https://lawnstride.shop/assets/img/ex10-excavator/03-dig.jpg</g:additional_image_link><g:additional_image_link>https://lawnstride.shop/assets/img/ex10-excavator/04-cab.jpg</g:additional_image_link><g:additional_image_link>https://lawnstride.shop/assets/img/ex10-excavator/05-undercarriage.jpg</g:additional_image_link><g:additional_image_link>https://lawnstride.shop/assets/img/ex10-excavator/06-dimensions.jpg</g:additional_image_link>
     <g:availability>in_stock</g:availability>
     <g:condition>new</g:condition>
-    <g:price>2899.00 GBP</g:price>
+    <g:price>4999.00 GBP</g:price>
     <g:brand>LawnStride</g:brand>
-    <g:mpn>LS-CY150</g:mpn>
+    <g:mpn>LS-EX10</g:mpn>
     <g:identifier_exists>no</g:identifier_exists>
     <g:product_type>Business &amp; Industrial &gt; Heavy Machinery</g:product_type>
     <g:google_product_category>5605</g:google_product_category>
     <g:shipping><g:country>GB</g:country><g:service>Standard</g:service><g:price>0.00 GBP</g:price></g:shipping>
-    <g:shipping_weight>748 kg</g:shipping_weight>
+    <g:shipping_weight>1050 kg</g:shipping_weight>
   </item>
   <item>
-    <g:id>LS-GM380</g:id>
-    <g:title>LawnStride Grindmaster 380 TX Stump Grinder</g:title>
-    <g:description>LawnStride Grindmaster 380 TX: tracked self-propelled stump grinder, 38 hp V-twin, 16-inch carbide wheel, 760 mm wide. Free UK mainland delivery.</g:description>
-    <g:link>https://lawnstride.shop/grindmaster-380-tx.html</g:link>
-    <g:image_link>https://lawnstride.shop/assets/img/grindmaster-380/01-hero.jpg</g:image_link>
-    <g:additional_image_link>https://lawnstride.shop/assets/img/grindmaster-380/02-side.jpg</g:additional_image_link><g:additional_image_link>https://lawnstride.shop/assets/img/grindmaster-380/03-cutter.jpg</g:additional_image_link><g:additional_image_link>https://lawnstride.shop/assets/img/grindmaster-380/04-engine.jpg</g:additional_image_link><g:additional_image_link>https://lawnstride.shop/assets/img/grindmaster-380/05-controls.jpg</g:additional_image_link><g:additional_image_link>https://lawnstride.shop/assets/img/grindmaster-380/06-dimensions.jpg</g:additional_image_link>
+    <g:id>LS-TD500</g:id>
+    <g:title>LawnStride TD500 500 kg Tracked Mini Dumper</g:title>
+    <g:description>LawnStride TD500 tracked mini dumper: 500 kg payload, hydraulic tip, 9 hp petrol, 780 mm wide. Free UK mainland delivery.</g:description>
+    <g:link>https://lawnstride.shop/td500-mini-dumper.html</g:link>
+    <g:image_link>https://lawnstride.shop/assets/img/td500-dumper/01-hero.jpg</g:image_link>
+    <g:additional_image_link>https://lawnstride.shop/assets/img/td500-dumper/02-side.jpg</g:additional_image_link><g:additional_image_link>https://lawnstride.shop/assets/img/td500-dumper/03-tip.jpg</g:additional_image_link><g:additional_image_link>https://lawnstride.shop/assets/img/td500-dumper/04-engine.jpg</g:additional_image_link><g:additional_image_link>https://lawnstride.shop/assets/img/td500-dumper/05-controls.jpg</g:additional_image_link><g:additional_image_link>https://lawnstride.shop/assets/img/td500-dumper/06-dimensions.jpg</g:additional_image_link>
     <g:availability>in_stock</g:availability>
     <g:condition>new</g:condition>
-    <g:price>3449.00 GBP</g:price>
+    <g:price>2499.00 GBP</g:price>
     <g:brand>LawnStride</g:brand>
-    <g:mpn>LS-GM380</g:mpn>
+    <g:mpn>LS-TD500</g:mpn>
     <g:identifier_exists>no</g:identifier_exists>
     <g:product_type>Business &amp; Industrial &gt; Heavy Machinery</g:product_type>
     <g:google_product_category>5605</g:google_product_category>
     <g:shipping><g:country>GB</g:country><g:service>Standard</g:service><g:price>0.00 GBP</g:price></g:shipping>
-    <g:shipping_weight>412 kg</g:shipping_weight>
+    <g:shipping_weight>265 kg</g:shipping_weight>
   </item>
   <item>
-    <g:id>LS-TT1000</g:id>
-    <g:title>LawnStride Titan 1000 HT Tracked Dumper</g:title>
-    <g:description>LawnStride Titan 1000 HT: 1-tonne tracked high-tip dumper, 13 hp electric start, 1300 mm tip height, 700 mm wide. Free UK mainland delivery.</g:description>
-    <g:link>https://lawnstride.shop/titan-1000-ht.html</g:link>
-    <g:image_link>https://lawnstride.shop/assets/img/titan-1000/01-hero.jpg</g:image_link>
-    <g:additional_image_link>https://lawnstride.shop/assets/img/titan-1000/02-side.jpg</g:additional_image_link><g:additional_image_link>https://lawnstride.shop/assets/img/titan-1000/03-hightip.jpg</g:additional_image_link><g:additional_image_link>https://lawnstride.shop/assets/img/titan-1000/04-engine.jpg</g:additional_image_link><g:additional_image_link>https://lawnstride.shop/assets/img/titan-1000/05-controls.jpg</g:additional_image_link><g:additional_image_link>https://lawnstride.shop/assets/img/titan-1000/06-dimensions.jpg</g:additional_image_link>
+    <g:id>LS-LS22</g:id>
+    <g:title>LawnStride LS22 22 Tonne Petrol Log Splitter</g:title>
+    <g:description>LawnStride LS22 22 tonne petrol log splitter: 15 hp petrol, 14 second cycle, 650 mm log length, towable chassis. Free UK mainland delivery.</g:description>
+    <g:link>https://lawnstride.shop/ls22-log-splitter.html</g:link>
+    <g:image_link>https://lawnstride.shop/assets/img/ls22-splitter/01-hero.jpg</g:image_link>
+    <g:additional_image_link>https://lawnstride.shop/assets/img/ls22-splitter/02-side.jpg</g:additional_image_link><g:additional_image_link>https://lawnstride.shop/assets/img/ls22-splitter/03-wedge.jpg</g:additional_image_link><g:additional_image_link>https://lawnstride.shop/assets/img/ls22-splitter/04-engine.jpg</g:additional_image_link><g:additional_image_link>https://lawnstride.shop/assets/img/ls22-splitter/05-controls.jpg</g:additional_image_link><g:additional_image_link>https://lawnstride.shop/assets/img/ls22-splitter/06-dimensions.jpg</g:additional_image_link>
     <g:availability>in_stock</g:availability>
     <g:condition>new</g:condition>
-    <g:price>2699.00 GBP</g:price>
+    <g:price>2199.00 GBP</g:price>
     <g:brand>LawnStride</g:brand>
-    <g:mpn>LS-TT1000</g:mpn>
+    <g:mpn>LS-LS22</g:mpn>
     <g:identifier_exists>no</g:identifier_exists>
     <g:product_type>Business &amp; Industrial &gt; Heavy Machinery</g:product_type>
     <g:google_product_category>5605</g:google_product_category>
     <g:shipping><g:country>GB</g:country><g:service>Standard</g:service><g:price>0.00 GBP</g:price></g:shipping>
-    <g:shipping_weight>385 kg</g:shipping_weight>
+    <g:shipping_weight>285 kg</g:shipping_weight>
   </item>
   <item>
-    <g:id>LS-VG850</g:id>
-    <g:title>LawnStride Vanguard 850 SL Compact Loader</g:title>
-    <g:description>LawnStride Vanguard 850 SL: stand-on compact tracked loader, 23 hp V-twin, 850 kg lift, universal quick-attach plate. Free UK mainland delivery.</g:description>
-    <g:link>https://lawnstride.shop/vanguard-850-sl.html</g:link>
-    <g:image_link>https://lawnstride.shop/assets/img/vanguard-850/01-hero.jpg</g:image_link>
-    <g:additional_image_link>https://lawnstride.shop/assets/img/vanguard-850/02-side.jpg</g:additional_image_link><g:additional_image_link>https://lawnstride.shop/assets/img/vanguard-850/03-bucket.jpg</g:additional_image_link><g:additional_image_link>https://lawnstride.shop/assets/img/vanguard-850/04-engine.jpg</g:additional_image_link><g:additional_image_link>https://lawnstride.shop/assets/img/vanguard-850/05-controls.jpg</g:additional_image_link><g:additional_image_link>https://lawnstride.shop/assets/img/vanguard-850/06-dimensions.jpg</g:additional_image_link>
+    <g:id>LS-FM150</g:id>
+    <g:title>LawnStride FM150 15 hp ATV Flail Mower</g:title>
+    <g:description>LawnStride FM150 ATV flail mower: 15 hp petrol, 1200 mm cut, 40 hammer flails, electric start, tows behind an ATV or UTV. Free UK mainland delivery.</g:description>
+    <g:link>https://lawnstride.shop/fm150-flail-mower.html</g:link>
+    <g:image_link>https://lawnstride.shop/assets/img/fm150-flail/01-hero.jpg</g:image_link>
+    <g:additional_image_link>https://lawnstride.shop/assets/img/fm150-flail/02-side.jpg</g:additional_image_link><g:additional_image_link>https://lawnstride.shop/assets/img/fm150-flail/03-rotor.jpg</g:additional_image_link><g:additional_image_link>https://lawnstride.shop/assets/img/fm150-flail/04-engine.jpg</g:additional_image_link><g:additional_image_link>https://lawnstride.shop/assets/img/fm150-flail/05-hitch.jpg</g:additional_image_link><g:additional_image_link>https://lawnstride.shop/assets/img/fm150-flail/06-dimensions.jpg</g:additional_image_link>
     <g:availability>in_stock</g:availability>
     <g:condition>new</g:condition>
-    <g:price>3299.00 GBP</g:price>
+    <g:price>2599.00 GBP</g:price>
     <g:brand>LawnStride</g:brand>
-    <g:mpn>LS-VG850</g:mpn>
+    <g:mpn>LS-FM150</g:mpn>
     <g:identifier_exists>no</g:identifier_exists>
     <g:product_type>Business &amp; Industrial &gt; Heavy Machinery</g:product_type>
     <g:google_product_category>5605</g:google_product_category>
     <g:shipping><g:country>GB</g:country><g:service>Standard</g:service><g:price>0.00 GBP</g:price></g:shipping>
-    <g:shipping_weight>738 kg</g:shipping_weight>
+    <g:shipping_weight>245 kg</g:shipping_weight>
   </item>
 </channel>
 </rss>
