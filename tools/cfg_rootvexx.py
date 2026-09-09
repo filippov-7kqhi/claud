@@ -88,7 +88,7 @@ CFG = dict(
     phone="+44 7858 117670", phone_link="+447858117670", ref_prefix="RV",
     company="RootVexx Ltd",
     company_no="", vat_no="",
-    street="7TE, Conway Rd", city="Conwy, Colwyn Bay", postcode="",
+    street="Conway Rd", city="Conwy", postcode="LL32 7TE",
     return_fee=150,
     topbar=["&#128666; Free UK mainland delivery", "&#8634; 30-day returns",
             "&#128737; 2-year warranty", "&#9993; sales@rootvexx.shop"],
