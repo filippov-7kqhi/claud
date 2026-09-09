@@ -3,16 +3,16 @@
    store's identity and copy only."""
 
 LOGO = ('<svg class="logo__mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">'
-        '<path d="M4 9h24" stroke="#ef4444" stroke-width="2.6" stroke-linecap="round"/>'
-        '<path d="M16 9v18" stroke="#ef4444" stroke-width="2.6" stroke-linecap="round"/>'
-        '<path d="M16 15c-4 0-6 3-6 7M16 15c4 0 6 3 6 7" stroke="#ef4444" stroke-width="2.2" '
+        '<path d="M4 9h24" stroke="#c2410c" stroke-width="2.8" stroke-linecap="round"/>'
+        '<path d="M16 9v18" stroke="#c2410c" stroke-width="2.8" stroke-linecap="round"/>'
+        '<path d="M16 15c-4 0-6 3-6 7M16 15c4 0 6 3 6 7" stroke="#ea580c" stroke-width="2.3" '
         'stroke-linecap="round"/>'
-        '<path d="M16 3v6" stroke="#991b1b" stroke-width="2.6" stroke-linecap="round"/></svg>')
+        '<path d="M16 3v6" stroke="#7c2d12" stroke-width="2.8" stroke-linecap="round"/></svg>')
 
 CFG = dict(
     brand="RootVexx", brand_a="Root", brand_b="Vexx", domain="rootvexx.shop",
-    theme="#0f0b0c", logomark=LOGO,
-    favicon="%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23991b1b'/%3E%3Cpath d='M6 11h20M16 11v15M16 16c-4 0-5 3-5 6M16 16c4 0 5 3 5 6' stroke='%23ef4444' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E",
+    theme="#f5f3f0", logomark=LOGO,
+    favicon="%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23c2410c'/%3E%3Cpath d='M6 11h20M16 11v15M16 16c-4 0-5 3-5 6M16 16c4 0 5 3 5 6' stroke='%23ffffff' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E",
     title="RootVexx — Mini Excavators, Dumpers, Splitters & Flails, Free UK Delivery",
     desc="Mini excavators, tracked mini dumpers, petrol log splitters and ATV flail mowers for UK "
          "groundworkers, landscapers and smallholders. Free mainland delivery, 30-day returns, "
@@ -87,7 +87,7 @@ CFG = dict(
     footer_blurb="UK supplier of mini excavators, tracked mini dumpers, log splitters and ATV flail "
                  "mowers. Machines held in stock, spares held in stock, weights quoted honestly.",
 
-    fonts="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@600;700&family=Inter:wght@400;600;700;800&display=swap",
+    fonts="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=Inter:wght@400;600;700;800&display=swap",
     email="sales@rootvexx.shop", support_email="support@rootvexx.shop",
     phone="+44 7858 117670", phone_link="+447858117670", ref_prefix="RV",
     company="RootVexx Ltd",

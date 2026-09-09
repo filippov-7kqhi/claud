@@ -16,21 +16,15 @@ HAULCREST = dict(
     glow="#f59e0b",
 )
 
-ROOTVEXX = dict(
-    key="rootvexx", brand="ROOTVEXX", site="rootvexx.shop",
-    g1="#ef4444", g2="#dc2626", g3="#991b1b",
-    edge="#6b1414", mid="#b91c1c", rec="#991b1b", rec2="#7f1d1d", lite="#dc2626",
-    ink="#ffffff", sub="#fecaca", acc="#ef4444", hi="#fca5a5", warm="#f97316",
-    glow="#ef4444",
-)
+ROOTVEXX = dict(key="rootvexx", brand="ROOTVEXX", site="rootvexx.shop", studio="light",
+    g1="#fb923c", g2="#ea580c", g3="#9a3412", edge="#7c2d12", mid="#c2410c",
+    rec="#9a3412", rec2="#7c2d12", lite="#ea580c",
+    ink="#ffffff", sub="#fed7aa", acc="#f97316", hi="#fdba74", warm="#f97316", glow="#f97316")
 
-LAWNSTRIDE = dict(
-    key="lawnstride", brand="LAWNSTRIDE", site="lawnstride.shop",
-    g1="#2dd4bf", g2="#14b8a6", g3="#0f766e",
-    edge="#083c37", mid="#0d9488", rec="#115e59", rec2="#0b3b36", lite="#14b8a6",
-    ink="#04211f", sub="#0b3b36", acc="#14b8a6", hi="#5eead4", warm="#f97316",
-    glow="#14b8a6",
-)
+LAWNSTRIDE = dict(key="lawnstride", brand="LAWNSTRIDE", site="lawnstride.shop", studio="light",
+    g1="#84cc16", g2="#65a30d", g3="#3f6212", edge="#274e13", mid="#4d7c0f",
+    rec="#3f6212", rec2="#274e13", lite="#65a30d",
+    ink="#ffffff", sub="#e4f7bd", acc="#65a30d", hi="#a3e635", warm="#f97316", glow="#65a30d")
 
 ALL = [BRANCHFORGE, HAULCREST, ROOTVEXX, LAWNSTRIDE]
 

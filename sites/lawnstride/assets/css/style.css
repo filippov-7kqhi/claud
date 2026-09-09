@@ -1,14 +1,14 @@
 /* LawnStride — lawnstride.shop */
 :root{
-  --bg:#081311; --bg-2:#0f1c19; --bg-3:#162622; --line:#22352f;
-  --ink:#eff7f5; --ink-2:#a4b8b3; --ink-3:#7a8d89;
-  --brand:#2dd4bf; --brand-2:#14b8a6; --brand-ink:#04211f;
-  --green:#0f766e; --orange:#f97316; --red:#dc2626;
-  --brand-soft:rgba(45,212,191,.10);
+  --bg:#faf8f2; --bg-2:#ffffff; --bg-3:#f0ede3; --line:#e2ddce;
+  --ink:#18220f; --ink-2:#55604b; --ink-3:#87907c;
+  --brand:#4d7c0f; --brand-2:#3f6212; --brand-ink:#ffffff;
+  --green:#1f2d16; --orange:#f97316; --red:#dc2626;
+  --brand-soft:rgba(77,124,15,.08);
   --radius:14px; --wrap:1200px;
-  --shadow:0 18px 44px rgba(0,0,0,.44);
+  --shadow:0 14px 34px rgba(24,34,15,.10);
   --font:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
-  --head:"Saira Condensed","Arial Narrow",Impact,sans-serif;
+  --head:"Bitter",Georgia,"Times New Roman",serif;
 }
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;overflow-x:clip}
@@ -17,7 +17,7 @@ img,svg{max-width:100%;display:block}
 img{height:auto}
 a{color:inherit;text-decoration:none}
 button{font:inherit}
-h1,h2,h3,h4{font-family:var(--head);font-weight:700;line-height:1.06;letter-spacing:-.01em;margin:0 0 .5em;text-transform:uppercase}
+h1,h2,h3,h4{font-family:var(--head);font-weight:700;line-height:1.06;letter-spacing:-.015em;margin:0 0 .5em}
 h1{font-size:clamp(2.3rem,6vw,4rem)}
 h2{font-size:clamp(1.9rem,4.4vw,3rem)}
 h3{font-size:clamp(1.25rem,2.4vw,1.6rem)}
@@ -34,7 +34,7 @@ p{margin:0 0 1rem}
   font-weight:800;font-size:.98rem;border:2px solid transparent;cursor:pointer;transition:.18s ease;
   text-align:center;background:transparent;color:inherit;font-family:inherit}
 .btn--primary{background:var(--brand);color:var(--brand-ink)}
-.btn--primary:hover{background:#4ce0cd;transform:translateY(-2px)}
+.btn--primary:hover{background:#3f6212;transform:translateY(-2px)}
 .btn--ghost{border-color:var(--brand);color:var(--brand);background:var(--brand-soft)}
 .btn--ghost:hover{background:var(--brand);color:var(--brand-ink);transform:translateY(-2px)}
 .btn--ghost.is-added{background:var(--brand);color:var(--brand-ink)}
@@ -45,7 +45,7 @@ p{margin:0 0 1rem}
 .topbar{background:var(--brand);color:var(--brand-ink);font-weight:700;font-size:.82rem;letter-spacing:.03em}
 .topbar__in{display:flex;gap:1.6rem;justify-content:center;flex-wrap:wrap;padding:.55rem 0}
 .topbar span{display:inline-flex;align-items:center;gap:.4rem;white-space:nowrap}
-.header{position:sticky;top:0;z-index:60;background:rgba(8,19,17,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.header{position:sticky;top:0;z-index:60;background:rgba(250,248,242,.93);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
 .header__in{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.85rem 0}
 .logo{display:flex;align-items:center;gap:.6rem;font-family:var(--head);font-size:1.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.01em}
 .logo b{color:var(--brand);font-weight:700}
@@ -53,6 +53,10 @@ p{margin:0 0 1rem}
 .nav{display:flex;align-items:center;gap:1.7rem}
 .nav a{font-weight:600;font-size:.95rem;color:var(--ink-2);transition:.15s}
 .nav a:hover,.nav a[aria-current="page"]{color:var(--brand)}
+/* the basket is a button, not a nav link -- .nav a would otherwise repaint its
+   label in the muted link colour and leave it unreadable on the brand fill */
+.nav a.btn--primary,.nav a.btn--primary:hover{color:var(--brand-ink)}
+.nav a.btn--ghost,.nav a.btn--ghost:hover{color:var(--brand)}
 .burger{display:none;background:none;border:0;padding:.4rem;cursor:pointer}
 .burger span{display:block;width:26px;height:2px;background:var(--ink);margin:5px 0;transition:.25s}
 .burger[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
@@ -70,8 +74,8 @@ p{margin:0 0 1rem}
 
 /* ---- hero ---- */
 .hero{position:relative;padding:4.4rem 0 3.4rem;background:
-  radial-gradient(900px 520px at 78% 22%,rgba(45,212,191,.12),transparent 60%),
-  radial-gradient(700px 460px at 8% 78%,rgba(15,118,110,.36),transparent 62%),var(--bg)}
+  radial-gradient(900px 520px at 78% 22%,rgba(101,163,13,.12),transparent 60%),
+  radial-gradient(700px 460px at 8% 78%,rgba(120,133,95,.16),transparent 62%),var(--bg)}
 .hero__grid{display:grid;grid-template-columns:1.02fr 1.1fr;gap:3rem;align-items:center}
 .hero p.lead{font-size:1.12rem;color:var(--ink-2);max-width:52ch}
 .hero__cta{display:flex;gap:.9rem;flex-wrap:wrap;margin:1.6rem 0 1.4rem}
@@ -94,7 +98,7 @@ section{padding:4rem 0}
 @media(max-width:520px){.grid-4{grid-template-columns:1fr}}
 
 .card{background:var(--bg-2);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;transition:.2s ease;display:flex;flex-direction:column}
-.card:hover{border-color:#2a5c52;transform:translateY(-4px)}
+.card:hover{border-color:#c6cdb2;transform:translateY(-4px)}
 .card__media{position:relative;background:var(--bg-3)}
 .card__tag{position:absolute;top:.9rem;left:.9rem;background:var(--brand);color:var(--brand-ink);font-size:.72rem;font-weight:800;
   letter-spacing:.08em;padding:.34rem .7rem;border-radius:999px;text-transform:uppercase}
@@ -108,7 +112,7 @@ section{padding:4rem 0}
 
 /* ---- feature tiles ---- */
 .tile{background:var(--bg-2);border:1px solid var(--line);border-radius:var(--radius);padding:1.5rem}
-.tile__ico{width:46px;height:46px;border-radius:12px;background:rgba(45,212,191,.13);display:grid;place-items:center;margin-bottom:.9rem;color:var(--brand)}
+.tile__ico{width:46px;height:46px;border-radius:12px;background:rgba(77,124,15,.11);display:grid;place-items:center;margin-bottom:.9rem;color:var(--brand)}
 .tile h3{font-size:1.15rem;margin-bottom:.35rem}
 .tile p{margin:0;color:var(--ink-2);font-size:.94rem}
 
@@ -129,7 +133,7 @@ section{padding:4rem 0}
 .buybox h1{margin-bottom:.4rem}
 .stockline{display:inline-flex;align-items:center;gap:.5rem;color:var(--brand);font-weight:700;font-size:.82rem;
   letter-spacing:.1em;text-transform:uppercase;margin-bottom:.7rem}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--brand);box-shadow:0 0 0 4px rgba(45,212,191,.18)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--brand);box-shadow:0 0 0 4px rgba(77,124,15,.16)}
 .priceblock{background:var(--bg-2);border:1px solid var(--line);border-radius:var(--radius);padding:1.3rem;margin:1.2rem 0}
 .priceblock__row{display:flex;align-items:baseline;gap:.8rem;flex-wrap:wrap}
 .price{font-family:var(--head);font-size:2.9rem;color:var(--brand);line-height:1}
@@ -178,9 +182,9 @@ section{padding:4rem 0}
 .step p{margin:0;font-size:.92rem;color:var(--ink-2)}
 
 /* ---- banner / cta ---- */
-.cta{background:linear-gradient(120deg,var(--green),#0b3b36);border-radius:20px;padding:3rem 2rem;text-align:center;border:1px solid #1d6b60}
+.cta{background:linear-gradient(120deg,var(--green),#35492a);border-radius:20px;padding:3rem 2rem;text-align:center;border:1px solid #405632}
 .cta h2{margin-bottom:.6rem}
-.cta p{color:#cdeae4;max-width:56ch;margin-inline:auto}
+.cta p{color:#e4edda;max-width:56ch;margin-inline:auto}
 
 /* ---- forms ---- */
 .form{display:grid;gap:1rem;max-width:640px}
@@ -205,7 +209,7 @@ section{padding:4rem 0}
   gap:1rem;flex-wrap:wrap;font-size:.82rem;color:var(--ink-3)}
 
 /* ---- sticky mobile buy bar ---- */
-.stickybuy{position:fixed;left:0;right:0;bottom:0;z-index:55;background:rgba(15,28,25,.97);backdrop-filter:blur(10px);
+.stickybuy{position:fixed;left:0;right:0;bottom:0;z-index:55;background:rgba(255,255,255,.97);backdrop-filter:blur(10px);
   border-top:1px solid var(--line);padding:.7rem 1rem;display:none;align-items:center;justify-content:space-between;gap:1rem}
 .stickybuy b{font-family:var(--head);font-size:1.5rem;color:var(--brand)}
 .stickybuy .btn{padding:.75rem 1.4rem}
@@ -348,7 +352,7 @@ legend{padding:0 .5rem;font-weight:800;font-size:.86rem;letter-spacing:.08em;tex
 
 /* payment marks */
 .payico{display:inline-flex;line-height:0}
-.payico svg{width:44px;height:28px;border-radius:5px;box-shadow:0 0 0 1px rgba(255,255,255,.14)}
+.payico svg{width:44px;height:28px;border-radius:5px;box-shadow:0 0 0 1px rgba(0,0,0,.14)}
 .footer__pay{gap:.45rem}
 .footer__pay .muted{margin-right:.35rem}
 /* business identity: each supplied field on its own line, blanks collapse away */
@@ -360,3 +364,9 @@ legend{padding:0 .5rem;font-weight:800;font-size:.86rem;letter-spacing:.08em;tex
 
 .footer__grid [data-biz-addr]{display:block}
 .footer__grid [data-biz-addr][hidden]{display:none!important}
+
+/* ---- light-theme corrections ---- */
+.cta{color:#f4f7ef}
+.cta h2{color:#f4f7ef}
+.cta .btn--ghost{border-color:#f4f7ef;color:#f4f7ef;background:rgba(255,255,255,.10)}
+.cta .btn--ghost:hover{background:#f4f7ef;color:#1f2d16}

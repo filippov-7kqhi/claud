@@ -3,15 +3,15 @@
    the store's identity and copy only."""
 
 LOGO = ('<svg class="logo__mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">'
-        '<path d="M3 26h26" stroke="#2dd4bf" stroke-width="2.2" stroke-linecap="round"/>'
-        '<path d="M9 26c0-8 3-13 7-16" stroke="#2dd4bf" stroke-width="2" stroke-linecap="round"/>'
-        '<path d="M16 26c0-6 4-10 9-12" stroke="#2dd4bf" stroke-width="2" stroke-linecap="round"/>'
-        '<path d="M23 26c0-4 2-7 5-8" stroke="#0f766e" stroke-width="2" stroke-linecap="round"/></svg>')
+        '<path d="M3 26h26" stroke="#3f6212" stroke-width="2.4" stroke-linecap="round"/>'
+        '<path d="M9 26c0-8 3-13 7-16" stroke="#4d7c0f" stroke-width="2.2" stroke-linecap="round"/>'
+        '<path d="M16 26c0-6 4-10 9-12" stroke="#65a30d" stroke-width="2.2" stroke-linecap="round"/>'
+        '<path d="M23 26c0-4 2-7 5-8" stroke="#84cc16" stroke-width="2.2" stroke-linecap="round"/></svg>')
 
 CFG = dict(
     brand="LawnStride", brand_a="Lawn", brand_b="Stride", domain="lawnstride.shop",
-    theme="#081311", logomark=LOGO,
-    favicon="%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230f766e'/%3E%3Cpath d='M5 25h22' stroke='%232dd4bf' stroke-width='2.6' stroke-linecap='round'/%3E%3Cpath d='M10 25c0-7 3-11 7-14M17 25c0-5 4-9 8-11' stroke='%232dd4bf' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E",
+    theme="#faf8f2", logomark=LOGO,
+    favicon="%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%234d7c0f'/%3E%3Cpath d='M5 25h22' stroke='%23ffffff' stroke-width='2.6' stroke-linecap='round'/%3E%3Cpath d='M10 25c0-7 3-11 7-14M17 25c0-5 4-9 8-11' stroke='%23ffffff' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E",
     title="LawnStride — Mini Excavators, Dumpers, Splitters & Flails, Free UK Delivery",
     desc="Mini excavators, tracked mini dumpers, petrol log splitters and ATV flail mowers for UK "
          "landscapers, grounds teams and smallholders. Free mainland delivery, 30-day returns, "
@@ -87,7 +87,7 @@ CFG = dict(
     footer_blurb="UK supplier of mini excavators, tracked mini dumpers, log splitters and ATV flail "
                  "mowers. Machines held in stock, spares held in stock, weights quoted honestly.",
 
-    fonts="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@600;700&family=Inter:wght@400;600;700;800&display=swap",
+    fonts="https://fonts.googleapis.com/css2?family=Bitter:wght@600;700&family=Inter:wght@400;600;700;800&display=swap",
     email="sales@lawnstride.shop", support_email="support@lawnstride.shop",
     phone="+44 7349 073003", phone_link="+447349073003", ref_prefix="LS",
     company="LawnStride Ltd",

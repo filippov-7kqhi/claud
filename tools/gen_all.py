@@ -40,6 +40,22 @@ def glow(L):
     return f'<ellipse cx="600" cy="325" rx="470" ry="250" fill="{L["glow"]}" opacity=".06"/>'
 
 
+def studio(L):
+    """The backdrop the studio shots use. A light-themed store gets light shots,
+       or its hero images sit on the page like holes cut in it."""
+    return L.get("studio", "dark")
+
+
+def lit(L):
+    return studio(L) == "light"
+
+
+def wash(L):
+    """The soft brand wash behind a studio shot, in whichever direction reads."""
+    return (f'<ellipse cx="600" cy="325" rx="470" ry="250" fill="{L["glow"]}" '
+            f'opacity="{".05" if lit(L) else ".06"}"/>')
+
+
 def panel(L, x, y, w, h, title, lines, art=""):
     body = "".join(f'<text x="{x+32}" y="{y+h-56+i*26}" font-family="Arial,Helvetica,sans-serif" '
                    f'font-size="17" fill="#cbd5e1">{esc(t)}</text>' for i, t in enumerate(lines))
@@ -352,35 +368,35 @@ def scenes_excavator(L):
     D, K, A = livery_defs(L), art(L), L["acc"]
     M = lambda **kw: excavator(**kw)
     return "ex10-excavator", {
-    '01-hero': doc(glow(L) + M() + caption("EX10 Mini Excavator", "1 tonne rubber-tracked digger with a dozer blade")
+    '01-hero': doc(wash(L) + M() + caption("EX10 Mini Excavator", "1 tonne rubber-tracked digger with a dozer blade", light=lit(L))
         + badge(56, 148, "IN STOCK — UK WAREHOUSE", A) + badge(56, 198, "930 mm RETRACTED · 1.75 m DIG", "#1f2937", "#e5e7eb")
-        + frame() + wm(L), defs=D, bg="dark"),
+        + frame(lit(L)) + wm(L, lit(L)), defs=D, bg=studio(L)),
     '02-side': doc(M() + caption("Full side profile", "Arm folded for transport", light=True)
         + frame(True) + wm(L, True), defs=D, bg="light"),
-    '03-dig': doc(glow(L) + M(boom=16, curl=-26, blade=0)
+    '03-dig': doc(wash(L) + M(boom=16, curl=-26, blade=0)
         + callout(300, 420, 224, 300, "300 mm digging bucket", col=A)
         + callout(400, 300, 560, 200, "3.2 m reach at ground level", col=A)
         + callout(520, 452, 700, 540, "360° slew with boom offset", col=A)
-        + caption("Dig depth and reach", "1.75 m down, 3.2 m out, 2.3 m to the dump height")
-        + frame() + wm(L), defs=D, bg="dark"),
+        + caption("Dig depth and reach", "1.75 m down, 3.2 m out, 2.3 m to the dump height", light=lit(L))
+        + frame(lit(L)) + wm(L, lit(L)), defs=D, bg=studio(L)),
     '04-cab': doc(zoom(596, 300, 1.42, M(brand=False))
         + callout(528, 288, 300, 176, "Twin pilot joysticks", col=A)
         + callout(600, 226, 812, 150, "ROPS/FOPS canopy", col=A)
         + callout(700, 400, 880, 470, "Sealed engine bay", col=A)
-        + caption("Operator station", "Open canopy — step on and off at every gate")
-        + frame() + wm(L), defs=D, bg="dark"),
+        + caption("Operator station", "Open canopy — step on and off at every gate", light=lit(L))
+        + frame(lit(L)) + wm(L, lit(L)), defs=D, bg=studio(L)),
     '05-undercarriage': doc(zoom(500, 540, 1.42, M(brand=False))
         + callout(300, 570, 250, 660, "930–1200 mm variable width", col=A)
         + callout(262, 572, 300, 470, "930 mm dozer blade", col=A)
         + callout(640, 580, 830, 640, "180 mm rubber tracks", col=A)
-        + caption("Undercarriage & blade", "Retract to get in, expand to dig, blade to backfill")
-        + frame() + wm(L), defs=D, bg="dark"),
+        + caption("Undercarriage & blade", "Retract to get in, expand to dig, blade to backfill", light=lit(L))
+        + frame(lit(L)) + wm(L, lit(L)), defs=D, bg=studio(L)),
     '06-dimensions': doc(f'<g opacity=".92">{M()}</g>'
         + dim_h(216, 906, 672, "3.10 m") + dim_v(212, 620, 1084, "2.28 m") + dim_h(322, 808, 706, "930 mm retracted")
         + f'<text x="56" y="734" font-family="Arial,Helvetica,sans-serif" font-size="17" fill="#7fb7d8">'
           f'Operating weight 1050 kg · dig depth 1.75 m · 2000 kg plant trailer moves it legally</text>'
-        + caption("Dimensions", "Through a wide gate, onto a car-towed plant trailer")
-        + frame() + wm(L), defs=D, bg="blueprint"),
+        + caption("Dimensions", "Through a wide gate, onto a car-towed plant trailer", light=lit(L))
+        + frame(lit(L)) + wm(L, lit(L)), defs=D, bg="blueprint"),
     '07-in-use': doc(site_bg() + heap(1040, 600, 300, 128)
         + f'<rect x="150" y="596" width="330" height="76" rx="10" fill="#5a4b38"/>'
         + f'<g transform="translate(120,110) scale(0.76)">{excavator(boom=10, curl=-20)}</g>'
@@ -398,36 +414,36 @@ def scenes_minidumper(L):
     D, K, A = livery_defs(L), art(L), L["acc"]
     M = lambda **kw: minidumper(**kw)
     return "td500-dumper", {
-    '01-hero': doc(glow(L) + M() + caption("TD500 Mini Dumper", "500 kg tracked dumper with a hydraulic tip")
+    '01-hero': doc(wash(L) + M() + caption("TD500 Mini Dumper", "500 kg tracked dumper with a hydraulic tip", light=lit(L))
         + badge(56, 148, "IN STOCK — UK WAREHOUSE", A) + badge(56, 198, "500 kg PAYLOAD · 780 mm WIDE", "#1f2937", "#e5e7eb")
-        + frame() + wm(L), defs=D, bg="dark"),
+        + frame(lit(L)) + wm(L, lit(L)), defs=D, bg=studio(L)),
     '02-side': doc(M() + caption("Full side profile", "Low skip lip, high ground clearance", light=True)
         + frame(True) + wm(L, True), defs=D, bg="light"),
-    '03-tip': doc(glow(L) + M(tip_deg=36, load=True)
+    '03-tip': doc(wash(L) + M(tip_deg=36, load=True)
         + callout(430, 250, 620, 172, "Hydraulic tip on one lever", col=A)
         + callout(600, 470, 790, 546, "Front pivot — the load runs out", col=A)
-        + caption("Tips itself empty", "You never shovel the same spoil twice")
-        + frame() + wm(L), defs=D, bg="dark"),
+        + caption("Tips itself empty", "You never shovel the same spoil twice", light=lit(L))
+        + frame(lit(L)) + wm(L, lit(L)), defs=D, bg=studio(L)),
     '04-engine': doc(zoom(716, 440, 1.3, M(brand=False))
         + panel(L, 76, 150, 450, 326, "POWER PACK",
                 ["9 hp OHV petrol · recoil start", "Hydrostatic drive · 6.5 L tank"],
                 engine_card(L, 76, 150, 450, 326))
         + callout(790, 300, 856, 210, "Vented steel cowl", col=A)
         + callout(700, 540, 812, 620, "Sealed hydraulic pump", col=A)
-        + caption("Power pack", "9 hp petrol — starts on the pull after a month standing")
-        + frame() + wm(L), defs=D, bg="dark"),
+        + caption("Power pack", "9 hp petrol — starts on the pull after a month standing", light=lit(L))
+        + frame(lit(L)) + wm(L, lit(L)), defs=D, bg=studio(L)),
     '05-controls': doc(zoom(880, 350, 1.22, M(brand=False))
         + callout(770, 240, 420, 152, "Twist-grip throttle", col=A)
         + callout(700, 320, 400, 272, "Tip / lower lever", col=A)
         + callout(720, 380, 860, 430, "Dead-man safety bar", col=A)
-        + caption("Walk-behind controls", "Everything reachable without letting go of the bars")
-        + frame() + wm(L), defs=D, bg="dark"),
+        + caption("Walk-behind controls", "Everything reachable without letting go of the bars", light=lit(L))
+        + frame(lit(L)) + wm(L, lit(L)), defs=D, bg=studio(L)),
     '06-dimensions': doc(f'<g opacity=".92">{M()}</g>'
         + dim_h(240, 970, 676, "1.95 m") + dim_v(300, 620, 1092, "1.05 m") + dim_h(300, 690, 706, "780 mm width")
         + f'<text x="56" y="734" font-family="Arial,Helvetica,sans-serif" font-size="17" fill="#7fb7d8">'
           f'Unladen 265 kg · 500 kg payload · 720 mm loading height · 780 mm across the tracks</text>'
-        + caption("Dimensions", "Through a standard doorway, down a terrace alley")
-        + frame() + wm(L), defs=D, bg="blueprint"),
+        + caption("Dimensions", "Through a standard doorway, down a terrace alley", light=lit(L))
+        + frame(lit(L)) + wm(L, lit(L)), defs=D, bg="blueprint"),
     '07-in-use': doc(site_bg() + heap(170, 600, 280, 120) + heap(1060, 596, 240, 100)
         + f'<g transform="translate(140,116) scale(0.76)">{minidumper(load=True)}</g>'
         + caption("Twelve barrow loads in one run", "Half a tonne up the garden without a plank", light=True)
@@ -444,38 +460,38 @@ def scenes_splitter(L):
     D, K, A = livery_defs(L), art(L), L["acc"]
     M = lambda **kw: splitter(**kw)
     return "ls22-splitter", {
-    '01-hero': doc(glow(L) + M(log=True) + caption("LS22 Log Splitter", "22 tonne towable petrol splitter")
+    '01-hero': doc(wash(L) + M(log=True) + caption("LS22 Log Splitter", "22 tonne towable petrol splitter", light=lit(L))
         + badge(56, 148, "IN STOCK — UK WAREHOUSE", A) + badge(56, 198, "22 TONNES · 14 SECOND CYCLE", "#1f2937", "#e5e7eb")
-        + frame() + wm(L), defs=D, bg="dark"),
+        + frame(lit(L)) + wm(L, lit(L)), defs=D, bg=studio(L)),
     '02-side': doc(M() + caption("Full side profile", "Horizontal beam on its own road chassis", light=True)
         + frame(True) + wm(L, True), defs=D, bg="light"),
     '03-wedge': doc(zoom(420, 400, 1.5, M(brand=False, log=True, stroke=120))
         + callout(318, 340, 520, 216, "Hardened two-way wedge", col=A)
         + callout(268, 392, 180, 268, "Cradle wings hold the halves", col=A)
         + callout(600, 380, 800, 300, "Push plate, 22 tonnes behind it", col=A)
-        + caption("Working end", "650 mm long, 400 mm across — rolled on, not lifted")
-        + frame() + wm(L), defs=D, bg="dark"),
+        + caption("Working end", "650 mm long, 400 mm across — rolled on, not lifted", light=lit(L))
+        + frame(lit(L)) + wm(L, lit(L)), defs=D, bg=studio(L)),
     '04-engine': doc(zoom(900, 340, 1.24, M(brand=False))
         + panel(L, 76, 150, 450, 326, "ENGINE & HYDRAULICS",
                 ["15 hp OHV petrol · recoil start", "Two-stage pump · 26 L reservoir"],
                 engine_card(L, 76, 150, 450, 326))
         + callout(820, 300, 900, 208, "Two-stage gear pump", col=A)
         + callout(880, 520, 960, 604, "Road chassis and axle", col=A)
-        + caption("Engine & hydraulics", "Fast on approach, slow and hard into the wood")
-        + frame() + wm(L), defs=D, bg="dark"),
+        + caption("Engine & hydraulics", "Fast on approach, slow and hard into the wood", light=lit(L))
+        + frame(lit(L)) + wm(L, lit(L)), defs=D, bg=studio(L)),
     '05-controls': doc(zoom(640, 400, 1.36, M(brand=False))
         + callout(700, 336, 880, 246, "Two-hand valve lever", col=A)
         + callout(190, 486, 300, 590, "50 mm ball hitch", col=A)
         + callout(186, 540, 320, 640, "Jockey leg", col=A)
-        + caption("Controls & towing", "Both hands on levers while the wedge moves")
-        + frame() + wm(L), defs=D, bg="dark"),
+        + caption("Controls & towing", "Both hands on levers while the wedge moves", light=lit(L))
+        + frame(lit(L)) + wm(L, lit(L)), defs=D, bg=studio(L)),
     '06-dimensions': doc(f'<g opacity=".92">{M(log=True)}</g>'
         + dim_h(92, 1000, 676, "2.45 m towing length") + dim_v(286, 620, 1094, "0.80 m working height")
         + dim_h(336, 636, 712, "650 mm log")
         + f'<text x="56" y="738" font-family="Arial,Helvetica,sans-serif" font-size="17" fill="#7fb7d8">'
           f'22 tonnes of force · 14 second cycle · 285 kg on its own single-axle chassis</text>'
-        + caption("Dimensions", "Beam at working height, hitch at the front")
-        + frame() + wm(L), defs=D, bg="blueprint"),
+        + caption("Dimensions", "Beam at working height, hitch at the front", light=lit(L))
+        + frame(lit(L)) + wm(L, lit(L)), defs=D, bg="blueprint"),
     '07-in-use': doc(f'<rect width="{W}" height="{H}" fill="url(#skyG)"/>'
         + tree(104, 596, 400, 112, leaf="#33562f") + tree(1112, 598, 448, 118, leaf="#3a6135") + scene_ground()
         + "".join(f'<rect x="{910+ (i%3)*54}" y="{560 - (i//3)*40}" width="48" height="36" rx="6" '
@@ -495,37 +511,37 @@ def scenes_flail(L):
     D, K, A = livery_defs(L), art(L), L["acc"]
     M = lambda **kw: flail(**kw)
     return "fm150-flail", {
-    '01-hero': doc(glow(L) + M() + caption("FM150 ATV Flail Mower", "1200 mm trailed flail with its own 15 hp engine")
+    '01-hero': doc(wash(L) + M() + caption("FM150 ATV Flail Mower", "1200 mm trailed flail with its own 15 hp engine", light=lit(L))
         + badge(56, 148, "IN STOCK — UK WAREHOUSE", A) + badge(56, 198, "1200 mm CUT · 40 FLAILS", "#1f2937", "#e5e7eb")
-        + frame() + wm(L), defs=D, bg="dark"),
+        + frame(lit(L)) + wm(L, lit(L)), defs=D, bg=studio(L)),
     '02-side': doc(M() + caption("Full side profile", "Drawbar forward, roller behind", light=True)
         + frame(True) + wm(L, True), defs=D, bg="light"),
     '03-rotor': doc(zoom(540, 500, 1.5, M(brand=False, cutaway=True))
         + callout(540, 500, 760, 380, "40 swinging hammer flails", col=A)
         + callout(430, 590, 300, 680, "Mulched and dropped under the deck", col=A)
-        + caption("Inside the housing", "Hammers swing back off a stone instead of bending")
-        + frame() + wm(L), defs=D, bg="dark"),
+        + caption("Inside the housing", "Hammers swing back off a stone instead of bending", light=lit(L))
+        + frame(lit(L)) + wm(L, lit(L)), defs=D, bg=studio(L)),
     '04-engine': doc(zoom(584, 320, 1.34, M(brand=False))
         + panel(L, 76, 150, 450, 326, "POWER UNIT",
                 ["15 hp OHV petrol · electric start", "Guarded belt drive to the rotor"],
                 engine_card(L, 76, 150, 450, 326))
         + callout(700, 300, 856, 214, "Guarded belt drive", col=A)
         + callout(600, 214, 800, 140, "Key start, recoil back-up", col=A)
-        + caption("Power unit", "Its own engine — full rotor speed behind any quad")
-        + frame() + wm(L), defs=D, bg="dark"),
+        + caption("Power unit", "Its own engine — full rotor speed behind any quad", light=lit(L))
+        + frame(lit(L)) + wm(L, lit(L)), defs=D, bg=studio(L)),
     '05-hitch': doc(zoom(500, 520, 1.3, M(brand=False))
         + callout(180, 470, 300, 350, "Pin hitch drawbar", col=A)
         + callout(848, 596, 940, 500, "Rear roller sets the cut", col=A)
         + callout(303, 596, 240, 690, "Flotation wheels", col=A)
-        + caption("Hitch & height setting", "25–100 mm on a pin, not a spanner")
-        + frame() + wm(L), defs=D, bg="dark"),
+        + caption("Hitch & height setting", "25–100 mm on a pin, not a spanner", light=lit(L))
+        + frame(lit(L)) + wm(L, lit(L)), defs=D, bg=studio(L)),
     '06-dimensions': doc(f'<g opacity=".92">{M()}</g>'
         + dim_h(96, 878, 678, "1.98 m with drawbar") + dim_v(192, 626, 1090, "0.86 m")
         + dim_h(300, 822, 712, "1200 mm cutting width")
         + f'<text x="56" y="738" font-family="Arial,Helvetica,sans-serif" font-size="17" fill="#7fb7d8">'
           f'245 kg · cutting height 25–100 mm on the rear roller · pin hitch for ATV, UTV or compact tractor</text>'
-        + caption("Dimensions", "Cuts wider than the wheel tracks of the quad pulling it")
-        + frame() + wm(L), defs=D, bg="blueprint"),
+        + caption("Dimensions", "Cuts wider than the wheel tracks of the quad pulling it", light=lit(L))
+        + frame(lit(L)) + wm(L, lit(L)), defs=D, bg="blueprint"),
     '07-in-use': doc(f'<rect width="{W}" height="{H}" fill="url(#skyG)"/>'
         + tree(96, 596, 392, 110, leaf="#33562f") + tree(1120, 598, 440, 116, leaf="#3a6135") + scene_ground()
         + "".join(f'<path d="M{60+i*38} 700 q5 -30 12 -44" fill="none" stroke="#6f8f45" '

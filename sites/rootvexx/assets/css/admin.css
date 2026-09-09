@@ -2,7 +2,7 @@
 :root{
   --bg:#f4f6f8; --card:#fff; --line:#e3e8ee; --line-2:#eef1f5;
   --ink:#0f172a; --ink-2:#475569; --ink-3:#94a3b8;
-  --acc:#b91c1c; --acc-2:#dc2626; --ok:#15803d; --warn:#b45309; --bad:#b91c1c;
+  --acc:#9a3412; --acc-2:#c2410c; --ok:#15803d; --warn:#b45309; --bad:#b91c1c;
   --r:12px; --shadow:0 1px 2px rgba(16,24,40,.06);
   --font:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
 }
