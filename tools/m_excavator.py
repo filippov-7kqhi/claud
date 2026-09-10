@@ -4,8 +4,8 @@
 Drawn from scratch like every other machine here, so the only brand that
 appears on it is the store livery passed in through livery.CUR.
 """
-import sys
-sys.path.insert(0, '/home/user/claud/tools')
+import os, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from svgkit import *
 import livery
 

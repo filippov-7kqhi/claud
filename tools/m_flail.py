@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """15 hp ATV-towed flail mower, side view. Drawbar to the left, engine on the
    deck, flail rotor under it, height-setting roller at the back."""
-import sys
-sys.path.insert(0, '/home/user/claud/tools')
+import os, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from svgkit import *
 import livery
 

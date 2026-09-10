@@ -12,13 +12,15 @@ Two things this does that a plain `cp -r` does not:
 
 It does not commit or push; run git yourself once you have read the diff.
 """
-import os, shutil, sys
+import argparse, os, shutil, sys
 
-sys.path.insert(0, "/home/user/claud/tools")
+HERE = os.path.dirname(os.path.abspath(__file__))
+REPO = os.path.dirname(HERE)
+sys.path.insert(0, HERE)
 from products import for_store
 import cfg_branchforge, cfg_haulcrest, cfg_rootvexx, cfg_lawnstride
 
-SITES = "/home/user/claud/sites"
+SITES = os.path.join(REPO, "sites")
 STORES = {"branchforge": (cfg_branchforge, "BF"), "haulcrest": (cfg_haulcrest, "HC"),
           "rootvexx": (cfg_rootvexx, "RV"), "lawnstride": (cfg_lawnstride, "LS")}
 
@@ -58,6 +60,19 @@ def deploy(key, dest):
 
 
 if __name__ == "__main__":
-    for key in (sys.argv[1:] or sorted(STORES)):
-        n, gal = deploy(key, f"/home/user/{key}")
-        print(f"{key}: {n} files, galleries {', '.join(gal)}")
+    ap = argparse.ArgumentParser(description=__doc__,
+                                 formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("store", nargs="*", choices=sorted(STORES) + [[]],
+                    help="stores to deploy; default all four")
+    ap.add_argument("--repos", default=os.path.dirname(REPO), metavar="DIR",
+                    help="directory holding the four store clones "
+                         "(default: the directory this repo sits in)")
+    args = ap.parse_args()
+
+    for key in (args.store or sorted(STORES)):
+        dest = os.path.join(args.repos, key)
+        if not os.path.isdir(os.path.join(dest, ".git")):
+            raise SystemExit(f"{dest} is not a git clone. Clone filippov-7kqhi/{key} "
+                             f"there, or pass --repos.")
+        n, gal = deploy(key, dest)
+        print(f"{key}: {n} files -> {dest}, galleries {', '.join(gal)}")

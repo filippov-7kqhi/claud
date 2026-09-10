@@ -4,8 +4,8 @@
 A walk-behind machine: hydraulic tipping skip over the tracks, petrol power
 pack at the rear, handlebars behind that.
 """
-import sys
-sys.path.insert(0, '/home/user/claud/tools')
+import os, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from svgkit import *
 import livery
 

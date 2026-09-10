@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """22 tonne petrol log splitter, horizontal beam on a towable road chassis.
    Side view, wedge to the left, engine and pump over the axle to the right."""
-import sys
-sys.path.insert(0, '/home/user/claud/tools')
+import os, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from svgkit import *
 import livery
 

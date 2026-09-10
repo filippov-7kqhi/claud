@@ -10,7 +10,8 @@ build instead of silently leaving a store on the wrong palette.
 """
 import os, shutil
 
-SRC = "/home/user/claud/sites/branchforge"
+SRC = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                   "sites", "branchforge")
 
 # (old, new) literal swaps. Order matters only in that no `new` may contain an
 # `old` that has not yet been applied -- none do.

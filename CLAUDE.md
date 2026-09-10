@@ -43,6 +43,10 @@ python3 tools/build_all.py   # pages, feed, sitemap, catalogue, per-store CSS
 python3 tools/deploy.py      # copy each built store into its repo working tree
 ```
 
+Every path is worked out from the file's own location, so it does not matter where this
+is checked out. `deploy.py` looks for the four store clones beside this repo; pass
+`--repos DIR` if they live somewhere else.
+
 `build_all.py` calls `theme.py` first, so derived CSS is always current, and rasterises a
 JPEG twin of every SVG because Merchant Center rejects SVG.
 

@@ -1,6 +1,6 @@
 """HaulCrest Titan 1000 HT - 1 tonne tracked hydraulic high-tip dumper."""
-import sys, math
-sys.path.insert(0,'/home/user/claud/tools')
+import os, sys, math
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from svgkit import *
 import livery
 

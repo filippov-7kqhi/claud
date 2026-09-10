@@ -1,4 +1,4 @@
-import sys, os; sys.path.insert(0, '/home/user/claud/tools')
+import sys, os; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from build_site import write_site
 from products import for_store
 import cfg_branchforge, cfg_haulcrest, cfg_rootvexx, cfg_lawnstride
@@ -100,7 +100,8 @@ def digest(path):
     """Short content hash so a changed asset gets a new URL and can never be served stale."""
     return hashlib.sha256(open(path, 'rb').read()).hexdigest()[:10]
 
-ROOT = '/home/user/claud/sites'
+# the sites/ directory beside tools/, wherever this repo is checked out
+ROOT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'sites')
 STORES = ((cfg_branchforge, 'BF'), (cfg_haulcrest, 'HC'),
           (cfg_rootvexx, 'RV'), (cfg_lawnstride, 'LS'))
 

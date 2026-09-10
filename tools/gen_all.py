@@ -4,7 +4,7 @@
    Two stores sell the original four machines and two sell the compact-plant four,
    so SETS is chosen per store rather than shared."""
 import sys, os, math
-sys.path.insert(0, '/home/user/claud/tools')
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import livery
 from svgkit import *
 from bf_chipper import chipper
@@ -16,7 +16,8 @@ from m_minidumper import minidumper
 from m_splitter import splitter
 from m_flail import flail
 
-ROOT = '/home/user/claud/sites'
+# the sites/ directory beside tools/, wherever this repo is checked out
+ROOT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'sites')
 
 
 def zoom(cx, cy, k, inner):

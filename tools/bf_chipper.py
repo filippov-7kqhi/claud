@@ -1,6 +1,6 @@
 """BranchForge Cyclone 150 TD - 6in road-towable diesel wood chipper."""
-import sys, math
-sys.path.insert(0, '/home/user/claud/tools')
+import os, sys, math
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from svgkit import *
 import livery
 
