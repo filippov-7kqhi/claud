@@ -15,6 +15,20 @@ POLICY_LINKS = [("Delivery & shipping", "shipping.html"), ("Returns & refunds", 
                 ("Privacy", "privacy.html"), ("Terms & conditions", "terms.html")]
 
 
+def crate_note(p):
+    """Only stated once we have the figures. An empty " kg, crated ." reads as a
+       mistake, and a made-up weight is worse than no weight."""
+    w, b = str(p.get("weight_kg") or "").strip(), str(p.get("box") or "").strip()
+    if w and b:
+        return f" Shipping weight {w} kg, crated {b}."
+    return f" Shipping weight {w} kg." if w else ""
+
+
+def shipping_weight(p):
+    w = str(p.get("weight_kg") or "").strip()
+    return f"    <g:shipping_weight>{w} kg</g:shipping_weight>\n" if w else ""
+
+
 def hero_img(p):
     """First gallery image — not a hardcoded filename, since real photos are .jpg."""
     return f"{p['dir']}/{p['images'][0][0]}" if p.get('images') else f"{p['dir']}/01-hero.svg"
@@ -491,7 +505,7 @@ def build_product(cfg, p):
     <h2>{e(p['short'])} technical data</h2></div>
   <table class="spectable" data-reveal><tbody>{rows}</tbody></table>
   <p class="formnote" style="margin-top:1rem">Specifications are nominal and may vary slightly by
-     production batch. Shipping weight {p['weight_kg']} kg, crated {p['box']}.</p>
+     production batch.{crate_note(p)}</p>
 </div></section>
 
 {attachments_block(p, cfg)}
@@ -1008,7 +1022,7 @@ def build_feed(cfg):
     <g:product_type>{e(p['category'])}</g:product_type>
     <g:google_product_category>{p['gpc']}</g:google_product_category>
     <g:shipping><g:country>GB</g:country><g:service>Standard</g:service><g:price>0.00 GBP</g:price></g:shipping>
-    <g:shipping_weight>{p['weight_kg']} kg</g:shipping_weight>
+{shipping_weight(p)}
   </item>"""
     return f"""<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">

@@ -10,7 +10,7 @@ CYCLONE = dict(
     short_desc="Road-towable 6″ diesel chipper that turns a day of brash into an hour of work.",
     lede="A 150 mm capacity, twin-roller diesel chipper on a 750 kg braked chassis — legal behind a "
          "standard car and productive enough to replace a hire booking after eight days of use.",
-    tag="Best seller", price=2899, was=3699, finance=68,
+    tag="Car towable", price=2899, was=3699, finance=68,
     stockline="In stock — ships crated from our UK warehouse",
     meta_desc="BranchForge Cyclone 150 TD: 6-inch road-towable diesel wood chipper, 25 hp Stage V, "
               "twin hydraulic feed rollers, 748 kg. Free UK mainland delivery.",
@@ -80,7 +80,7 @@ GRIND = dict(
     short_desc="Tracked, radio-controlled stump grinder that fits through a 780 mm side gate.",
     lede="A 412 kg tracked grinder with a 16″ carbide wheel and a walk-beside handset — narrow enough "
          "for back-garden access, heavy enough to take a 900 mm stump out to 300 mm below grade.",
-    tag="Highest margin", price=3449, was=4299, finance=81,
+    tag="Fits a side gate", price=3449, was=4299, finance=81,
     stockline="In stock — ships crated from our UK warehouse",
     meta_desc="BranchForge Grindmaster 380 TX: tracked self-propelled stump grinder, 38 hp V-twin, "
               "16-inch carbide wheel, 760 mm wide. Free UK mainland delivery.",

@@ -21,6 +21,7 @@
     <g:google_product_category>5605</g:google_product_category>
     <g:shipping><g:country>GB</g:country><g:service>Standard</g:service><g:price>0.00 GBP</g:price></g:shipping>
     <g:shipping_weight>1050 kg</g:shipping_weight>
+
   </item>
   <item>
     <g:id>LS-TD500</g:id>
@@ -39,6 +40,7 @@
     <g:google_product_category>5605</g:google_product_category>
     <g:shipping><g:country>GB</g:country><g:service>Standard</g:service><g:price>0.00 GBP</g:price></g:shipping>
     <g:shipping_weight>265 kg</g:shipping_weight>
+
   </item>
   <item>
     <g:id>LS-LS22</g:id>
@@ -57,6 +59,7 @@
     <g:google_product_category>5605</g:google_product_category>
     <g:shipping><g:country>GB</g:country><g:service>Standard</g:service><g:price>0.00 GBP</g:price></g:shipping>
     <g:shipping_weight>285 kg</g:shipping_weight>
+
   </item>
   <item>
     <g:id>LS-FM150</g:id>
@@ -75,6 +78,7 @@
     <g:google_product_category>5605</g:google_product_category>
     <g:shipping><g:country>GB</g:country><g:service>Standard</g:service><g:price>0.00 GBP</g:price></g:shipping>
     <g:shipping_weight>245 kg</g:shipping_weight>
+
   </item>
 </channel>
 </rss>

@@ -12,7 +12,7 @@ TITAN = dict(
     short_desc="1-tonne tracked high-tip dumper that gets a full skip load up a garden nobody can drive into.",
     lede="A 1000 kg payload on rubber tracks, 700 mm across, with a hydraulic scissor lift that "
          "discharges at 1300 mm — straight over the wall of a builder's skip instead of into a second heap.",
-    tag="Best seller", price=2699, was=3499, finance=63,
+    tag="Fits a doorway", price=2699, was=3499, finance=63,
     stockline="In stock — ships crated from our UK warehouse",
     meta_desc="HaulCrest Titan 1000 HT: 1-tonne tracked high-tip dumper, 13 hp electric start, "
               "1300 mm tip height, 700 mm wide. Free UK mainland delivery.",
@@ -83,7 +83,7 @@ VANGUARD = dict(
     short_desc="Stand-on tracked loader with a universal quick-attach plate — the machine that replaces the gang.",
     lede="A 738 kg stand-on tracked loader rated at 850 kg, running a standard skid-steer attachment "
          "plate at 30 L/min — so the same machine takes a bucket, forks, a grapple or an auger.",
-    tag="Highest margin", price=3299, was=4199, finance=77,
+    tag="Skid-steer tools", price=3299, was=4199, finance=77,
     stockline="In stock — ships crated from our UK warehouse",
     meta_desc="HaulCrest Vanguard 850 SL: stand-on compact tracked loader, 23 hp V-twin, 850 kg lift, "
               "universal quick-attach plate. Free UK mainland delivery.",

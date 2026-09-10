@@ -10,7 +10,7 @@ EX10 = dict(
     lede="A 1050 kg diesel mini excavator on rubber tracks, with an undercarriage that retracts to "
          "930 mm to clear a side gate and expands to 1200 mm for stability once it is in. Digs to "
          "1.75 m, slews through 360° and runs a breaker off the auxiliary circuit.",
-    tag="Best seller", price=4999, was=6199, finance=117,
+    tag="930 mm access", price=4999, was=6199, finance=117,
     stockline="In stock — ships crated from our UK warehouse",
     meta_desc="%BRAND% EX10 1 tonne mini excavator: 14 hp diesel, rubber tracks, variable-width "
               "undercarriage 930–1200 mm, 1.75 m dig depth. Free UK mainland delivery.",
@@ -86,7 +86,7 @@ TD500 = dict(
     lede="A 780 mm wide rubber-tracked barrow that carries half a tonne and tips it hydraulically "
          "at the touch of a lever. It goes where a wheelbarrow goes, and does the work of twelve "
          "of them without a plank or a second pair of hands.",
-    tag="Fastest seller", price=2499, was=3099, finance=59,
+    tag="780 mm access", price=2499, was=3099, finance=59,
     stockline="In stock — ships crated from our UK warehouse",
     meta_desc="%BRAND% TD500 tracked mini dumper: 500 kg payload, hydraulic tip, 9 hp petrol, "
               "780 mm wide. Free UK mainland delivery.",
@@ -160,7 +160,7 @@ LS22 = dict(
     lede="A horizontal-beam splitter with 22 tonnes of force, a 15 hp petrol engine and its own "
          "road chassis. Takes a 650 mm round up to 400 mm across, resets in fourteen seconds, and "
          "tows to the woodpile behind a vehicle instead of waiting for one to be brought to it.",
-    tag="Highest margin", price=2199, was=2749, finance=52,
+    tag="22 tonne force", price=2199, was=2749, finance=52,
     stockline="In stock — ships crated from our UK warehouse",
     meta_desc="%BRAND% LS22 22 tonne petrol log splitter: 15 hp petrol, 14 second cycle, "
               "650 mm log length, towable chassis. Free UK mainland delivery.",
@@ -240,7 +240,7 @@ FM150 = dict(
     lede="A trailed flail mower with its own 15 hp petrol engine, so it cuts at full power behind "
          "any ATV, UTV or compact tractor regardless of what that machine can put out. Forty "
          "hammer flails take a paddock, a verge or two years of neglect down in one pass.",
-    tag="Best for paddocks", price=2599, was=3199, finance=61,
+    tag="1200 mm cut", price=2599, was=3199, finance=61,
     stockline="In stock — ships crated from our UK warehouse",
     meta_desc="%BRAND% FM150 ATV flail mower: 15 hp petrol, 1200 mm cut, 40 hammer flails, "
               "electric start, tows behind an ATV or UTV. Free UK mainland delivery.",

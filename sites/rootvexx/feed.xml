@@ -3,78 +3,78 @@
 <channel>
   <title>RootVexx product feed</title>
   <link>https://rootvexx.shop/</link>
-  <description>Mini excavators, tracked mini dumpers, petrol log splitters and ATV flail mowers for UK groundworkers, landscapers and smallholders. Free mainland delivery, 30-day returns, 2-year warranty.</description>
+  <description>Mini excavators, tracked mini dumpers, petrol wood chippers and stump grinders for UK groundworkers, tree surgeons and landscapers. Free mainland delivery, 30-day returns, 2-year warranty.</description>
   <item>
-    <g:id>RV-EX10</g:id>
-    <g:title>RootVexx EX10 1 Tonne Mini Excavator</g:title>
-    <g:description>RootVexx EX10 1 tonne mini excavator: 14 hp diesel, rubber tracks, variable-width undercarriage 930–1200 mm, 1.75 m dig depth. Free UK mainland delivery.</g:description>
-    <g:link>https://rootvexx.shop/ex10-mini-excavator.html</g:link>
-    <g:image_link>https://rootvexx.shop/assets/img/ex10-excavator/01-hero.jpg</g:image_link>
-    <g:additional_image_link>https://rootvexx.shop/assets/img/ex10-excavator/02-side.jpg</g:additional_image_link><g:additional_image_link>https://rootvexx.shop/assets/img/ex10-excavator/03-dig.jpg</g:additional_image_link><g:additional_image_link>https://rootvexx.shop/assets/img/ex10-excavator/04-cab.jpg</g:additional_image_link><g:additional_image_link>https://rootvexx.shop/assets/img/ex10-excavator/05-undercarriage.jpg</g:additional_image_link><g:additional_image_link>https://rootvexx.shop/assets/img/ex10-excavator/06-dimensions.jpg</g:additional_image_link>
+    <g:id>RV-CREX6M</g:id>
+    <g:title>RootVexx CREX6-M Mini Excavator</g:title>
+    <g:description>RootVexx CREX6-M mini excavator: 705 mm track width, ROPS canopy, dozer blade, petrol with electric start. Free UK mainland delivery.</g:description>
+    <g:link>https://rootvexx.shop/crex6m-mini-excavator.html</g:link>
+    <g:image_link>https://rootvexx.shop/assets/img/crex6m/01-main-product.jpg</g:image_link>
+    <g:additional_image_link>https://rootvexx.shop/assets/img/crex6m/02-ignition-and-service-panel.jpg</g:additional_image_link><g:additional_image_link>https://rootvexx.shop/assets/img/crex6m/03-rear-cooling-panel.jpg</g:additional_image_link><g:additional_image_link>https://rootvexx.shop/assets/img/crex6m/04-operator-seat.jpg</g:additional_image_link><g:additional_image_link>https://rootvexx.shop/assets/img/crex6m/05-hydraulic-detail.jpg</g:additional_image_link><g:additional_image_link>https://rootvexx.shop/assets/img/crex6m/06-front-blade-and-bucket.jpg</g:additional_image_link>
     <g:availability>in_stock</g:availability>
     <g:condition>new</g:condition>
     <g:price>4999.00 GBP</g:price>
     <g:brand>RootVexx</g:brand>
-    <g:mpn>RV-EX10</g:mpn>
+    <g:mpn>RV-CREX6M</g:mpn>
     <g:identifier_exists>no</g:identifier_exists>
     <g:product_type>Business &amp; Industrial &gt; Heavy Machinery</g:product_type>
     <g:google_product_category>5605</g:google_product_category>
     <g:shipping><g:country>GB</g:country><g:service>Standard</g:service><g:price>0.00 GBP</g:price></g:shipping>
-    <g:shipping_weight>1050 kg</g:shipping_weight>
+
   </item>
   <item>
-    <g:id>RV-TD500</g:id>
-    <g:title>RootVexx TD500 500 kg Tracked Mini Dumper</g:title>
-    <g:description>RootVexx TD500 tracked mini dumper: 500 kg payload, hydraulic tip, 9 hp petrol, 780 mm wide. Free UK mainland delivery.</g:description>
-    <g:link>https://rootvexx.shop/td500-mini-dumper.html</g:link>
-    <g:image_link>https://rootvexx.shop/assets/img/td500-dumper/01-hero.jpg</g:image_link>
-    <g:additional_image_link>https://rootvexx.shop/assets/img/td500-dumper/02-side.jpg</g:additional_image_link><g:additional_image_link>https://rootvexx.shop/assets/img/td500-dumper/03-tip.jpg</g:additional_image_link><g:additional_image_link>https://rootvexx.shop/assets/img/td500-dumper/04-engine.jpg</g:additional_image_link><g:additional_image_link>https://rootvexx.shop/assets/img/td500-dumper/05-controls.jpg</g:additional_image_link><g:additional_image_link>https://rootvexx.shop/assets/img/td500-dumper/06-dimensions.jpg</g:additional_image_link>
+    <g:id>RV-DP5000</g:id>
+    <g:title>RootVexx DP5000 500 kg Tracked Mini Dumper</g:title>
+    <g:description>RootVexx DP5000 tracked mini dumper: 500 kg payload, hydraulic tipping skip, 715 mm clearance width, rubber tracks. Free UK mainland delivery.</g:description>
+    <g:link>https://rootvexx.shop/dp5000-mini-dumper.html</g:link>
+    <g:image_link>https://rootvexx.shop/assets/img/dp5000/01-main-product.jpg</g:image_link>
+    <g:additional_image_link>https://rootvexx.shop/assets/img/dp5000/02-front-product-angle.jpg</g:additional_image_link><g:additional_image_link>https://rootvexx.shop/assets/img/dp5000/03-loaded-in-action.jpg</g:additional_image_link><g:additional_image_link>https://rootvexx.shop/assets/img/dp5000/04-transporting-material.jpg</g:additional_image_link><g:additional_image_link>https://rootvexx.shop/assets/img/dp5000/05-hydraulic-tipping.jpg</g:additional_image_link><g:additional_image_link>https://rootvexx.shop/assets/img/dp5000/06-loaded-close-up.jpg</g:additional_image_link>
     <g:availability>in_stock</g:availability>
     <g:condition>new</g:condition>
     <g:price>2499.00 GBP</g:price>
     <g:brand>RootVexx</g:brand>
-    <g:mpn>RV-TD500</g:mpn>
+    <g:mpn>RV-DP5000</g:mpn>
     <g:identifier_exists>no</g:identifier_exists>
     <g:product_type>Business &amp; Industrial &gt; Heavy Machinery</g:product_type>
     <g:google_product_category>5605</g:google_product_category>
     <g:shipping><g:country>GB</g:country><g:service>Standard</g:service><g:price>0.00 GBP</g:price></g:shipping>
-    <g:shipping_weight>265 kg</g:shipping_weight>
+
   </item>
   <item>
-    <g:id>RV-LS22</g:id>
-    <g:title>RootVexx LS22 22 Tonne Petrol Log Splitter</g:title>
-    <g:description>RootVexx LS22 22 tonne petrol log splitter: 15 hp petrol, 14 second cycle, 650 mm log length, towable chassis. Free UK mainland delivery.</g:description>
-    <g:link>https://rootvexx.shop/ls22-log-splitter.html</g:link>
-    <g:image_link>https://rootvexx.shop/assets/img/ls22-splitter/01-hero.jpg</g:image_link>
-    <g:additional_image_link>https://rootvexx.shop/assets/img/ls22-splitter/02-side.jpg</g:additional_image_link><g:additional_image_link>https://rootvexx.shop/assets/img/ls22-splitter/03-wedge.jpg</g:additional_image_link><g:additional_image_link>https://rootvexx.shop/assets/img/ls22-splitter/04-engine.jpg</g:additional_image_link><g:additional_image_link>https://rootvexx.shop/assets/img/ls22-splitter/05-controls.jpg</g:additional_image_link><g:additional_image_link>https://rootvexx.shop/assets/img/ls22-splitter/06-dimensions.jpg</g:additional_image_link>
+    <g:id>RV-TW1375G</g:id>
+    <g:title>RootVexx TW 13/75G Petrol Wood Chipper</g:title>
+    <g:description>RootVexx TW 13/75G petrol wood chipper: wide folding hopper, aimed discharge, two-wheel chassis, 92 dB(A) at the operator. Free UK mainland delivery.</g:description>
+    <g:link>https://rootvexx.shop/tw1375g-wood-chipper.html</g:link>
+    <g:image_link>https://rootvexx.shop/assets/img/tw1375g/01-main-product.jpg</g:image_link>
+    <g:additional_image_link>https://rootvexx.shop/assets/img/tw1375g/02-rear-product-angle.jpg</g:additional_image_link><g:additional_image_link>https://rootvexx.shop/assets/img/tw1375g/03-product-hero.jpg</g:additional_image_link><g:additional_image_link>https://rootvexx.shop/assets/img/tw1375g/04-garden-action.jpg</g:additional_image_link><g:additional_image_link>https://rootvexx.shop/assets/img/tw1375g/05-collecting-woodchips.jpg</g:additional_image_link><g:additional_image_link>https://rootvexx.shop/assets/img/tw1375g/06-woodchip-output-detail.jpg</g:additional_image_link>
     <g:availability>in_stock</g:availability>
     <g:condition>new</g:condition>
     <g:price>2199.00 GBP</g:price>
     <g:brand>RootVexx</g:brand>
-    <g:mpn>RV-LS22</g:mpn>
+    <g:mpn>RV-TW1375G</g:mpn>
     <g:identifier_exists>no</g:identifier_exists>
     <g:product_type>Business &amp; Industrial &gt; Heavy Machinery</g:product_type>
     <g:google_product_category>5605</g:google_product_category>
     <g:shipping><g:country>GB</g:country><g:service>Standard</g:service><g:price>0.00 GBP</g:price></g:shipping>
-    <g:shipping_weight>285 kg</g:shipping_weight>
+
   </item>
   <item>
-    <g:id>RV-FM150</g:id>
-    <g:title>RootVexx FM150 15 hp ATV Flail Mower</g:title>
-    <g:description>RootVexx FM150 ATV flail mower: 15 hp petrol, 1200 mm cut, 40 hammer flails, electric start, tows behind an ATV or UTV. Free UK mainland delivery.</g:description>
-    <g:link>https://rootvexx.shop/fm150-flail-mower.html</g:link>
-    <g:image_link>https://rootvexx.shop/assets/img/fm150-flail/01-hero.jpg</g:image_link>
-    <g:additional_image_link>https://rootvexx.shop/assets/img/fm150-flail/02-side.jpg</g:additional_image_link><g:additional_image_link>https://rootvexx.shop/assets/img/fm150-flail/03-rotor.jpg</g:additional_image_link><g:additional_image_link>https://rootvexx.shop/assets/img/fm150-flail/04-engine.jpg</g:additional_image_link><g:additional_image_link>https://rootvexx.shop/assets/img/fm150-flail/05-hitch.jpg</g:additional_image_link><g:additional_image_link>https://rootvexx.shop/assets/img/fm150-flail/06-dimensions.jpg</g:additional_image_link>
+    <g:id>RV-360SW</g:id>
+    <g:title>RootVexx 360 SW Stump Grinder</g:title>
+    <g:description>RootVexx 360 SW stump grinder: Honda GX390 petrol, swing cutting wheel, walk-behind on two wheels. Free UK mainland delivery.</g:description>
+    <g:link>https://rootvexx.shop/360sw-stump-grinder.html</g:link>
+    <g:image_link>https://rootvexx.shop/assets/img/360sw/01-main-product.jpg</g:image_link>
+    <g:additional_image_link>https://rootvexx.shop/assets/img/360sw/02-model-and-throttle-detail.jpg</g:additional_image_link><g:additional_image_link>https://rootvexx.shop/assets/img/360sw/03-operator-controls.jpg</g:additional_image_link><g:additional_image_link>https://rootvexx.shop/assets/img/360sw/04-engine-detail.jpg</g:additional_image_link><g:additional_image_link>https://rootvexx.shop/assets/img/360sw/05-cutter-guard-detail.jpg</g:additional_image_link><g:additional_image_link>https://rootvexx.shop/assets/img/360sw/06-belt-cover-and-wheel.jpg</g:additional_image_link>
     <g:availability>in_stock</g:availability>
     <g:condition>new</g:condition>
     <g:price>2599.00 GBP</g:price>
     <g:brand>RootVexx</g:brand>
-    <g:mpn>RV-FM150</g:mpn>
+    <g:mpn>RV-360SW</g:mpn>
     <g:identifier_exists>no</g:identifier_exists>
     <g:product_type>Business &amp; Industrial &gt; Heavy Machinery</g:product_type>
     <g:google_product_category>5605</g:google_product_category>
     <g:shipping><g:country>GB</g:country><g:service>Standard</g:service><g:price>0.00 GBP</g:price></g:shipping>
-    <g:shipping_weight>245 kg</g:shipping_weight>
+
   </item>
 </channel>
 </rss>

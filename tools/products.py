@@ -118,7 +118,7 @@ HC15H = dict(
     lede="A single-axle towable chipper with a 15 hp petrol engine, electric key start and a "
          "hydraulic feed you control from the hopper. Built to be pulled to the job behind an "
          "ordinary vehicle and worked all day without a hire booking.",
-    tag="Best seller", price=2899, was=3699, finance=68,
+    tag="Car towable", price=2899, was=3699, finance=68,
     stockline="In stock — ships crated from our UK warehouse",
     meta_desc="BranchForge HC15H towable wood chipper: 15 hp petrol, electric key start, "
               "hydraulic feed, road-towable single axle. Free UK mainland delivery.",
@@ -183,7 +183,7 @@ MD500 = dict(
     lede="A rubber-tracked walk-behind dumper with a hydraulic tipping skip, built to move a "
          "serious load across ground a wheelbarrow cannot cross and through gaps a lorry cannot "
          "reach. The plough blade bolts on for winter work.",
-    tag="Most versatile", price=2699, was=3499, finance=63,
+    tag="Fits a doorway", price=2699, was=3499, finance=63,
     stockline="In stock — ships crated from our UK warehouse",
     meta_desc="BranchForge MD-500HPRO tracked mini dumper: petrol, hydraulic tipping skip, rubber "
               "tracks, optional snow plough. Free UK mainland delivery.",
@@ -250,7 +250,7 @@ CREX10K = dict(
     lede="A 900 kg backhoe mini excavator on rubber tracks, with a dozer blade, boom swing and a "
          "telescopic undercarriage that closes to 800 mm to get down the side of a house and opens "
          "to 950 mm for stability once it is in.",
-    tag="Most capable", price=3449, was=4299, finance=81,
+    tag="800 mm access", price=3449, was=4299, finance=81,
     stockline="In stock — ships crated from our UK warehouse",
     meta_desc="BranchForge CREX10-K mini excavator: 900 kg, KOOP 192 diesel, 1580 mm digging depth, "
               "telescopic 800/950 mm chassis, rubber tracks. Free UK mainland delivery.",
@@ -330,7 +330,7 @@ SKIDSTEER = dict(
     lede="A tracked stand-on loader with a 739 cc petrol engine, a quick-attach bucket and "
          "auxiliary hydraulic couplers on the arm, so it lifts, carries and runs powered "
          "attachments on ground a wheeled loader would tear up.",
-    tag="Highest margin", price=3299, was=4199, finance=77,
+    tag="Skid-steer tools", price=3299, was=4199, finance=77,
     stockline="In stock — ships crated from our UK warehouse",
     meta_desc="BranchForge mini skid steer loader: 739 cc petrol, rubber tracks, quick-attach "
               "bucket, auxiliary hydraulics. Free UK mainland delivery.",
@@ -393,6 +393,13 @@ OVERRIDES["branchforge"]["vanguard-850-sl"] = SKIDSTEER
 
 # HaulCrest sells the same four machines under its own brand; the photographs
 # show identical models, so the same definitions apply once rebranded.
+from cat_rootvexx import CREX6M, DP5000, TW1375G, SW360
+
+# RootVexx has photography of four machines, so it sells those rather than the
+# drawn catalogue. Keyed by the slug of the entry each one replaces.
+OVERRIDES["rootvexx"] = {"ex10-mini-excavator": CREX6M, "td500-mini-dumper": DP5000,
+                         "ls22-log-splitter": TW1375G, "fm150-flail-mower": SW360}
+
 OVERRIDES["haulcrest"] = {
     "cyclone-150-td": HC15H,
     "grindmaster-380-tx": CREX10K,
