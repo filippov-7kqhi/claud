@@ -32,9 +32,9 @@ window.SITE_CONFIG = {
   // One Stripe Payment Link per machine. Blank = that machine routes to an
   // enquiry instead of pretending to take payment.
   paymentLinks: {
-    "LS-EX10": "",       // EX10 1 Tonne Mini Excavator - GBP 4,999
-    "LS-TD500": "",      // TD500 500 kg Tracked Mini Dumper - GBP 2,499
-    "LS-LS22": "",       // LS22 22 Tonne Petrol Log Splitter - GBP 2,199
-    "LS-FM150": "",      // FM150 15 hp ATV Flail Mower - GBP 2,599
+    "LS-CREX6M": "",     // CREX6-M Mini Excavator - GBP 4,999
+    "LS-DP5000": "",     // DP5000 500 kg Tracked Mini Dumper - GBP 2,499
+    "LS-TW1375G": "",    // TW 13/75G Petrol Wood Chipper - GBP 2,199
+    "LS-360SW": "",      // 360 SW Stump Grinder - GBP 2,599
   }
 };

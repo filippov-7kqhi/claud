@@ -393,12 +393,15 @@ OVERRIDES["branchforge"]["vanguard-850-sl"] = SKIDSTEER
 
 # HaulCrest sells the same four machines under its own brand; the photographs
 # show identical models, so the same definitions apply once rebranded.
-from cat_rootvexx import CREX6M, DP5000, TW1375G, SW360
+from cat_photo import CREX6M, DP5000, TW1375G, SW360
 
-# RootVexx has photography of four machines, so it sells those rather than the
-# drawn catalogue. Keyed by the slug of the entry each one replaces.
-OVERRIDES["rootvexx"] = {"ex10-mini-excavator": CREX6M, "td500-mini-dumper": DP5000,
-                         "ls22-log-splitter": TW1375G, "fm150-flail-mower": SW360}
+# Both compact-plant stores have photography of the same four machines, each
+# decalled in that store's name, so both sell those rather than the drawn
+# catalogue. Keyed by the slug of the drawn entry each one replaces.
+_PHOTO = {"ex10-mini-excavator": CREX6M, "td500-mini-dumper": DP5000,
+          "ls22-log-splitter": TW1375G, "fm150-flail-mower": SW360}
+OVERRIDES["rootvexx"] = dict(_PHOTO)
+OVERRIDES["lawnstride"] = dict(_PHOTO)
 
 OVERRIDES["haulcrest"] = {
     "cyclone-150-td": HC15H,

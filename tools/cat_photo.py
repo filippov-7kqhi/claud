@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""The four machines RootVexx has photography of.
+"""The four machines there is photography of, shared by every store that has it.
 
 Every figure here was read off the photographs -- a badge, a data plate or a
 dimension drawn on the shot. Figures that were not visible are absent rather
@@ -269,4 +269,4 @@ SW360 = dict(
           "within 48 hours. Reversing them before replacing typically doubles their life.</p>")],
 )
 
-ROOTVEXX = [CREX6M, DP5000, TW1375G, SW360]
+PHOTOGRAPHED = [CREX6M, DP5000, TW1375G, SW360]
