@@ -31,10 +31,12 @@ import argparse, json, os, re, sys, urllib.error, urllib.parse, urllib.request
 API = "https://api.stripe.com/v1"
 
 STORES = {
-    "branchforge": "branchforge.shop",
-    "haulcrest":   "haulcrest.shop",
-    "rootvexx":    "rootvexx.shop",
-    "lawnstride":  "lawnstride.shop",
+    "branchforge": dict(domain="branchforge.shop", currency="gbp", country="GB", symbol="£"),
+    "haulcrest":   dict(domain="haulcrest.shop",   currency="gbp", country="GB", symbol="£"),
+    "rootvexx":    dict(domain="rootvexx.shop",    currency="gbp", country="GB", symbol="£"),
+    "lawnstride":  dict(domain="lawnstride.shop",  currency="gbp", country="GB", symbol="£"),
+    "agrimax":     dict(domain="agrimax.shop",     currency="usd", country="US", symbol="$"),
+    "groundmax":   dict(domain="groundmax.shop",   currency="usd", country="US", symbol="$"),
 }
 
 
@@ -90,8 +92,8 @@ def detect_store_repo():
     cname = os.path.join(root, "CNAME")
     if os.path.exists(cname):
         domain = open(cname, encoding="utf-8").read().strip()
-        for store, d in STORES.items():
-            if d == domain:
+        for store, s in STORES.items():
+            if s["domain"] == domain:
                 return store, root
     return None, None
 
@@ -129,24 +131,24 @@ def product_for(key, sku, item, domain):
     return call(key, "POST", "/products", dict(payload, id=pid))
 
 
-def price_for(key, product, amount_pence, vat_inclusive):
+def price_for(key, product, amount_minor, currency, vat_inclusive):
     for p in call(key, "GET", f"/prices?product={product['id']}&active=true&limit=100")["data"]:
-        if p["unit_amount"] == amount_pence and p["currency"] == "gbp":
+        if p["unit_amount"] == amount_minor and p["currency"] == currency:
             return p
-    body = {"product": product["id"], "unit_amount": amount_pence, "currency": "gbp"}
+    body = {"product": product["id"], "unit_amount": amount_minor, "currency": currency}
     if vat_inclusive:
         body["tax_behavior"] = "inclusive"
     return call(key, "POST", "/prices", body)
 
 
-def link_for(key, sku, price, domain, existing_links):
+def link_for(key, sku, price, domain, country, existing_links):
     if sku in existing_links:
         return existing_links[sku], False
     body = {
         "line_items": [{"price": price["id"], "quantity": 1,
                         "adjustable_quantity": {"enabled": True, "minimum": 1, "maximum": 5}}],
         "metadata": {"sku": sku},
-        "shipping_address_collection": {"allowed_countries": ["GB"]},
+        "shipping_address_collection": {"allowed_countries": [country]},
         "phone_number_collection": {"enabled": True},
         # The carrier telephones to book a slot, and nothing else on a static
         # site ever gets the chance to ask about access.
@@ -224,7 +226,8 @@ def main():
 
     known = existing_links_by_sku(key)
     for store in (args.store or sorted(STORES)):
-        domain = STORES[store]
+        s = STORES[store]
+        domain, currency, country, sym = s["domain"], s["currency"], s["country"], s["symbol"]
         root = repo_root if store == repo_store else None
         items = catalogue(store, domain, args.local, root)
         print(f"{store} ({domain})")
@@ -233,13 +236,13 @@ def main():
             if args.dry_run:
                 have = sku in known
                 print(f"  {'would keep  ' if have else 'would create'}  {sku:12} "
-                      f"£{item['price']:>6,}  {item['name']}")
+                      f"{sym}{item['price']:>6,}  {item['name']}")
                 continue
             product = product_for(key, sku, item, domain)
-            price = price_for(key, product, item["price"] * 100, args.vat_inclusive)
-            url, made = link_for(key, sku, price, domain, known)
+            price = price_for(key, product, item["price"] * 100, currency, args.vat_inclusive)
+            url, made = link_for(key, sku, price, domain, country, known)
             links[sku] = known[sku] = url
-            print(f"  {'created' if made else 'reused '}  {sku:12} £{item['price']:>6,}  {url}")
+            print(f"  {'created' if made else 'reused '}  {sku:12} {sym}{item['price']:>6,}  {url}")
         if args.write and not args.dry_run:
             path = (f"{root}/assets/js/site-config.js" if root
                     else f"{args.local}/{store}/assets/js/site-config.js")

@@ -15,7 +15,7 @@ What Stripe does have is a **restricted API key** — a credential you create yo
 scope to exactly what a job needs, and revoke in one click. That is what the script below
 uses, and it is the closest thing to what you actually want.
 
-## The fast way — 16 links in one command
+## The fast way — one command for every store
 
 ```bash
 # Dashboard -> Developers -> API keys -> Create restricted key
@@ -28,16 +28,17 @@ It reads each store's live catalogue, so it always matches what is on sale, and 
 per machine:
 
 - a **product** with the machine's name, its photograph and a link back to its page
-- a **price** in GBP
-- a **payment link** with UK shipping address collection, a phone number, an adjustable
-  quantity and a *Delivery access notes* field — the carrier telephones to book a slot,
-  and nothing else on a static site ever gets the chance to ask about gate width or
-  gradient
+- a **price** in that store's own currency (GBP for the four UK stores, USD for
+  AgriMaxx/GroundMaxx)
+- a **payment link** with shipping address collection for that store's country, a phone
+  number, an adjustable quantity and a *Delivery access notes* field — the carrier
+  telephones to book a slot, and nothing else on a static site ever gets the chance to
+  ask about gate width or gradient
 
 Run it from inside a store repo and it does that store; run it from anywhere else and it
-does all four. It prints one block per store, ready to paste — add `--write` and it edits
-`site-config.js` for you instead. Only the `paymentLinks` block is touched; the admin
-hash and every other setting survive.
+does every store. It prints one block per store, ready to paste — add `--write` and it
+edits `site-config.js` for you instead. Only the `paymentLinks` block is touched; the
+admin hash and every other setting survive.
 
 `--dry-run` lists what it would create and changes nothing. Worth doing first.
 
@@ -45,15 +46,18 @@ Running it again is safe: products are created at fixed ids and reused, a price 
 reused while the amount still matches, and a machine that already has a link is left
 alone. Nothing is ever deleted.
 
-`--vat-inclusive` marks the prices VAT-inclusive. Use it only if the company is VAT
-registered — none of the four currently shows a VAT number.
+`--vat-inclusive` marks the prices VAT-inclusive. It only makes sense for the four UK
+stores, and only if the company is VAT registered — none of them currently shows a VAT
+number. AgriMaxx and GroundMaxx use US sales tax instead, calculated at checkout, so
+never pass this flag for them.
 
 ## The manual way
 
 If you would rather click than run anything: **Product catalogue → Add product**, one per
-machine, price in GBP. Then **Payment Links → New link**, pick the product, and switch on
-shipping address collection (GB), adjustable quantity, and a custom text field named
-`Delivery access notes`. Copy each URL.
+machine, price in the store's own currency (GBP or USD). Then **Payment Links → New
+link**, pick the product, and switch on shipping address collection (GB or US to match
+the store), adjustable quantity, and a custom text field named `Delivery access notes`.
+Copy each URL.
 
 Paste the URLs into `assets/js/site-config.js` in each store repo, or through
 `/admin.html` on the store itself:
@@ -66,7 +70,7 @@ paymentLinks: {
 ```
 
 The site reads that file at runtime, so you can edit it straight on GitHub — no rebuild
-needed. Sixteen links in total: four machines on each of four stores.
+needed. Four machines on each store.
 
 **Never put a secret key (`sk_live_…`, `rk_live_…`) in this file or anywhere in the
 repo,** and never paste one into a chat window. Payment Link URLs are public by design;
