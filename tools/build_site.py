@@ -523,8 +523,23 @@ def build_product(cfg, p):
     specs_hi = "".join(f'<div><small>{e(k)}</small><b>{e(v)}</b></div>' for k, v in p['spec_hi'])
     rows = "".join(f'<tr><th>{e(k)}</th><td>{e(v)}</td></tr>' for k, v in p['specs'])
     bullets = "".join(f"<li>{e(b)}</li>" for b in p['bullets'])
-    feats = "".join(f'<div class="tile" data-reveal><h3>{e(t)}</h3><p>{e(d)}</p></div>'
-                    for t, d in p['features'])
+    # A feature tuple is (title, text) everywhere already shipping, or
+    # (title, text, (image_src, image_alt)) for a store that supplies photos
+    # to illustrate each point -- the image is optional so every existing
+    # store's features list, and its rendered markup, is untouched.
+    has_feat_imgs = any(len(f) == 3 for f in p['features'])
+    feat_style = ("<style>.tile--img img{width:100%;aspect-ratio:4/3;object-fit:cover;"
+                  "border-radius:10px;margin-bottom:14px}</style>") if has_feat_imgs else ""
+
+    def _feat(f):
+        if len(f) == 3:
+            t, d, (src, alt) = f
+            return (f'<div class="tile tile--img" data-reveal>'
+                    f'<img src="{p["dir"]}/{src}" alt="{e(alt)}" loading="lazy">'
+                    f'<h3>{e(t)}</h3><p>{e(d)}</p></div>')
+        t, d = f
+        return f'<div class="tile" data-reveal><h3>{e(t)}</h3><p>{e(d)}</p></div>'
+    feats = "".join(_feat(f) for f in p['features'])
     others = "".join(product_card(q, cfg) for q in cfg['products'] if q['sku'] != p['sku'])
     R = region(cfg)
     sym = R['currency_symbol']
@@ -625,6 +640,7 @@ def build_product(cfg, p):
   </div>
 </div></div></section>
 
+{feat_style}
 <section class="band"><div class="wrap">
   <div class="sec-head" data-reveal><p class="eyebrow">Built for the job</p><h2>{e(p['features_h2'])}</h2></div>
   <div class="grid-3">{feats}</div>

@@ -45,17 +45,28 @@ VHF71 = dict(
     features_h2="What makes an offset mower different from a standard flail",
     features=[("Hydraulic side-offset arm", "The cutting head swings out to the side on a hydraulic "
                "arm, so you mow the verge, ditch bank or shoulder while the tractor itself stays on "
-               "flat, stable ground instead of leaning down the slope."),
+               "flat, stable ground instead of leaning down the slope.",
+               ("07-side-profile-full.jpg", "Full-length side profile showing the offset arm and "
+                "hydraulic cylinder")),
               ("Head tilt", "The head angles on the arm as well as swinging out, so the cut follows "
-               "the bank's slope rather than sitting flat against it."),
+               "the bank's slope rather than sitting flat against it.",
+               ("05-rear-three-quarter.jpg", "Rear three-quarter view of the cutting head housing "
+                "with the offset arm extending back to the 3-point hitch")),
               ("71-inch flail head", "A hammer-blade (flail) rotor mulches rough growth, brambles "
-               "and small saplings without throwing debris the way a rotary blade does."),
+               "and small saplings without throwing debris the way a rotary blade does.",
+               ("06-gearbox-detail.jpg", "Close view of the gearbox, cutting head housing and skid "
+                "shoe")),
               ("3-point, PTO driven", "Mounts on a standard rear 3-point hitch and runs off the "
-               "tractor's PTO -- no separate engine to fuel or service."),
+               "tractor's PTO -- no separate engine to fuel or service.",
+               ("04-hitch-and-offset-arm-detail.jpg", "Close view of the 3-point hitch pins, "
+                "hydraulic hoses and offset-arm pivot")),
               ("Built for 60-100 HP tractors", "Sized for the kind of tractor that already does "
-               "road-shoulder, ditch and right-of-way work."),
+               "road-shoulder, ditch and right-of-way work.",
+               ("03-side-profile.jpg", "Full side profile with the hydraulic offset arm folded in "
+                "for transport")),
               ("VHF71 on the machine", "The model number is stamped on the machine itself, so parts "
-               "and service enquiries are easy to identify.")],
+               "and service enquiries are easy to identify.",
+               ("01-hero.jpg", "Three-quarter studio view showing the VHF71 model stamp"))],
     faq=[("What does “offset” mean on this mower?",
           "<p>The cutting head is mounted on a hydraulic arm that swings out to the side of the "
           "tractor, and tilts, so you can mow a ditch bank, verge or road shoulder while the tractor "
@@ -106,16 +117,23 @@ LFS53 = dict(
     features_h2="A flail mower sized for a compact tractor",
     features=[("53-inch flail head", "Hammer blades swing on pivots and fold back off a stone or "
                "stump instead of transmitting the hit into the gearbox the way a fixed rotary blade "
-               "does."),
+               "does.",
+               ("08-flail-blades-detail.jpg", "Close view of the flail rotor and hammer blades "
+                "along the deck edge")),
               ("Category 1 hitch", "Mounts straight onto the 3-point hitch of a compact tractor -- "
-               "no adapter needed on a Cat. 1 tractor."),
+               "no adapter needed on a Cat. 1 tractor.",
+               ("05-hitch-and-gearbox.jpg", "Front three-quarter view of the Category 1 top link "
+                "and lower-link A-frame with the gearbox")),
               ("Sized for 15-35 HP", "Matched to the tractors most likely to be running it, so you "
-               "are not overpowering or underpowering the gearbox."),
+               "are not overpowering or underpowering the gearbox.",
+               ("03-side-profile.jpg", "Full side profile of the LFS53 flail mower")),
               ("PTO driven", "Runs off the tractor's PTO -- no separate engine, fuel or service "
-               "schedule."),
+               "schedule.",
+               ("02-driveline-detail.jpg", "Close view of the PTO driveline and gearbox area")),
               ("Mulches rather than throws", "Flail mowers cut and mulch in the housing, which is "
                "safer around fence lines, driveways and livestock than a discharge-style rotary "
-               "cutter.")],
+               "cutter.",
+               ("04-rotor-housing-detail.jpg", "Close view of the rotor housing and rear roller"))],
     faq=[("What size tractor do I need?",
           "<p>The LFS53 is built for 15-35 HP compact tractors with a Category 1 3-point hitch.</p>"),
          ("How many blades does it have, and how much does it weigh?",
@@ -157,11 +175,17 @@ PHD18 = dict(
            ("Minimum tractor size", "18 HP"), ("Auger", "Not included -- sold separately")],
     features_h2="What you get, and what you need to add",
     features=[("3-point PTO gearbox", "Mounts on the tractor's 3-point hitch and runs off the PTO, "
-               "with fold-down stabilizer legs to steady the bore."),
+               "with fold-down stabilizer legs to steady the bore.",
+               ("03-mount-detail.jpg", "Close view of the gearbox and mast mounted on a tractor's "
+                "3-point hitch")),
               ("Auger sold separately", "The digger unit ships without an auger. Choose the auger "
                "diameter that suits your posts and order it alongside the digger -- do not assume "
-               "one is included."),
-              ("Minimum 18 HP", "Sized for a real compact-tractor PTO, not a garden tractor.")],
+               "one is included.",
+               ("04-auger-detail.jpg", "Auger bit turning into the ground -- auger sold separately, "
+                "not included with the digger")),
+              ("Minimum 18 HP", "Sized for a real compact-tractor PTO, not a garden tractor.",
+               ("02-in-use-wide.jpg", "PHD18 mounted on the 3-point hitch of a compact tractor, "
+                "boring a hole in an open field"))],
     faq=[("Does this come with an auger?",
           "<p><strong>No.</strong> The photographs on this page show the digger fitted with an auger "
           "for illustration, but the auger is sold separately and is not included with this listing. "
@@ -200,11 +224,16 @@ RC72 = dict(
            ("Mounting", "3-point"), ("Drive", "PTO-driven"), ("Driveline", "PTO shaft included")],
     features_h2="A brush-hog style cutter built to be mounted and forgotten",
     features=[("6-foot round-back deck", "Wide enough to make real progress on pasture and rough "
-               "ground, in the round-back shape most operators already recognize as a brush hog."),
+               "ground, in the round-back shape most operators already recognize as a brush hog.",
+               ("02-in-use-tall-grass.jpg", "RC72 mounted on a tractor, cutting through tall "
+                "dormant grass and brush")),
               ("3-point, PTO driven", "Mounts on the tractor's rear 3-point hitch and runs off the "
-               "PTO."),
+               "PTO.",
+               ("04-driveline-detail.jpg", "Close view of the PTO driveline shaft and yoke "
+                "connecting to the tractor")),
               ("Tail wheel", "Holds a consistent cutting height across uneven ground instead of "
-               "scalping high spots.")],
+               "scalping high spots.",
+               ("01-hero.jpg", "Side profile studio view with tail wheel and PTO driveline shaft"))],
     faq=[("What HP tractor do I need?",
           "<p>We are confirming the recommended tractor HP range with the manufacturer and will "
           "publish it here rather than estimate it. Email us if you need this confirmed before you "
