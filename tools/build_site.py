@@ -6,6 +6,96 @@ def e(t): return html.escape(str(t), quote=True)
 
 PRICE_VALID = (datetime.date.today() + datetime.timedelta(days=365)).isoformat()
 
+# ---------------------------------------------------------------------------
+# Region-specific tokens. Every store defaults to "GB" (cfg.get("country","GB")),
+# so the four existing UK stores need no cfg change at all and render exactly
+# as before. A store sets country="US" (see cfg_agrimaxx.py/cfg_groundmaxx.py)
+# to pick up USD pricing, US structured data and US-appropriate copy.
+# ---------------------------------------------------------------------------
+REGION = {
+    "GB": dict(
+        # A literal character, not the &pound; entity: this string also flows
+        # through head()'s title, which is html.escape()d, and escaping does
+        # not know to leave "&pound;" alone -- it would double-escape the "&"
+        # into "&amp;pound;", which renders as the literal text "&pound;".
+        currency_code="GBP", currency_symbol="£", country_code="GB",
+        html_lang="en-GB", og_locale="en_GB", area_served="GB",
+    ),
+    "US": dict(
+        currency_code="USD", currency_symbol="$", country_code="US",
+        html_lang="en-US", og_locale="en_US", area_served="US",
+    ),
+}
+
+PHRASES = {
+    "GB": dict(
+        stock_dispatch="In stock &mdash; dispatched in 1&ndash;2 working days",
+        vat1="Includes free delivery to the UK mainland.",
+        vat2="New and unregistered, held in UK stock.",
+        deliverysum="free to UK mainland, 7&ndash;12 working days.",
+        cart_delivery_label="Delivery (UK mainland)",
+        cart_formnote="Delivery is free to the UK mainland. Northern Ireland, the Highlands and "
+                      "Islands and the Channel Islands are quoted separately &mdash; "
+                      "<a href=\"shipping.html\">see delivery</a>.",
+        track_stock="Payment cleared and your machine allocated from UK stock.",
+        track_label="Delivery postcode", track_ph="SW1A 1AA",
+        track_intro="Enter the reference from your confirmation email. Crated machines move on a "
+                    "tail-lift vehicle, so the carrier calls to book a slot before delivery.",
+        track_carrier_step="Booked onto a tail-lift vehicle. You get a call to agree a slot.",
+        parts_dispatch="Parts dispatched from the UK in 48 hours.",
+        machines_meta="UK stock, free mainland delivery.",
+        machines_lead="Every machine below is held in UK stock, ships crated on a tail-lift "
+                      "vehicle, and carries the same delivery, returns and warranty terms.",
+        collection_fee="Collection from {sym}{fee:,} unless faulty",
+        warranty_summary="2 years parts, 1 year engine.",
+        day_word="working day",
+    ),
+    "US": dict(
+        stock_dispatch="In stock — dispatched in 1–2 business days",
+        vat1="Includes free nationwide freight shipping (curbside delivery).",
+        vat2="New and unused, held in US stock.",
+        deliverysum="free nationwide via freight carrier — typical transit time depends on "
+                    "distance and is confirmed once your order ships, not guaranteed.",
+        cart_delivery_label="Delivery (Freight, nationwide)",
+        cart_formnote="Free freight shipping applies to the contiguous 48 states. Alaska, Hawaii "
+                      "and offshore addresses are quoted separately &mdash; "
+                      "<a href=\"shipping.html\">see delivery</a>.",
+        track_stock="Payment cleared and your machine allocated from US stock.",
+        track_label="Delivery ZIP code", track_ph="90210",
+        track_intro="Enter the reference from your confirmation email. Freight shipments move on a "
+                    "pallet, so the carrier calls to book a delivery window.",
+        track_carrier_step="Booked with the freight carrier. You get a call to agree a delivery window.",
+        parts_dispatch="Parts dispatched within 48 hours.",
+        machines_meta="US stock, nationwide freight shipping.",
+        machines_lead="Every machine below is held in US stock, ships freight on a pallet, and "
+                      "carries the same delivery, returns and warranty terms.",
+        collection_fee="Collection billed at cost, estimated around {sym}{fee:,}, unless faulty",
+        # These are PTO implements with no engine of their own, so there is no
+        # separate engine-warranty tier to state -- unlike the UK stores' petrol
+        # and diesel machines.
+        warranty_summary="2 years parts.",
+        day_word="business day",
+    ),
+}
+
+
+def region(cfg):
+    return REGION[cfg.get("country", "GB")]
+
+
+def cur(cfg):
+    return region(cfg)["currency_symbol"]
+
+
+def ph(cfg, key, **kw):
+    text = PHRASES[cfg.get("country", "GB")][key]
+    return text.format(**kw) if kw else text
+
+
+def us(cfg):
+    return cfg.get("country") == "US"
+
+
 # Pages that must carry policy links in the footer (GMC checks home, product, cart, checkout).
 NAV = [("Machines", "machines.html"), ("About", "about.html"),
        ("Contact", "contact.html"), ("Track Order", "track-order.html")]
@@ -78,23 +168,39 @@ PAY_ICONS = (
 def company_no_row(cfg):
     """A definition row only when a company number has actually been supplied."""
     n = (cfg.get("company_no") or "").strip()
-    return f"<div><dt>Company number</dt><dd>{e(n)}</dd></div>" if n else ""
+    if not n:
+        return ""
+    label = "Business ID" if us(cfg) else "Company number"
+    return f"<div><dt>{label}</dt><dd>{e(n)}</dd></div>"
 
 
 def company_no_line(cfg):
     n = (cfg.get("company_no") or "").strip()
-    return f'<br><span class="muted">Company no. {e(n)}</span>' if n else ""
+    if not n:
+        return ""
+    label = "Business ID" if us(cfg) else "Company no."
+    return f'<br><span class="muted">{label} {e(n)}</span>'
 
 
 def company_no_clause(cfg):
     n = (cfg.get("company_no") or "").strip()
-    return f", company number {e(n)}" if n else ""
+    if not n:
+        return ""
+    return f", business ID {e(n)}" if us(cfg) else f", company number {e(n)}"
 
 
 def one_line_address(cfg):
-    """Street, town, postcode and country on a single line, skipping anything not
-       supplied. Town and postcode sit together without a comma, as UK addresses
-       are written."""
+    """Street, town/city, postcode and country on a single line, skipping
+       anything not supplied. UK addresses put town and postcode together
+       without a comma; a US address is written city, state ZIP."""
+    if us(cfg):
+        locality = ", ".join(x.strip() for x in (cfg.get("city"), cfg.get("state"))
+                             if x and x.strip())
+        town = " ".join(x.strip() for x in (locality, cfg.get("postcode")) if x and x.strip())
+        supplied = [p.strip() for p in (cfg.get("street"), town) if p and p.strip()]
+        if not supplied:
+            return ""                   # a store that has not given us an address yet
+        return ", ".join(supplied + ["United States"])
     town = " ".join(x.strip() for x in (cfg.get("city"), cfg.get("postcode")) if x and x.strip())
     supplied = [p.strip() for p in (cfg.get("street"), town) if p and p.strip()]
     if not supplied:
@@ -127,8 +233,9 @@ def phone_row(cfg):
 def head(cfg, title, desc, path, extra="", noindex=False):
     canon = f"https://{cfg['domain']}/{path}"
     robots = '<meta name="robots" content="noindex,nofollow">' if noindex else ""
+    R = region(cfg)
     return f"""<!DOCTYPE html>
-<html lang="en-GB">
+<html lang="{R['html_lang']}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -142,7 +249,7 @@ def head(cfg, title, desc, path, extra="", noindex=False):
 <meta property="og:description" content="{e(desc)}">
 <meta property="og:url" content="{canon}">
 <meta property="og:image" content="https://{cfg['domain']}/{feed_img(cfg['products'][0])}">
-<meta property="og:locale" content="en_GB">
+<meta property="og:locale" content="{R['og_locale']}">
 <meta name="theme-color" content="{cfg['theme']}">
 <link rel="icon" href="data:image/svg+xml,{cfg['favicon']}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -157,18 +264,25 @@ def head(cfg, title, desc, path, extra="", noindex=False):
 def org_ld(cfg):
     # Google penalises structured data that contradicts the page, so a field we have
     # nothing for is left out rather than emitted empty.
+    R = region(cfg)
     tel = (cfg.get("phone") or "").strip()
     tel = f'\n "telephone":"{e(tel)}",' if tel else ""
     addr = ""
     if one_line_address(cfg):
-        addr = (f'\n "address":{{"@type":"PostalAddress","streetAddress":"{e(cfg["street"])}",'
-                f'\n   "addressLocality":"{e(cfg["city"])}","postalCode":"{e(cfg["postcode"])}",'
-                f'\n   "addressCountry":"GB"}},')
+        if us(cfg):
+            addr = (f'\n "address":{{"@type":"PostalAddress","streetAddress":"{e(cfg["street"])}",'
+                    f'\n   "addressLocality":"{e(cfg["city"])}",'
+                    f'"addressRegion":"{e(cfg.get("state", ""))}",'
+                    f'\n   "postalCode":"{e(cfg["postcode"])}","addressCountry":"US"}},')
+        else:
+            addr = (f'\n "address":{{"@type":"PostalAddress","streetAddress":"{e(cfg["street"])}",'
+                    f'\n   "addressLocality":"{e(cfg["city"])}","postalCode":"{e(cfg["postcode"])}",'
+                    f'\n   "addressCountry":"GB"}},')
     return f"""<script type="application/ld+json">{{
  "@context":"https://schema.org","@type":"OnlineStore","name":"{e(cfg['brand'])}",
  "url":"https://{cfg['domain']}/","email":"{cfg['email']}",{tel}{addr}
- "currenciesAccepted":"GBP","paymentAccepted":"Visa, Mastercard, American Express, PayPal",
- "areaServed":"GB"
+ "currenciesAccepted":"{R['currency_code']}","paymentAccepted":"Visa, Mastercard, American Express, PayPal",
+ "areaServed":"{R['area_served']}"
 }}</script>"""
 
 
@@ -227,8 +341,8 @@ def footer(cfg):
     </div>
     <div class="footer__bot">
       <span>&copy; <span data-year></span> <span data-biz="company">{e(cfg['company'])}</span>. All rights reserved.</span>
-      <span>All prices in GBP. {e(cfg['brand'])} is an independent supplier and is not
-        affiliated with any equipment manufacturer.</span>
+      <span>All prices in {region(cfg)['currency_code']}. {e(cfg['brand'])} is an independent
+        supplier and is not affiliated with any equipment manufacturer.</span>
     </div>
   </div>
 </footer>
@@ -241,7 +355,8 @@ def footer(cfg):
 
 
 # ------------------------------------------------------------------ blocks ---
-def product_card(p, featured=False):
+def product_card(p, cfg, featured=False):
+    sym = cur(cfg)
     bullets = "".join(f"<li>{e(b)}</li>" for b in p['bullets'][:3])
     return f"""<article class="card" data-reveal>
   <div class="card__media">
@@ -253,7 +368,7 @@ def product_card(p, featured=False):
     <h3><a href="{p['url']}">{e(p['name'])}</a></h3>
     <p class="muted" style="font-size:.93rem;margin:0">{e(p['short_desc'])}</p>
     <ul>{bullets}</ul>
-    <div class="card__price"><b>&pound;{p['price']:,}</b><s>&pound;{p['was']:,}</s></div>
+    <div class="card__price"><b>{sym}{p['price']:,}</b><s>{sym}{p['was']:,}</s></div>
     <div class="card__actions">
       <a class="btn btn--primary btn--block" href="{p['url']}">View machine</a>
       <button class="btn btn--ghost btn--block" data-add="{p['sku']}">Add to basket</button>
@@ -286,7 +401,7 @@ def hero(cfg):
 
 
 def range_section(cfg, heading=None, lead=None):
-    cards = "".join(product_card(p) for p in cfg['products'])
+    cards = "".join(product_card(p, cfg) for p in cfg['products'])
     return f"""<section id="range">
   <div class="wrap">
     <div class="sec-head center" data-reveal>
@@ -326,7 +441,8 @@ def assurance(cfg):
     return f"""<section class="band"><div class="wrap">
   <div class="sec-head center" data-reveal><p class="eyebrow">Buying with confidence</p>
     <h2>What you are covered by</h2>
-    <p class="muted">Your statutory rights under UK consumer law, and the terms we add on top.
+    <p class="muted">{"Your rights under applicable law, and the terms we add on top." if us(cfg)
+      else "Your statutory rights under UK consumer law, and the terms we add on top."}
       Every claim below is written out in full on our policy pages.</p></div>
   <div class="grid-3">{rows}</div>
   <p class="center muted" style="margin-top:2rem;font-size:.92rem">
@@ -371,13 +487,12 @@ def build_machines(cfg):
     last = cfg["products"][-1]["short_desc"].split(" — ")[0].split(" that ")[0].split(" with ")[0].lower()
     return (head(cfg, f"All machines — {cfg['brand']}",
                  f"All four {cfg['brand']} machines: {names} and {last}. "
-                 f"UK stock, free mainland delivery.", "machines.html")
+                 f"{ph(cfg, 'machines_meta')}", "machines.html")
             + header(cfg, "machines.html")
             + f"""<section class="pagehead"><div class="wrap">
   <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a> / <span>Machines</span></nav>
   <h1>All four machines</h1>
-  <p class="muted" style="max-width:64ch">Every machine below is held in UK stock, ships crated on a
-     tail-lift vehicle, and carries the same delivery, returns and warranty terms.</p>
+  <p class="muted" style="max-width:64ch">{ph(cfg, 'machines_lead')}</p>
 </div></section>"""
             + range_section(cfg, "The full range", cfg['range_lead']) + cta(cfg) + footer(cfg))
 
@@ -387,7 +502,8 @@ def attachments_block(p, cfg):
     items = p.get("attachments")
     if not items:
         return ""
-    rows = "".join(f'<tr><th>{e(n)}</th><td><strong>&pound;{v:,}</strong></td></tr>' for n, v in items)
+    sym = cur(cfg)
+    rows = "".join(f'<tr><th>{e(n)}</th><td><strong>{sym}{v:,}</strong></td></tr>' for n, v in items)
     return f"""<section class="band"><div class="wrap" style="max-width:900px">
   <div class="sec-head" data-reveal><p class="eyebrow">Attachments</p>
     <h2>What else it will run</h2>
@@ -409,7 +525,22 @@ def build_product(cfg, p):
     bullets = "".join(f"<li>{e(b)}</li>" for b in p['bullets'])
     feats = "".join(f'<div class="tile" data-reveal><h3>{e(t)}</h3><p>{e(d)}</p></div>'
                     for t, d in p['features'])
-    others = "".join(product_card(q) for q in cfg['products'] if q['sku'] != p['sku'])
+    others = "".join(product_card(q, cfg) for q in cfg['products'] if q['sku'] != p['sku'])
+    R = region(cfg)
+    sym = R['currency_symbol']
+    # A US freight transit time varies far more by distance than a UK tail-lift
+    # delivery does, so it is omitted rather than guessed -- handlingTime alone
+    # is still valid and GMC does not require transitTime.
+    if us(cfg):
+        delivery_time = ('"deliveryTime":{"@type":"ShippingDeliveryTime",\n'
+                          '       "handlingTime":{"@type":"QuantitativeValue","minValue":1,'
+                          '"maxValue":2,"unitCode":"DAY"}}},')
+    else:
+        delivery_time = ('"deliveryTime":{"@type":"ShippingDeliveryTime",\n'
+                          '       "handlingTime":{"@type":"QuantitativeValue","minValue":1,'
+                          '"maxValue":2,"unitCode":"DAY"},\n'
+                          '       "transitTime":{"@type":"QuantitativeValue","minValue":6,'
+                          '"maxValue":10,"unitCode":"DAY"}}},')
 
     ld = f"""<script type="application/ld+json">{{
  "@context":"https://schema.org","@type":"Product",
@@ -419,27 +550,26 @@ def build_product(cfg, p):
  "sku":"{p['sku']}","mpn":"{p['mpn']}",
  "brand":{{"@type":"Brand","name":"{e(cfg['brand'])}"}},
  "offers":{{"@type":"Offer","url":"https://{cfg['domain']}/{p['url']}",
-   "priceCurrency":"GBP","price":"{p['price']}","priceValidUntil":"{PRICE_VALID}",
+   "priceCurrency":"{R['currency_code']}","price":"{p['price']}","priceValidUntil":"{PRICE_VALID}",
    "availability":"https://schema.org/InStock","itemCondition":"https://schema.org/NewCondition",
    "seller":{{"@type":"Organization","name":"{e(cfg['company'])}"}},
    "shippingDetails":{{"@type":"OfferShippingDetails",
-     "shippingRate":{{"@type":"MonetaryAmount","value":"0","currency":"GBP"}},
-     "shippingDestination":{{"@type":"DefinedRegion","addressCountry":"GB"}},
-     "deliveryTime":{{"@type":"ShippingDeliveryTime",
-       "handlingTime":{{"@type":"QuantitativeValue","minValue":1,"maxValue":2,"unitCode":"DAY"}},
-       "transitTime":{{"@type":"QuantitativeValue","minValue":6,"maxValue":10,"unitCode":"DAY"}}}}}},
+     "shippingRate":{{"@type":"MonetaryAmount","value":"0","currency":"{R['currency_code']}"}},
+     "shippingDestination":{{"@type":"DefinedRegion","addressCountry":"{R['country_code']}"}},
+     {delivery_time}
    "hasMerchantReturnPolicy":{{"@type":"MerchantReturnPolicy",
-     "applicableCountry":"GB","returnPolicyCategory":"https://schema.org/MerchantReturnFiniteReturnWindow",
+     "applicableCountry":"{R['country_code']}",
+     "returnPolicyCategory":"https://schema.org/MerchantReturnFiniteReturnWindow",
      "merchantReturnDays":30,"returnMethod":"https://schema.org/ReturnByMail",
      "returnFees":"https://schema.org/ReturnShippingFees",
-     "returnShippingFeesAmount":{{"@type":"MonetaryAmount","value":"{cfg['return_fee']}","currency":"GBP"}}}}}}
+     "returnShippingFeesAmount":{{"@type":"MonetaryAmount","value":"{cfg['return_fee']}","currency":"{R['currency_code']}"}}}}}}
 }}</script>
 <script type="application/ld+json">{{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
  {{"@type":"ListItem","position":1,"name":"Home","item":"https://{cfg['domain']}/"}},
  {{"@type":"ListItem","position":2,"name":"Machines","item":"https://{cfg['domain']}/machines.html"}},
  {{"@type":"ListItem","position":3,"name":"{e(p['name'])}"}}]}}</script>"""
 
-    return (head(cfg, f"{p['name_full']} — £{p['price']:,}", p['meta_desc'], p['url'], ld)
+    return (head(cfg, f"{p['name_full']} — {sym}{p['price']:,}", p['meta_desc'], p['url'], ld)
             + header(cfg, p['url'])
             + f"""<section class="pdp"><div class="wrap">
   <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a> /
@@ -453,18 +583,18 @@ def build_product(cfg, p):
   </div>
 
   <div class="buybox">
-    <span class="stockline"><i class="dot"></i>In stock &mdash; dispatched in 1&ndash;2 working days</span>
+    <span class="stockline"><i class="dot"></i>{ph(cfg, 'stock_dispatch')}</span>
     <h1>{e(p['name_full'])}</h1>
     <p class="muted">{e(p['lede'])}</p>
 
     <div class="priceblock">
       <div class="priceblock__row">
-        <span class="price">&pound;{p['price']:,}</span>
-        <s class="was">&pound;{p['was']:,}</s>
+        <span class="price">{sym}{p['price']:,}</span>
+        <s class="was">{sym}{p['was']:,}</s>
         <span class="save">SAVE {round((1-p['price']/p['was'])*100)}%</span>
       </div>
-      <p class="vatline">Includes free delivery to the UK mainland.</p>
-      <p class="vatline">New and unregistered, held in UK stock.</p>
+      <p class="vatline">{ph(cfg, 'vat1')}</p>
+      <p class="vatline">{ph(cfg, 'vat2')}</p>
     </div>
 
     <div class="specgrid">{specs_hi}</div>
@@ -473,7 +603,7 @@ def build_product(cfg, p):
       <label class="qty"><span class="sr">Quantity</span>
         <input type="number" id="qty" value="1" min="1" max="5" inputmode="numeric"></label>
       <button class="btn btn--primary btn--lg btn--grow" data-add="{p['sku']}" data-buynow
-        data-qty="#qty">Buy now &mdash; &pound;{p['price']:,}</button>
+        data-qty="#qty">Buy now &mdash; {sym}{p['price']:,}</button>
     </div>
     <button class="btn btn--ghost btn--lg btn--block" style="margin-top:.7rem"
       data-add="{p['sku']}" data-qty="#qty">Add to basket</button>
@@ -481,11 +611,11 @@ def build_product(cfg, p):
     <p class="buynote">Buy now takes you straight to checkout with this machine in your basket.</p>
 
     <ul class="delivery-summary">
-      <li><strong>Delivery:</strong> free to UK mainland, 7&ndash;12 working days.
+      <li><strong>Delivery:</strong> {ph(cfg, 'deliverysum')}
         <a href="shipping.html">Delivery details</a></li>
-      <li><strong>Returns:</strong> 30 days from delivery. Collection from &pound;{cfg['return_fee']}
-        unless faulty. <a href="returns.html">Returns policy</a></li>
-      <li><strong>Warranty:</strong> 2 years parts, 1 year engine.
+      <li><strong>Returns:</strong> 30 days from delivery. {ph(cfg, 'collection_fee', sym=sym, fee=cfg['return_fee'])}.
+        <a href="returns.html">Returns policy</a></li>
+      <li><strong>Warranty:</strong> {ph(cfg, 'warranty_summary')}
         <a href="returns.html#warranty">Warranty terms</a></li>
       <li><strong>Payment:</strong> card, PayPal or Apple Pay at checkout.
         <a href="payment.html">Payment terms</a></li>
@@ -518,7 +648,7 @@ def build_product(cfg, p):
 </div></section>
 
 <div class="stickybuy">
-  <div><b>&pound;{p['price']:,}</b></div>
+  <div><b>{sym}{p['price']:,}</b></div>
   <div class="stickybuy__btns">
     <button class="btn btn--ghost" data-add="{p['sku']}">Basket</button>
     <button class="btn btn--primary" data-add="{p['sku']}" data-buynow>Buy now</button>
@@ -544,14 +674,12 @@ def build_cart(cfg):
   <aside class="summary" id="cartSummary" hidden>
     <h2>Order summary</h2>
     <dl>
-      <div><dt>Subtotal</dt><dd data-sum-net>&pound;0</dd></div>
-      <div><dt>Delivery (UK mainland)</dt><dd>Free</dd></div>
-      <div class="total"><dt>Total to pay</dt><dd data-sum-total>&pound;0</dd></div>
+      <div><dt>Subtotal</dt><dd data-sum-net>{cur(cfg)}0</dd></div>
+      <div><dt>{ph(cfg, 'cart_delivery_label')}</dt><dd>Free</dd></div>
+      <div class="total"><dt>Total to pay</dt><dd data-sum-total>{cur(cfg)}0</dd></div>
     </dl>
     <a class="btn btn--primary btn--block btn--lg" href="checkout.html">Proceed to checkout</a>
-    <p class="formnote">Delivery is free to the UK mainland. Northern Ireland, the Highlands and
-      Islands and the Channel Islands are quoted separately &mdash;
-      <a href="shipping.html">see delivery</a>.</p>
+    <p class="formnote">{ph(cfg, 'cart_formnote')}</p>
     <ul class="minipolicy">
       <li><a href="returns.html">30-day returns</a></li>
       <li><a href="shipping.html">Delivery &amp; shipping</a></li>
@@ -596,9 +724,9 @@ def build_checkout(cfg):
   <aside class="summary">
     <h2>Order summary</h2>
     <dl>
-      <div><dt>Subtotal</dt><dd data-sum-net>&pound;0</dd></div>
-      <div><dt>Delivery (UK mainland)</dt><dd>Free</dd></div>
-      <div class="total"><dt>Total to pay</dt><dd data-sum-total>&pound;0</dd></div>
+      <div><dt>Subtotal</dt><dd data-sum-net>{cur(cfg)}0</dd></div>
+      <div><dt>{ph(cfg, 'cart_delivery_label')}</dt><dd>Free</dd></div>
+      <div class="total"><dt>Total to pay</dt><dd data-sum-total>{cur(cfg)}0</dd></div>
     </dl>
     <a class="btn btn--ghost btn--block" href="cart.html">Back to basket</a>
     <ul class="minipolicy">
@@ -630,6 +758,91 @@ def _policy_page(cfg, slug, title, desc, intro, sections):
 
 def build_returns(cfg):
     f = cfg['return_fee']
+    if us(cfg):
+        return _policy_page(cfg, "returns.html", "Returns, refunds & warranty",
+            "How to return a machine, what it costs, how long a refund takes, and what the "
+            "warranty covers.",
+            "You may return most machines within 30 days of delivery. This page sets out the "
+            "window, the procedure, who pays, and when you get your money back. Written "
+            "warranties on this site are also subject to the federal Magnuson-Moss Warranty Act.",
+            [("window", "Return window",
+              "<p><strong>You have 30 calendar days from the day you receive the machine</strong> "
+              "to tell us you want to return it. The window runs from the delivery date, not the "
+              "order date.</p>"
+              "<p>Once you have told us, you have a further 14 days to make the machine available "
+              "for freight pickup. Contact us on or before day 30 even if pickup falls later.</p>"),
+             ("how", "How to start a return",
+              f"<ol><li>Email <a href='mailto:{cfg['email']}'>{cfg['email']}</a> with your order "
+              "reference and the reason for return, or use the form on our "
+              "<a href='contact.html'>contact page</a>.</li>"
+              "<li>We reply within one business day with a return reference and a freight pickup "
+              "form.</li>"
+              "<li>We book a freight pickup from the delivery address. You do not arrange your own "
+              "carrier &mdash; these machines are too heavy for a parcel network.</li>"
+              "<li>Have the machine palletized and accessible at ground level on the agreed "
+              "day.</li></ol>"
+              "<p>No return is refused for want of the original packaging, but keep the pallet and "
+              "crating if you can; it protects the machine in transit and protects your "
+              "refund.</p>"),
+             ("cost", "Who pays for the return",
+              f"<table class='spectable'><tbody>"
+              f"<tr><th>Faulty, damaged or not as described</th><td><strong>We pay.</strong> "
+              f"Pickup is free and you receive a full refund including any shipping you "
+              f"paid.</td></tr>"
+              f"<tr><th>Changed your mind</th><td>Pickup is billed at the freight carrier's actual "
+              f"cost for your location &mdash; typically around <strong>{cur(cfg)}{f}</strong>, but "
+              f"it varies with distance and weight &mdash; deducted from your refund. We confirm "
+              f"the figure before booking so there are no surprises.</td></tr>"
+              f"<tr><th>Restocking fee</th><td><strong>None.</strong> We do not charge a "
+              f"restocking fee in any circumstances.</td></tr></tbody></table>"),
+             ("condition", "Condition of returned machines",
+              "<p>You may inspect and test a machine as you would in a store: check the fit, the "
+              "controls and the hitch or PTO connection against your tractor. That is expected and "
+              "does not affect your refund.</p>"
+              "<p>Use in the field does. If a machine comes back with wear on blades, teeth or "
+              "cutting edges, or damage beyond reasonable inspection, we may reduce the refund to "
+              "reflect the loss in value, and we will tell you the amount and the reason in "
+              "writing before we process it.</p>"
+              "<p>Freight carriers can refuse a machine with fuel or fluids not drained or "
+              "declared, which delays your refund.</p>"),
+             ("refund", "Refunds and timing",
+              "<p>Refunds go back to the original payment method &mdash; the same card or account "
+              "you paid from. We cannot refund to a different method, and we do not issue store "
+              "credit unless you ask for it.</p>"
+              "<p><strong>We refund within 14 days</strong> of the machine reaching our warehouse, "
+              "or of you giving us proof it was shipped, whichever is sooner. Card refunds usually "
+              "clear in a further 3&ndash;10 business days depending on your bank.</p>"),
+             ("exclusions", "What is not returnable",
+              "<p>Consumable and wear parts are non-returnable once fitted or used: blades, "
+              "carbide teeth, belts, filters, cutting edges and driveline shafts. Unopened, "
+              "unfitted spares can be returned within 30 days on the same terms as machines.</p>"
+              "<p>We do not sell digital goods, downloads or subscriptions, so no digital-content "
+              "or subscription-cancellation terms apply to anything on this site.</p>"),
+             ("warranty", "Warranty",
+              "<p>Every machine carries a <strong>two-year written warranty on parts we "
+              "supply</strong>, starting on the delivery date and transferring with the machine if "
+              "you sell it. As a written warranty on a consumer product, it is also subject to the "
+              "federal Magnuson-Moss Warranty Act.</p>"
+              "<p><strong>Covered:</strong> manufacturing defects, premature failure of a component "
+              "under normal use, and anything that was already wrong when the machine arrived.</p>"
+              "<p><strong>Not covered:</strong> wear items (blades, teeth, belts, filters, cutting "
+              "edges, driveline shafts); damage from feeding stone, wire, metal or frozen material "
+              "into a machine; running the PTO above the machine's rated speed; overloading beyond "
+              "rated capacity; and damage from repairs carried out by someone other than an "
+              "approved service provider. The post hole digger's auger is sold separately and is "
+              "not part of this listing's warranty.</p>"
+              f"<p>To claim, email <a href='mailto:{cfg['support_email']}'>{cfg['support_email']}"
+              "</a> with your order reference, the serial number and photographs or video of the "
+              "fault. We repair by dispatching parts or by arranging a service visit, at our "
+              "discretion.</p>"),
+             ("rights", "Your rights under state law",
+              "<p>This warranty is in addition to, and does not replace, any rights you may have "
+              "under your state's consumer protection laws. Some states do not allow limits on how "
+              "long an implied warranty lasts or on incidental or consequential damages, so the "
+              "limits above may not apply to you.</p>"
+              "<p>Business customers buy on our <a href='terms.html'>terms of sale</a>. Our 30-day "
+              "return window and two-year parts warranty apply to business purchases on the same "
+              "terms as to individual buyers.</p>")])
     return _policy_page(cfg, "returns.html", "Returns, refunds & warranty",
         "How to return a machine, what it costs, how long a refund takes, and what the warranty covers.",
         "You may return any machine within 30 days of delivery. This page sets out the window, the "
@@ -706,6 +919,51 @@ def build_returns(cfg):
 
 
 def build_shipping(cfg):
+    if us(cfg):
+        return _policy_page(cfg, "shipping.html", "Delivery & shipping",
+            "Delivery costs, typical timescales, coverage and what to check when your machine "
+            "arrives.",
+            "Every machine ships freight on a pallet. Delivery is free to the contiguous 48 "
+            "states; everywhere else is quoted before you order.",
+            [("cost", "Delivery costs",
+              "<table class='spectable'><tbody>"
+              "<tr><th>Contiguous 48 states</th><td><strong>Free</strong></td></tr>"
+              "<tr><th>Alaska &amp; Hawaii</th><td>Quoted individually</td></tr>"
+              "<tr><th>US territories (Puerto Rico, etc.)</th><td>Quoted individually</td></tr>"
+              "<tr><th>Outside the United States</th><td>Not currently served</td></tr>"
+              "</tbody></table>"
+              "<p>Ask us for an exact figure before ordering and we will confirm it in writing. We "
+              "never add a delivery charge after an order is placed. Sales tax, where applicable, "
+              "is calculated and shown at checkout.</p>"),
+             ("time", "How long it takes",
+              "<p>Handling is typically 1&ndash;2 business days before a machine leaves us. "
+              "<strong>Freight transit time after that depends on distance and the carrier's "
+              "schedule</strong> &mdash; it is estimated, not guaranteed, and we will give you the "
+              "carrier's current estimate once your order ships rather than promise a fixed "
+              "date.</p>"
+              "<p>The carrier calls you to schedule a delivery window before the truck arrives. We "
+              "do not send a machine without that call being made first.</p>"),
+             ("access", "What we need at your end",
+              "<p>Delivery is curbside by freight truck, typically to a driveway or the nearest "
+              "point a semi-trailer can safely reach. You need firm, level ground, and an adult "
+              "present to sign.</p>"
+              "<p>Most carriers do not include a forklift or loader at the delivery end. If you do "
+              "not have equipment to move the pallet off the truck, ask about liftgate service when "
+              "you order &mdash; many carriers offer it for an added fee. Carriers may also refuse "
+              "steep, narrow or unpaved access; tell us at checkout in the access notes box and we "
+              "will plan for it.</p>"),
+             ("check", "Checking your delivery",
+              "<p><strong>Inspect the shipment before you sign the delivery receipt.</strong> If "
+              "anything is damaged, note it on the carrier's paperwork before signing &mdash; that "
+              "note is what makes a freight claim straightforward. Photograph it and email us the "
+              "same day.</p>"
+              "<p>If damage only becomes apparent after unpacking, tell us within 48 hours and we "
+              "will still put it right. Signing clean does not remove your rights, but it does make "
+              "a freight claim slower.</p>"),
+             ("track", "Tracking",
+              "<p>You get a dispatch email with a carrier reference as soon as the machine leaves "
+              "us. You can also use our <a href='track-order.html'>order tracking page</a> or reply "
+              "to your confirmation email and we will chase the carrier for you.</p>")])
     return _policy_page(cfg, "shipping.html", "Delivery & shipping",
         "Delivery costs, timescales, coverage and what to check when your machine arrives.",
         "Every machine ships crated on a pallet by tail-lift vehicle. Delivery is free to the UK "
@@ -747,6 +1005,52 @@ def build_shipping(cfg):
 
 
 def build_payment(cfg):
+    if us(cfg):
+        return _policy_page(cfg, "payment.html", "Payment & billing",
+            "Accepted payment methods, currency, invoicing and finance.",
+            "All prices on this site are in US dollars. What you see is what you pay before tax "
+            "&mdash; we add nothing at checkout beyond sales tax where it applies.",
+            [("methods", "How you can pay",
+              "<p>We accept Visa, Mastercard, American Express and Discover credit and debit "
+              "cards, PayPal, Apple&nbsp;Pay and Google&nbsp;Pay.</p>"
+              "<p>Card payments are processed by our payment provider on their own secure, "
+              "PCI-DSS compliant systems. <strong>Card numbers are never entered on this website "
+              "and are never stored by us</strong> &mdash; we receive only a confirmation that "
+              "payment succeeded.</p>"
+              "<p>Bank transfer (ACH or wire) is available for orders over "
+              f"{cur(cfg)}5,000 and for trade accounts; email "
+              f"<a href='mailto:{cfg['email']}'>{cfg['email']}</a> and we will issue a proforma "
+              "invoice.</p>"),
+             ("tax", "Sales tax",
+              "<p>Sales tax is calculated at checkout based on your delivery address, where the "
+              "law requires us to collect it. The amount is shown before you pay &mdash; it is "
+              "never added afterward.</p>"),
+             ("invoicing", "Invoicing",
+              "<p>An invoice is emailed with your dispatch confirmation and a paper copy travels "
+              "with the machine.</p>"
+              "<p>If you need it made out to a company name, or a purchase order number on it, "
+              "tell us when you order and we will raise it that way.</p>"),
+             ("when", "When you are charged",
+              "<p>Payment is taken in full when you place the order. We do not take deposits, we "
+              "do not store card details for later, and there are no recurring or subscription "
+              "charges of any kind on this site.</p>"
+              "<p>If a machine turns out to be unavailable after you have paid, we tell you within "
+              "one business day and refund in full immediately &mdash; we do not hold your money "
+              "against future stock.</p>"),
+             ("finance", "Financing",
+              "<p>Equipment financing is available through an independent, third-party finance "
+              "provider. Monthly figures shown on product pages are indicative illustrations, not "
+              "quotations or offers of credit, and assume a representative term with no down "
+              "payment.</p>"
+              f"<p>{e(cfg['company'])} introduces customers to the provider and is not the lender. "
+              "Approval, rate and term are decided entirely by the provider's own underwriting; the "
+              "financing agreement is between you and them.</p>"),
+             ("security", "Security",
+              "<p>This site is served over HTTPS. Payment is handled entirely on the provider's "
+              "systems, so no card data passes through, or is retained by, this website.</p>"
+              "<p>We will never call or email you to ask for card details, a PIN or a one-time "
+              "passcode. If someone does, it is not us &mdash; contact us using the email in the "
+              "footer.</p>")])
     return _policy_page(cfg, "payment.html", "Payment & billing",
         "Accepted payment methods, currency, invoicing and finance.",
         "All prices on this site are in pounds sterling. What you see is what you pay &mdash; we "
@@ -787,6 +1091,59 @@ def build_payment(cfg):
 
 
 def build_privacy(cfg):
+    if us(cfg):
+        return _policy_page(cfg, "privacy.html", "Privacy policy",
+            "What personal data we collect, why, how long we keep it and your rights.",
+            f"{e(cfg['company'])} collects what we need to sell and deliver a machine, and "
+            "nothing else.",
+            [("collect", "What we collect",
+              "<table class='spectable'><tbody>"
+              "<tr><th>Order data</th><td>Name, email, phone, delivery and billing address, order "
+              "history, access notes you give us</td></tr>"
+              "<tr><th>Enquiry data</th><td>Whatever you type into the contact form and the emails "
+              "you send us</td></tr>"
+              "<tr><th>Technical data</th><td>IP address and browser type in standard server "
+              "logs</td></tr>"
+              "<tr><th>Payment data</th><td>None. Card details go directly to our payment provider "
+              "and are never seen or stored by us</td></tr></tbody></table>"),
+             ("why", "Why we use it",
+              "<p><strong>To fulfil your order</strong> &mdash; we cannot sell or deliver you a "
+              "machine without it.</p>"
+              "<p><strong>To answer enquiries</strong> &mdash; responding to people who contact "
+              "us.</p>"
+              "<p><strong>To meet legal and accounting duties</strong> &mdash; mainly keeping "
+              "order and tax records.</p>"
+              "<p><strong>Marketing email</strong> &mdash; only if you opt in. Every marketing "
+              "email carries a one-click unsubscribe that works immediately.</p>"),
+             ("share", "Who we share it with",
+              "<p>Only those who need it to complete your order: our freight carrier (name, "
+              "address, phone so they can schedule your delivery), our payment provider, our "
+              "accountants, and our IT and email providers.</p>"
+              "<p><strong>We do not sell, rent or trade your personal data</strong>, and we do not "
+              "share it for anyone else's marketing.</p>"),
+             ("keep", "How long we keep it",
+              "<p>Order and invoice records: kept for as long as required for accounting and tax "
+              "purposes, typically several years. Warranty records: for the life of the warranty "
+              "plus one year. Enquiries that do not become orders: two years. Marketing consent: "
+              "until you withdraw it.</p>"),
+             ("cookies", "Cookies and analytics",
+              "<p>This site sets <strong>no advertising or cross-site tracking cookies</strong>, "
+              "and we do not use Google Analytics, Meta Pixel or any third-party tracker. Your "
+              "basket is held in your own browser using local storage, which never leaves your "
+              "device. Clearing your browser data clears your basket.</p>"
+              "<p>We do count visits, so we know which machines people are looking at. Each visit "
+              "is given a random reference that lives only for that browser session and is "
+              "discarded when you close the tab. Against it we record only the page you viewed, "
+              "the machine you looked at, and whether a basket or checkout was started.</p>"
+              "<p><strong>We do not record your name, email, IP address, device fingerprint or "
+              "anything that identifies you</strong>, and the reference cannot be linked back to "
+              "you or followed onto any other website. Counts are deleted after seven days.</p>"),
+             ("rights", "Your privacy rights",
+              "<p>Depending on your state, you may have the right to know what personal data a "
+              "business holds about you, to request its deletion, and to opt out of the sale or "
+              "sharing of personal data. We do not sell personal data to third parties.</p>"
+              f"<p>Email <a href='mailto:{cfg['support_email']}'>{cfg['support_email']}</a> to "
+              "make a request and we will respond within a reasonable time.</p>")])
     return _policy_page(cfg, "privacy.html", "Privacy policy",
         "What personal data we collect, why, how long we keep it and your rights under UK GDPR.",
         f"{e(cfg['company'])} is the data controller for the personal data described here. We collect "
@@ -843,6 +1200,61 @@ def build_privacy(cfg):
 
 
 def build_terms(cfg):
+    if us(cfg):
+        return _policy_page(cfg, "terms.html", "Terms & conditions",
+            "The terms on which we sell machines through this website.",
+            "These terms govern every order placed through this website. Please read them before "
+            "you buy.",
+            [("who", "Who you are buying from",
+              f"<p>You are buying from <strong>{e(cfg['company'])}</strong>"
+              f"{company_no_clause(cfg)}"
+              f"{', located at ' + e(one_line_address(cfg)) if one_line_address(cfg) else ''}.</p>"
+              f"<p>Contact us at <a href='mailto:{cfg['email']}'>{cfg['email']}</a>"
+              f"{or_call(cfg)}.</p>"
+              f"<p>{e(cfg['brand'])} is an independent retailer. We are not affiliated with, "
+              "endorsed by, or an agent of any equipment manufacturer, and any manufacturer name "
+              "on this site is used only to identify a component.</p>"),
+             ("contract", "How the contract is formed",
+              "<p>Your order is an offer to buy. The contract forms when we send you a dispatch "
+              "confirmation email, not when you pay. If we cannot fulfil an order we tell you "
+              "within one business day and refund in full.</p>"
+              "<p>We reserve the right to decline an order where a price or specification has been "
+              "published in obvious error. Where that happens you are refunded in full and owe us "
+              "nothing.</p>"),
+             ("prices", "Prices and specification",
+              "<p>Prices are in US dollars and do not include sales tax, which is calculated at "
+              "checkout where applicable. The price you see when you place the order is the price "
+              "you pay; we do not add fees afterward.</p>"
+              "<p>Specifications are nominal and may vary slightly between production batches. "
+              "Where a variation would materially affect your intended use, tell us within 30 days "
+              "and the <a href='returns.html'>returns policy</a> applies in full.</p>"),
+             ("title", "Title and risk",
+              "<p>Risk in a machine passes to you on delivery. Title passes when we have received "
+              "payment in full. Until then the machine remains ours, and you must not sell, modify "
+              "or dispose of it.</p>"),
+             ("use", "Safe use and operator competence",
+              "<p>These are powerful, PTO-driven implements. You are responsible for reading the "
+              "operator's manual, following standard PTO and tractor-attachment safety practice, "
+              "and ensuring anyone who operates a machine is trained and competent to do so.</p>"
+              "<p>There is no license required to purchase or operate this equipment on private "
+              "property. We supply the manual and the machine; we do not provide operator "
+              "certification, and we are not liable for loss arising from untrained or unsafe "
+              "use.</p>"),
+             ("liability", "Liability",
+              "<p>We are responsible for loss you suffer that is a direct and foreseeable result "
+              "of our breaking this contract or failing to use reasonable care.</p>"
+              "<p>We do not disclaim liability for death or personal injury caused by our "
+              "negligence, or for fraud, to the extent such liability cannot be limited under "
+              "applicable law. Otherwise, our total liability for any claim relating to a purchase "
+              "is limited to the amount you paid for the product, and we are not liable for "
+              "indirect, incidental or consequential damages, including lost profits.</p>"),
+             ("law", "Complaints and governing law",
+              f"<p>If something goes wrong, email <a href='mailto:{cfg['support_email']}'>"
+              f"{cfg['support_email']}</a>. We acknowledge complaints within one business day and "
+              "aim to resolve them within ten.</p>"
+              "<p>These terms are governed by the laws of the <strong>[Governing state &mdash; "
+              "TBD]</strong>, without regard to its conflict-of-laws principles, once that is "
+              "finalized alongside our business registration.</p>")])
     return _policy_page(cfg, "terms.html", "Terms & conditions",
         "The terms on which we sell machines through this website.",
         "These terms govern every order placed through this website. Please read them before you buy. "
@@ -934,12 +1346,12 @@ def build_contact(cfg):
   <nav class="crumbs"><a href="index.html">Home</a> / <span>Contact</span></nav>
   <h1>Contact us</h1>
   <p class="muted" style="max-width:62ch">Questions on specification, access, delivery, returns or
-     finance? A specialist replies the same working day. Lines are open Monday to Friday,
+     finance? A specialist replies the same {ph(cfg, 'day_word')}. Lines are open Monday to Friday,
      8am&ndash;6pm.</p>
 </div></section>
 <section><div class="wrap grid-2" style="align-items:start">
   <div>
-    <form class="form" data-demo="Thanks — your enquiry has been noted. A specialist will reply by email within one working day." novalidate>
+    <form class="form" data-demo="Thanks — your enquiry has been noted. A specialist will reply by email within one {ph(cfg, 'day_word')}." novalidate>
       <div class="field"><label for="cname">Your name</label><input id="cname" name="name" required autocomplete="name"></div>
       <div class="field"><label for="cmail">Email</label><input id="cmail" name="email" type="email" required autocomplete="email"></div>
       <div class="field"><label for="cphone">Phone (optional)</label><input id="cphone" name="phone" type="tel" autocomplete="tel"></div>
@@ -960,7 +1372,7 @@ def build_contact(cfg):
          <span class="muted">Mon&ndash;Fri, 8am&ndash;6pm</span></p></div>
     <div class="tile" style="margin-bottom:1rem"><h3>Orders, returns &amp; parts</h3>
       <p><a href="mailto:{cfg['support_email']}">{cfg['support_email']}</a><br>
-         <span class="muted">Replies within one working day. Parts dispatched from the UK in 48 hours.</span></p></div>
+         <span class="muted">Replies within one {ph(cfg, 'day_word')}. {ph(cfg, 'parts_dispatch')}</span></p></div>
     <div class="tile"><h3>Registered office</h3>
       <p>{e(cfg['company'])}{"<br>" + e(one_line_address(cfg)) if one_line_address(cfg) else ""}{company_no_line(cfg)}</p>
       <p class="muted" style="font-size:.86rem">Warehouse address &mdash; not a retail showroom.
@@ -976,13 +1388,12 @@ def build_track(cfg):
             + f"""<section class="pagehead"><div class="wrap" style="max-width:760px">
   <nav class="crumbs"><a href="index.html">Home</a> / <span>Track order</span></nav>
   <h1>Where is my machine?</h1>
-  <p class="muted">Enter the reference from your confirmation email. Crated machines move on a
-     tail-lift vehicle, so the carrier calls to book a slot before delivery.</p>
-  <form class="form" data-demo="No live order was found for that reference. Email {cfg['support_email']} with your order number and we will trace it the same working day." style="margin-top:1.6rem" novalidate>
+  <p class="muted">{ph(cfg, 'track_intro')}</p>
+  <form class="form" data-demo="No live order was found for that reference. Email {cfg['support_email']} with your order number and we will trace it the same {ph(cfg, 'day_word')}." style="margin-top:1.6rem" novalidate>
     <div class="field"><label for="ref">Order reference</label>
       <input id="ref" name="ref" placeholder="{cfg['ref_prefix']}-000000" required></div>
-    <div class="field"><label for="pc">Delivery postcode</label>
-      <input id="pc" name="postcode" placeholder="SW1A 1AA" required></div>
+    <div class="field"><label for="pc">{ph(cfg, 'track_label')}</label>
+      <input id="pc" name="postcode" placeholder="{ph(cfg, 'track_ph')}" required></div>
     <button class="btn btn--primary btn--lg" type="submit">Track order</button>
   </form>
   <div class="result" role="status"></div>
@@ -990,9 +1401,9 @@ def build_track(cfg):
 <section class="band"><div class="wrap">
   <div class="sec-head center"><h2>What each stage means</h2></div>
   <div class="steps">
-    <div class="step"><h3>Order placed</h3><p>Payment cleared and your machine allocated from UK stock.</p></div>
+    <div class="step"><h3>Order placed</h3><p>{ph(cfg, 'track_stock')}</p></div>
     <div class="step"><h3>Pre-delivery check</h3><p>Fluids, fasteners and a running test before the crate is sealed.</p></div>
-    <div class="step"><h3>With the carrier</h3><p>Booked onto a tail-lift vehicle. You get a call to agree a slot.</p></div>
+    <div class="step"><h3>With the carrier</h3><p>{ph(cfg, 'track_carrier_step')}</p></div>
     <div class="step"><h3>Delivered</h3><p>Signed for kerbside. Inspect before signing and note any damage.</p></div>
   </div>
   <p class="center muted" style="margin-top:2rem">Still stuck? Email
@@ -1003,6 +1414,7 @@ def build_track(cfg):
 def build_feed(cfg):
     """Google Merchant Center product feed (RSS 2.0 + g: namespace)."""
     items = ""
+    R = region(cfg)
     for p in cfg['products']:
         d = cfg['domain']
         items += f"""
@@ -1015,13 +1427,13 @@ def build_feed(cfg):
     {"".join(f'<g:additional_image_link>https://{d}/{p["dir"]}/{(f[:-4] + ".jpg") if f.endswith(".svg") else f}</g:additional_image_link>' for f, _ in p['images'][1:6])}
     <g:availability>in_stock</g:availability>
     <g:condition>new</g:condition>
-    <g:price>{p['price']}.00 GBP</g:price>
+    <g:price>{p['price']}.00 {R['currency_code']}</g:price>
     <g:brand>{e(cfg['brand'])}</g:brand>
     <g:mpn>{p['mpn']}</g:mpn>
     <g:identifier_exists>no</g:identifier_exists>
     <g:product_type>{e(p['category'])}</g:product_type>
     <g:google_product_category>{p['gpc']}</g:google_product_category>
-    <g:shipping><g:country>GB</g:country><g:service>Standard</g:service><g:price>0.00 GBP</g:price></g:shipping>
+    <g:shipping><g:country>{R['country_code']}</g:country><g:service>Standard</g:service><g:price>0.00 {R['currency_code']}</g:price></g:shipping>
 {shipping_weight(p)}
   </item>"""
     return f"""<?xml version="1.0" encoding="UTF-8"?>
@@ -1090,16 +1502,22 @@ def write_site(cfg, root):
 def build_admin(cfg):
     """Standalone admin dashboard. Live figures come from the analytics worker;
     without one configured, every panel says so rather than inventing numbers."""
+    sym = cur(cfg)
     linkrows = "".join(f"""
       <div class="field">
-        <label for="pl-{p['sku']}">{e(p['name'])} <span class="muted">&mdash; &pound;{p['price']:,} &middot; {p['sku']}</span></label>
+        <label for="pl-{p['sku']}">{e(p['name'])} <span class="muted">&mdash; {sym}{p['price']:,} &middot; {p['sku']}</span></label>
         <input id="pl-{p['sku']}" data-link="{p['sku']}" type="url"
                placeholder="https://buy.stripe.com/…" autocomplete="off" spellcheck="false"></div>"""
         for p in cfg['products'])
 
-    biz = [("company", "Registered company name"), ("companyNo", "Companies House number"),
-           ("street", "Registered address"),
-           ("city", "Town or city"), ("postcode", "Postcode"), ("phone", "Phone number")]
+    if us(cfg):
+        biz = [("company", "Legal business name"), ("companyNo", "Business registration / EIN (optional)"),
+               ("street", "Street address"), ("city", "City"), ("state", "State"),
+               ("postcode", "ZIP code"), ("phone", "Phone number")]
+    else:
+        biz = [("company", "Registered company name"), ("companyNo", "Companies House number"),
+               ("street", "Registered address"),
+               ("city", "Town or city"), ("postcode", "Postcode"), ("phone", "Phone number")]
     bizrows = "".join(f"""<div class="field"><label for="bz-{k}">{e(l)}</label>
         <input id="bz-{k}" data-biz-field="{k}" autocomplete="off" spellcheck="false"></div>"""
         for k, l in biz)
@@ -1111,7 +1529,7 @@ def build_admin(cfg):
         for i, (k, l) in enumerate(tabs))
 
     return f"""<!DOCTYPE html>
-<html lang="en-GB">
+<html lang="{region(cfg)['html_lang']}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -1239,7 +1657,8 @@ def build_admin(cfg):
 
         <h3 class="sec">Business identity</h3>
         <p class="sub">Shown in the footer of every page. Google Merchant Center and Stripe both
-          verify these against Companies House, so they must be your real details.</p>
+          {"check these against your real business details." if us(cfg) else
+           "verify these against Companies House, so they must be your real details."}</p>
         <div class="f2">{bizrows}</div>
 
         <h3 class="sec">Data collector</h3>

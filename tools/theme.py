@@ -48,6 +48,62 @@ STYLE = {
     ("background:rgba(17,24,21,.97)", "background:rgba(255,255,255,.97)"),
     ("box-shadow:0 0 0 1px rgba(255,255,255,.14)", "box-shadow:0 0 0 1px rgba(0,0,0,.14)"),
   ],
+  # AgriMaxx (US) -- a dark, agricultural recolour of the BranchForge original:
+  # same near-black structure, but a deep field-green ground and a harvest-gold
+  # accent instead of lime, so a dark store still has its own hue family rather
+  # than reusing BranchForge's or HaulCrest's.
+  "agrimax": [
+    ("/* BranchForge — branchforge.shop */", "/* AgriMaxx — agrimax.shop */"),
+    ("--bg:#0b0f0d; --bg-2:#111815; --bg-3:#18211d; --line:#243029;",
+     "--bg:#0a120c; --bg-2:#0f1a12; --bg-3:#142415; --line:#1f3322;"),
+    ("--ink:#f2f6f3; --ink-2:#a8b6ad; --ink-3:#7c8b83;",
+     "--ink:#f3f7f0; --ink-2:#a9b0a3; --ink-3:#7d8578;"),
+    ("--brand:#a3e635; --brand-2:#78c116; --brand-ink:#0d1a05;",
+     "--brand:#d4a017; --brand-2:#a8790a; --brand-ink:#1a1206;"),
+    ("--green:#1f5c39;", "--green:#1c3d20;"),
+    ("--brand-soft:rgba(163,230,53,.10);", "--brand-soft:rgba(212,160,23,.12);"),
+    ('--head:"Barlow Condensed","Arial Narrow",Impact,sans-serif;',
+     '--head:"Oswald","Arial Narrow",Impact,sans-serif;'),
+    (".btn--primary:hover{background:#b6f04f", ".btn--primary:hover{background:#e8b636"),
+    ("background:rgba(11,15,13,.94)", "background:rgba(10,18,12,.94)"),
+    ("rgba(163,230,53,.11),transparent 60%)", "rgba(212,160,23,.11),transparent 60%)"),
+    ("rgba(31,92,57,.34),transparent 62%)", "rgba(28,61,32,.34),transparent 62%)"),
+    (".card:hover{border-color:#3c5a3f", ".card:hover{border-color:#3a4f3c"),
+    ("background:rgba(163,230,53,.12);display:grid", "background:rgba(212,160,23,.12);display:grid"),
+    ("box-shadow:0 0 0 4px rgba(163,230,53,.18)", "box-shadow:0 0 0 4px rgba(212,160,23,.18)"),
+    ("linear-gradient(120deg,var(--green),#0f3a24)", "linear-gradient(120deg,var(--green),#0d2e19)"),
+    ("border:1px solid #2c5f42}", "border:1px solid #2a4a2e}"),
+    (".cta p{color:#cfe6d6", ".cta p{color:#d7e6d2"),
+    ("background:rgba(17,24,21,.97)", "background:rgba(15,26,18,.97)"),
+  ],
+  # GroundMaxx (US) -- a dark, slate/charcoal recolour with a safety-yellow
+  # accent, distinct from AgriMaxx's green and from HaulCrest's amber.
+  "groundmax": [
+    ("/* BranchForge — branchforge.shop */", "/* GroundMaxx — groundmax.shop */"),
+    ("--bg:#0b0f0d; --bg-2:#111815; --bg-3:#18211d; --line:#243029;",
+     "--bg:#101114; --bg-2:#16181c; --bg-3:#1d2025; --line:#2a2d33;"),
+    ("--ink:#f2f6f3; --ink-2:#a8b6ad; --ink-3:#7c8b83;",
+     "--ink:#f5f6f7; --ink-2:#a7abb3; --ink-3:#7d8189;"),
+    ("--brand:#a3e635; --brand-2:#78c116; --brand-ink:#0d1a05;",
+     "--brand:#eab308; --brand-2:#ca8a04; --brand-ink:#1c1502;"),
+    # No green identity here, so --green (only ever used as the CTA band's dark
+    # gradient stop) is repointed to a slate tone rather than left green.
+    ("--green:#1f5c39;", "--green:#2a2e35;"),
+    ("--brand-soft:rgba(163,230,53,.10);", "--brand-soft:rgba(234,179,8,.12);"),
+    ('--head:"Barlow Condensed","Arial Narrow",Impact,sans-serif;',
+     '--head:"Anton","Arial Narrow",Impact,sans-serif;'),
+    (".btn--primary:hover{background:#b6f04f", ".btn--primary:hover{background:#f4c430"),
+    ("background:rgba(11,15,13,.94)", "background:rgba(16,17,20,.94)"),
+    ("rgba(163,230,53,.11),transparent 60%)", "rgba(234,179,8,.11),transparent 60%)"),
+    ("rgba(31,92,57,.34),transparent 62%)", "rgba(42,46,53,.34),transparent 62%)"),
+    (".card:hover{border-color:#3c5a3f", ".card:hover{border-color:#3d4149"),
+    ("background:rgba(163,230,53,.12);display:grid", "background:rgba(234,179,8,.12);display:grid"),
+    ("box-shadow:0 0 0 4px rgba(163,230,53,.18)", "box-shadow:0 0 0 4px rgba(234,179,8,.18)"),
+    ("linear-gradient(120deg,var(--green),#0f3a24)", "linear-gradient(120deg,var(--green),#15171b)"),
+    ("border:1px solid #2c5f42}", "border:1px solid #33373f}"),
+    (".cta p{color:#cfe6d6", ".cta p{color:#e3e6ea"),
+    ("background:rgba(17,24,21,.97)", "background:rgba(22,24,28,.97)"),
+  ],
   # LawnStride -- light editorial. Cream ground, moss green, a slab serif with
   # the uppercase heading transform dropped so it reads as prose, not signage.
   "lawnstride": [
@@ -103,7 +159,34 @@ EXTRA = {
 ADMIN = {
   "rootvexx":   [("--acc:#4d7c0f; --acc-2:#65a30d;", "--acc:#9a3412; --acc-2:#c2410c;")],
   "lawnstride": [("--acc:#4d7c0f; --acc-2:#65a30d;", "--acc:#3f6212; --acc-2:#4d7c0f;")],
+  "agrimax":    [("--acc:#4d7c0f; --acc-2:#65a30d;", "--acc:#a8790a; --acc-2:#d4a017;")],
+  "groundmax":  [("--acc:#4d7c0f; --acc-2:#65a30d;", "--acc:#ca8a04; --acc-2:#eab308;")],
 }
+
+# script.js and admin.js are otherwise identical on every store (see CLAUDE.md),
+# but a US store needs its money formatter and its client-side business-address
+# composer to stop hard-coding "£"/en-GB/"United Kingdom". These are applied on
+# top of BranchForge's copy for a store's own derived files only -- BranchForge
+# itself is never touched, so the four existing stores render exactly as before.
+_US_SCRIPT_JS = [
+    ("return '£' + n.toLocaleString('en-GB', { minimumFractionDigits: 0, maximumFractionDigits: 0 });",
+     "return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });"),
+    ("      // Town and postcode sit together without a comma, as UK addresses are written.\n"
+     "      var town = [(biz.city || '').trim(), (biz.postcode || '').trim()].filter(Boolean).join(' ');",
+     "      // City, state and ZIP are written together, US-style: \"City, ST 00000\".\n"
+     "      var town = [[(biz.city || '').trim(), (biz.state || '').trim()].filter(Boolean).join(', '), "
+     "(biz.postcode || '').trim()].filter(Boolean).join(' ');"),
+    ("        addr.textContent = supplied.concat('United Kingdom').join(', ');",
+     "        addr.textContent = supplied.join(', ');"),
+]
+_US_ADMIN_JS = [
+    ("var nf = new Intl.NumberFormat('en-GB');", "var nf = new Intl.NumberFormat('en-US');"),
+    ("return '£' + (pence / 100).toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 });",
+     "return '$' + (pence / 100).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });"),
+    ("return isNaN(d) ? '' : d.toLocaleString('en-GB',", "return isNaN(d) ? '' : d.toLocaleString('en-US',"),
+]
+JS_SCRIPT = {"agrimax": _US_SCRIPT_JS, "groundmax": _US_SCRIPT_JS}
+JS_ADMIN = {"agrimax": _US_ADMIN_JS, "groundmax": _US_ADMIN_JS}
 
 
 def _swap(text, subs, what):
@@ -126,6 +209,11 @@ def derive(key, root):
     acss = open(f"{SRC}/assets/css/admin.css", encoding="utf-8").read()
     open(f"{root}/assets/css/admin.css", "w", encoding="utf-8").write(
         _swap(acss, ADMIN[key], f"{key} admin.css"))
-    for js in ("script.js", "admin.js"):      # identical on every store
-        shutil.copyfile(f"{SRC}/assets/js/{js}", f"{root}/assets/js/{js}")
+    for js, swaps in (("script.js", JS_SCRIPT.get(key)), ("admin.js", JS_ADMIN.get(key))):
+        if swaps:
+            text = open(f"{SRC}/assets/js/{js}", encoding="utf-8").read()
+            open(f"{root}/assets/js/{js}", "w", encoding="utf-8").write(
+                _swap(text, swaps, f"{key} {js}"))
+        else:                                 # identical on every other store
+            shutil.copyfile(f"{SRC}/assets/js/{js}", f"{root}/assets/js/{js}")
     return "derived"

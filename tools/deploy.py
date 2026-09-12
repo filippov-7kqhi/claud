@@ -19,10 +19,12 @@ REPO = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
 from products import for_store
 import cfg_branchforge, cfg_haulcrest, cfg_rootvexx, cfg_lawnstride
+import cfg_agrimaxx, cfg_groundmaxx
 
 SITES = os.path.join(REPO, "sites")
 STORES = {"branchforge": (cfg_branchforge, "BF"), "haulcrest": (cfg_haulcrest, "HC"),
-          "rootvexx": (cfg_rootvexx, "RV"), "lawnstride": (cfg_lawnstride, "LS")}
+          "rootvexx": (cfg_rootvexx, "RV"), "lawnstride": (cfg_lawnstride, "LS"),
+          "agrimax": (cfg_agrimaxx, "AM"), "groundmax": (cfg_groundmaxx, "GM")}
 
 # top-level names in the repo that are not ours to replace or remove
 KEEP = {".git", ".github", "README.md", "LICENSE", "stripe"}
@@ -63,9 +65,9 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("store", nargs="*", choices=sorted(STORES) + [[]],
-                    help="stores to deploy; default all four")
+                    help="stores to deploy; default all")
     ap.add_argument("--repos", default=os.path.dirname(REPO), metavar="DIR",
-                    help="directory holding the four store clones "
+                    help="directory holding the store clones "
                          "(default: the directory this repo sits in)")
     args = ap.parse_args()
 

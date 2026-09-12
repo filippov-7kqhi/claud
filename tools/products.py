@@ -5,12 +5,18 @@ from cfg_branchforge import CYCLONE, GRIND
 from cfg_haulcrest import TITAN, VANGUARD
 
 from cat_compact import COMPACT
+from cat_us import US_FOUR
 
 CLASSIC = [CYCLONE, GRIND, TITAN, VANGUARD]
 
 # Not every store sells the same four machines.
+# "agrimax"/"groundmax" are the sites/ directory names for AgriMaxx and
+# GroundMaxx -- derived from their domains (agrimax.shop, groundmax.shop) by
+# build_all.py, the same way every other store's key is, even though the
+# brand shown on the site carries a second "x" (AgriMaxx, GroundMaxx).
 CATALOGUE = {"branchforge": CLASSIC, "haulcrest": CLASSIC,
-             "rootvexx": COMPACT, "lawnstride": COMPACT}
+             "rootvexx": COMPACT, "lawnstride": COMPACT,
+             "agrimax": US_FOUR, "groundmax": US_FOUR}
 BASE = CLASSIC
 
 # Store-neutral extras needed for a Google Merchant Center feed.
@@ -31,6 +37,16 @@ EXTRA = {
                     gpc="5605", weight_kg=285, box="245 x 95 x 110 cm"),
     "XX-FM150": dict(condition="new", category="Business & Industrial > Heavy Machinery",
                      gpc="5605", weight_kg=245, box="175 x 140 x 115 cm"),
+    # AgriMaxx / GroundMaxx (US) -- weight_kg/box not confirmed by the manufacturer,
+    # so they are left out; real.setdefault() below fills "" for the feed.
+    "XX-VHF71": dict(condition="new", category="Business & Industrial > Heavy Machinery",
+                     gpc="5605"),
+    "XX-LFS53": dict(condition="new", category="Business & Industrial > Heavy Machinery",
+                     gpc="5605"),
+    "XX-PHD18": dict(condition="new", category="Business & Industrial > Heavy Machinery",
+                     gpc="5605"),
+    "XX-RC72": dict(condition="new", category="Business & Industrial > Heavy Machinery",
+                    gpc="5605"),
 }
 
 _BRANDS = ("BranchForge", "HaulCrest", "%BRAND%")
@@ -409,3 +425,17 @@ OVERRIDES["haulcrest"] = {
     "titan-1000-ht": MD500,
     "vanguard-850-sl": SKIDSTEER,
 }
+
+# AgriMaxx and GroundMaxx (US) sell the same four real machines, each already
+# photographed with that store's own brand decalled onto the machine, exactly
+# like the RootVexx/LawnStride pattern above -- but there is no separate
+# "drawn" catalogue underneath these, so the override is self-referential:
+# each product in CATALOGUE["agrimax"]/["groundmax"] overrides its own slug
+# with itself. for_store() only reads `base["slug"]`/`base["sku"]` before it
+# takes the override branch, and both of those already match the override
+# value here (they are the same dict), so EXTRA[base["sku"]] resolves
+# correctly and _images_on_disk(root, real["dir"].split("/")[-1]) picks up
+# the photographs dropped into sites/<store>/assets/img/<dir>/.
+_US = {p["slug"]: p for p in US_FOUR}
+OVERRIDES["agrimax"] = dict(_US)
+OVERRIDES["groundmax"] = dict(_US)

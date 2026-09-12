@@ -1,7 +1,8 @@
 import sys, os; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from build_site import write_site
+from build_site import write_site, region
 from products import for_store
 import cfg_branchforge, cfg_haulcrest, cfg_rootvexx, cfg_lawnstride
+import cfg_agrimaxx, cfg_groundmaxx
 import theme
 import hashlib, re
 
@@ -27,6 +28,7 @@ window.SITE_CONFIG = {{
     vatNo:     "",
     street:    "",
     city:      "",
+    state:     "",
     postcode:  "",
     phone:     ""
   }},
@@ -54,13 +56,17 @@ def write_site_config(cfg, root):
        value is still blank is regenerated, so a store that changes its range
        gets a payment-link slot per machine it actually sells."""
     path = f"{root}/assets/js/site-config.js"
+    code = region(cfg)["currency_code"]
     links = "\n".join(
-        f'    "{p["sku"]}": "",{" " * max(1, 14 - len(p["sku"]))}// {p["name"]} - GBP {p["price"]:,}'
+        f'    "{p["sku"]}": "",{" " * max(1, 14 - len(p["sku"]))}// {p["name"]} - {code} {p["price"]:,}'
         for p in cfg["products"])
     body = CONFIG_TEMPLATE.format(brand=cfg["brand"], links=links, passhash=ADMIN_PASS_HASH)
 
+    # explicit UTF-8: a product name can carry a non-ASCII character (e.g. the
+    # inch mark, "″"), and the platform default codec is not UTF-8 on
+    # Windows, so it must be named rather than left to encode()'s default.
     if os.path.exists(path):
-        cur = open(path).read()
+        cur = open(path, encoding="utf-8").read()
         skus = [p["sku"] for p in cfg["products"]]
         if all(f'"{s}"' in cur for s in skus):
             return "kept"
@@ -72,10 +78,10 @@ def write_site_config(cfg, root):
             print(f"  ! {cfg['brand']}: site-config.js lists a different range but has "
                   f"values set. Left alone -- add slots for {', '.join(skus)} by hand.")
             return "kept (stale range)"
-        open(path, "w").write(body)
+        open(path, "w", encoding="utf-8").write(body)
         return "regenerated"
 
-    open(path, "w").write(body)
+    open(path, "w", encoding="utf-8").write(body)
     return "created"
 
 
@@ -103,7 +109,8 @@ def digest(path):
 # the sites/ directory beside tools/, wherever this repo is checked out
 ROOT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'sites')
 STORES = ((cfg_branchforge, 'BF'), (cfg_haulcrest, 'HC'),
-          (cfg_rootvexx, 'RV'), (cfg_lawnstride, 'LS'))
+          (cfg_rootvexx, 'RV'), (cfg_lawnstride, 'LS'),
+          (cfg_agrimaxx, 'AM'), (cfg_groundmaxx, 'GM'))
 
 for mod, prefix in STORES:
     cfg = dict(mod.CFG)
