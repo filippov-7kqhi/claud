@@ -28,6 +28,13 @@ a chat window -- roll it in the Dashboard if you ever do.
 """
 import argparse, json, os, re, sys, urllib.error, urllib.parse, urllib.request
 
+# A product name can carry a non-ASCII character (e.g. the inch mark, "″"),
+# and Windows' console defaults to a codepage that cannot encode it -- crashing
+# a plain print() before anything reaches Stripe. UTF-8 output fixes that
+# everywhere, harmlessly, regardless of platform.
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+
 API = "https://api.stripe.com/v1"
 
 STORES = {
