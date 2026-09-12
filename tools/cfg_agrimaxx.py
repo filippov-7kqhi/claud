@@ -106,6 +106,11 @@ CFG = dict(
                   "unit before it goes on the pallet."),
                  ("A warranty you can read", "Two years on parts, spelled out in full on our "
                   "returns and warranty page -- no fine print you haven't seen.")],
+    about_images=[
+        ("assets/img/vhf71/01-hero.jpg", "AgriMaxx VHF71 hydraulic offset ditch bank flail mower"),
+        ("assets/img/lfs53/01-hero.jpg", "AgriMaxx LFS53 53-inch 3-point flail mower"),
+        ("assets/img/phd18/01-hero.jpg", "AgriMaxx PHD18 3-point post hole digger"),
+        ("assets/img/rc72/01-hero.jpg", "AgriMaxx RC72 6 ft. round-back rotary cutter")],
     footer_blurb="US supplier of 3-point tractor implements: a hydraulic offset flail ditch bank "
                  "mower, a 53-inch flail mower, a post hole digger and a 6 ft. rotary cutter. Specs "
                  "quoted only where we can stand behind them.",

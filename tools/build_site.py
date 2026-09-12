@@ -1313,12 +1313,27 @@ def build_about(cfg):
     tiles = "".join(f'<div class="tile" data-reveal><h3>{e(t)}</h3><p>{e(d)}</p></div>'
                     for t, d in cfg['about_tiles'])
     paras = "".join(f"<p>{e(x)}</p>" for x in cfg['about_paras'])
+    # Opt-in: only stores that set about_images get a gallery, and its CSS is
+    # scoped inline right here rather than added to the shared stylesheet, so
+    # a store that doesn't set it renders byte-identical to before.
+    gallery = ""
+    if cfg.get('about_images'):
+        imgs = "".join(f'<img src="{src}" alt="{e(alt)}" loading="lazy">'
+                       for src, alt in cfg['about_images'])
+        gallery = f"""<style>
+.about-gallery{{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:28px 0}}
+.about-gallery img{{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:10px;
+  border:1px solid var(--line)}}
+@media (max-width:640px){{.about-gallery{{grid-template-columns:repeat(2,1fr)}}}}
+</style>
+<div class="about-gallery" data-reveal>{imgs}</div>"""
     return (head(cfg, f"About — {cfg['brand']}", cfg['about_desc'], "about.html")
             + header(cfg, "about.html")
             + f"""<section class="pagehead"><div class="wrap" style="max-width:820px">
   <nav class="crumbs"><a href="index.html">Home</a> / <span>About</span></nav>
   <p class="eyebrow">About us</p><h1>{e(cfg['about_h1'])}</h1>
   <div class="muted" style="font-size:1.05rem">{paras}</div>
+  {gallery}
   <div class="idcard">
     <h3>Business details</h3>
     <dl>
