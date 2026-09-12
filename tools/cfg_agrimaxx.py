@@ -14,15 +14,25 @@
 """
 
 LOGO = ('<svg class="logo__mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">'
-        '<circle cx="22" cy="9" r="4" fill="#d4a017"/>'
-        '<path d="M3 27q9-8 26-12" stroke="#2f6b3a" stroke-width="2.6" stroke-linecap="round"/>'
-        '<path d="M3 21q9-7 24-11" stroke="#1c3d20" stroke-width="2.2" stroke-linecap="round"/></svg>')
+        '<path d="M16 29V6" stroke="#2f5d34" stroke-width="2.3" stroke-linecap="round"/>'
+        '<ellipse cx="12.3" cy="23" rx="2.6" ry="1.35" fill="#8a4b06" transform="rotate(-40 12.3 23)"/>'
+        '<ellipse cx="19.7" cy="23" rx="2.6" ry="1.35" fill="#8a4b06" transform="rotate(40 19.7 23)"/>'
+        '<ellipse cx="12.7" cy="17.4" rx="2.6" ry="1.35" fill="#a35d0a" transform="rotate(-32 12.7 17.4)"/>'
+        '<ellipse cx="19.3" cy="17.4" rx="2.6" ry="1.35" fill="#a35d0a" transform="rotate(32 19.3 17.4)"/>'
+        '<ellipse cx="13.3" cy="12" rx="2.4" ry="1.3" fill="#c9860f" transform="rotate(-24 13.3 12)"/>'
+        '<ellipse cx="18.7" cy="12" rx="2.4" ry="1.3" fill="#c9860f" transform="rotate(24 18.7 12)"/>'
+        '<ellipse cx="16" cy="7" rx="1.7" ry="2.8" fill="#c9860f"/></svg>')
+# A wheat ear: a stem (deep crop-green) carrying three ascending pairs of
+# grain kernels that ripen from a dark harvest gold at the base to a lighter
+# gold at the tip -- reads as "harvest/agricultural" rather than the abstract
+# sun-and-furrow mark this replaced. See tools/theme.py for the light-theme
+# palette (warm wheat-cream ground, harvest-gold brand colour) this pairs with.
 
 CFG = dict(
     brand="AgriMaxx", brand_a="Agri", brand_b="Maxx", domain="agrimax.shop",
     country="US",
-    theme="#0a120c", logomark=LOGO,
-    favicon="%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231c3d20'/%3E%3Ccircle cx='22' cy='10' r='4' fill='%23d4a017'/%3E%3Cpath d='M4 26 Q13 18 29 14' stroke='%23ffffff' stroke-width='2.6' stroke-linecap='round'/%3E%3C/svg%3E",
+    theme="#f8f3e6", logomark=LOGO,
+    favicon="%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2392400e'/%3E%3Cpath d='M16 27V8' stroke='%23fff8ec' stroke-width='2.4' stroke-linecap='round'/%3E%3Ccircle cx='12.6' cy='22' r='2.1' fill='%23fff8ec'/%3E%3Ccircle cx='19.4' cy='22' r='2.1' fill='%23fff8ec'/%3E%3Ccircle cx='13' cy='15.5' r='1.9' fill='%23fff8ec'/%3E%3Ccircle cx='19' cy='15.5' r='1.9' fill='%23fff8ec'/%3E%3Ccircle cx='16' cy='9' r='2.2' fill='%23fff8ec'/%3E%3C/svg%3E",
     title="AgriMaxx — 3-Point Tractor Implements: Ditch Bank Mower, Flail Mower, Post Hole Digger "
           "& Rotary Cutter",
     desc="3-point PTO implements for compact and mid-size tractors: a hydraulic offset ditch bank "
@@ -100,7 +110,11 @@ CFG = dict(
                  "mower, a 53-inch flail mower, a post hole digger and a 6 ft. rotary cutter. Specs "
                  "quoted only where we can stand behind them.",
 
-    fonts="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;600;700;800&display=swap",
+    # Fraunces (a warm display serif, weighted 600/700/900 for headline impact)
+    # paired with Inter for body copy -- a deliberate contrast in style and
+    # weight, and not used by any other store in this pipeline. The previous
+    # choice, Oswald, collided verbatim with HaulCrest's display face.
+    fonts="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700;900&family=Inter:wght@400;600;700;800&display=swap",
     email="contact@agrimax.shop", support_email="contact@agrimax.shop",
     phone="", phone_link="", ref_prefix="AM",
     # Real trading address supplied by the owner; the legal entity name has not

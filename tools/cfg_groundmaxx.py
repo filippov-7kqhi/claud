@@ -14,16 +14,22 @@
 """
 
 LOGO = ('<svg class="logo__mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">'
-        '<path d="M3 16h9" stroke="#eab308" stroke-width="2.8" stroke-linecap="round"/>'
-        '<circle cx="20" cy="16" r="7.5" stroke="#e7e9ec" stroke-width="2.4"/>'
-        '<path d="M20 6.5v3M20 22.5v3M9.5 16h3M27.5 16h3" stroke="#eab308" stroke-width="2.4" '
-        'stroke-linecap="round"/></svg>')
+        '<circle cx="16" cy="16" r="7" stroke="#e7e9ec" stroke-width="2.3"/>'
+        '<path d="M16 3.5v3.4M16 25.1v3.4M3.5 16h3.4M25.1 16h3.4M7.4 7.4l2.4 2.4M22.2 22.2l2.4 2.4'
+        'M24.6 7.4l-2.4 2.4M9.8 22.2l-2.4 2.4" stroke="#f7c600" stroke-width="2.4" stroke-linecap="round"/>'
+        '<path d="M10.5 16h11" stroke="#f7c600" stroke-width="2.6" stroke-linecap="round"/></svg>')
+# A gear/cog (steel hub ring plus eight radial teeth) with a driveshaft through
+# the centre -- reads as heavy, geared machinery, and the shaft is literally
+# what all four products share: everything GroundMaxx sells is PTO/rotary
+# driven. Replaces the previous wheel-and-ground-line mark with a denser,
+# more clearly mechanical gear silhouette in the same safety-yellow-on-steel
+# two-tone. See tools/theme.py for the refined charcoal/safety-yellow palette.
 
 CFG = dict(
     brand="GroundMaxx", brand_a="Ground", brand_b="Maxx", domain="groundmax.shop",
     country="US",
     theme="#101114", logomark=LOGO,
-    favicon="%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23101114'/%3E%3Ccircle cx='18' cy='16' r='7' stroke='%23eab308' stroke-width='2.6'/%3E%3Cpath d='M4 16h8M18 7v2M18 23v2M9 16h2M27 16h2' stroke='%23eab308' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E",
+    favicon="%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23101114'/%3E%3Ccircle cx='16' cy='16' r='7' stroke='%23e7e9ec' stroke-width='2.4'/%3E%3Cpath d='M16 4v3.4M16 24.6v3.4M4 16h3.4M24.6 16h3.4M8 8l2.3 2.3M21.7 21.7l2.3 2.3M24 8l-2.3 2.3M10.3 21.7l-2.3 2.3' stroke='%23f7c600' stroke-width='2.3' stroke-linecap='round'/%3E%3Cpath d='M9.5 16h13' stroke='%23f7c600' stroke-width='2.6' stroke-linecap='round'/%3E%3C/svg%3E",
     title="GroundMaxx — 3-Point Tractor Implements: Ditch Bank Mower, Flail Mower, Post Hole "
           "Digger & Rotary Cutter",
     desc="Heavy-duty 3-point PTO implements for tractors: a hydraulic offset ditch bank flail "
