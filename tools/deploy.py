@@ -38,6 +38,19 @@ def wanted_galleries(key):
 
 def deploy(key, dest):
     src, keep = f"{SITES}/{key}", wanted_galleries(key)
+
+    # site-config.js is owner-edited once a store is live -- Payment Links,
+    # analytics/checkout endpoints, business details, the admin hash. The
+    # build in sites/ never carries any of that (see write_site_config's own
+    # "never overwrites" rule), so a blind copy here silently wiped a live
+    # store's real payment links back to blank on every routine content
+    # redeploy. Save it, let the normal copy lay down the generic file, then
+    # put the real one back. Known gap: if the product range grows, the
+    # restored file won't carry a slot for the new SKU -- add it by hand.
+    config_rel = os.path.join("assets", "js", "site-config.js")
+    config_path = os.path.join(dest, config_rel)
+    saved_config = open(config_path, "rb").read() if os.path.exists(config_path) else None
+
     for name in os.listdir(dest):
         if name not in KEEP:
             path = f"{dest}/{name}"
@@ -56,6 +69,9 @@ def deploy(key, dest):
         for f in files:
             shutil.copy2(f"{root}/{f}", f"{out}/{f}")
             copied += 1
+
+    if saved_config is not None:
+        open(config_path, "wb").write(saved_config)
 
     open(f"{dest}/.nojekyll", "w").close()      # the site is already built
     return copied, sorted(keep)

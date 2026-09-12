@@ -249,7 +249,11 @@ def main():
             price = price_for(key, product, item["price"] * 100, currency, args.vat_inclusive)
             url, made = link_for(key, sku, price, domain, country, known)
             links[sku] = known[sku] = url
-            print(f"  {'created' if made else 'reused '}  {sku:12} {sym}{item['price']:>6,}  {url}")
+            # A Price id (unlike an API key) is not secret -- it grants no
+            # access on its own -- so printing it is fine. It is what the
+            # optional Worker's PRICES map needs for multi-item checkout.
+            print(f"  {'created' if made else 'reused '}  {sku:12} {sym}{item['price']:>6,}  "
+                  f"{price['id']:<28} {url}")
         if args.write and not args.dry_run:
             path = (f"{root}/assets/js/site-config.js" if root
                     else f"{args.local}/{store}/assets/js/site-config.js")

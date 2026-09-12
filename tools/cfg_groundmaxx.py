@@ -115,7 +115,7 @@ CFG = dict(
 
     fonts="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;700;800&display=swap",
     email="contact@groundmax.shop", support_email="contact@groundmax.shop",
-    phone="", phone_link="", ref_prefix="GM",
+    phone="+1 773-436-4122", phone_link="+17734364122", ref_prefix="GM",
     # Real trading address supplied by the owner; the legal entity name has not
     # been registered/decided yet, so that field is left as an explicit TODO
     # rather than inventing a company name. Phone is likewise left blank until

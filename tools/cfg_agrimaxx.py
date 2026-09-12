@@ -121,7 +121,7 @@ CFG = dict(
     # choice, Oswald, collided verbatim with HaulCrest's display face.
     fonts="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700;900&family=Inter:wght@400;600;700;800&display=swap",
     email="contact@agrimax.shop", support_email="contact@agrimax.shop",
-    phone="", phone_link="", ref_prefix="AM",
+    phone="+1 773-776-8355", phone_link="+17737768355", ref_prefix="AM",
     # Real trading address supplied by the owner; the legal entity name has not
     # been registered/decided yet, so that field is left as an explicit TODO
     # rather than inventing a company name. Phone is likewise left blank until
