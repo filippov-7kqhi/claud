@@ -1,0 +1,96 @@
+# -*- coding: utf-8 -*-
+"""Copy a built store into its GitHub Pages repository working tree.
+
+Two things this does that a plain `cp -r` does not:
+
+  * It leaves alone anything the repository holds that the generator does not
+    own -- the README, and the Cloudflare Worker source under stripe/. A
+    wholesale replace would silently delete them.
+  * It ships only the image galleries a product actually references. Both
+    original stores sell photographed machines, so the generated catalogue art
+    sitting in their build directory is several megabytes of dead weight.
+
+It does not commit or push; run git yourself once you have read the diff.
+"""
+import argparse, os, shutil, sys
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+REPO = os.path.dirname(HERE)
+sys.path.insert(0, HERE)
+from products import for_store
+import cfg_branchforge, cfg_haulcrest, cfg_rootvexx, cfg_lawnstride
+import cfg_agrimaxx, cfg_groundmaxx
+
+SITES = os.path.join(REPO, "sites")
+STORES = {"branchforge": (cfg_branchforge, "BF"), "haulcrest": (cfg_haulcrest, "HC"),
+          "rootvexx": (cfg_rootvexx, "RV"), "lawnstride": (cfg_lawnstride, "LS"),
+          "agrimax": (cfg_agrimaxx, "AM"), "groundmax": (cfg_groundmaxx, "GM")}
+
+# top-level names in the repo that are not ours to replace or remove
+KEEP = {".git", ".github", "README.md", "LICENSE", "stripe"}
+
+
+def wanted_galleries(key):
+    mod, prefix = STORES[key]
+    return {p["dir"].split("/")[-1]
+            for p in for_store(mod.CFG["brand"], prefix, key, f"{SITES}/{key}")}
+
+
+def deploy(key, dest):
+    src, keep = f"{SITES}/{key}", wanted_galleries(key)
+
+    # site-config.js is owner-edited once a store is live -- Payment Links,
+    # analytics/checkout endpoints, business details, the admin hash. The
+    # build in sites/ never carries any of that (see write_site_config's own
+    # "never overwrites" rule), so a blind copy here silently wiped a live
+    # store's real payment links back to blank on every routine content
+    # redeploy. Save it, let the normal copy lay down the generic file, then
+    # put the real one back. Known gap: if the product range grows, the
+    # restored file won't carry a slot for the new SKU -- add it by hand.
+    config_rel = os.path.join("assets", "js", "site-config.js")
+    config_path = os.path.join(dest, config_rel)
+    saved_config = open(config_path, "rb").read() if os.path.exists(config_path) else None
+
+    for name in os.listdir(dest):
+        if name not in KEEP:
+            path = f"{dest}/{name}"
+            shutil.rmtree(path) if os.path.isdir(path) else os.remove(path)
+
+    copied = 0
+    for root, dirs, files in os.walk(src):
+        rel = os.path.relpath(root, src)
+        parts = rel.split(os.sep)
+        # assets/img/<gallery>: skip a gallery no product on this store references
+        if len(parts) >= 3 and parts[0] == "assets" and parts[1] == "img" and parts[2] not in keep:
+            dirs[:] = []
+            continue
+        out = dest if rel == "." else f"{dest}/{rel}"
+        os.makedirs(out, exist_ok=True)
+        for f in files:
+            shutil.copy2(f"{root}/{f}", f"{out}/{f}")
+            copied += 1
+
+    if saved_config is not None:
+        open(config_path, "wb").write(saved_config)
+
+    open(f"{dest}/.nojekyll", "w").close()      # the site is already built
+    return copied, sorted(keep)
+
+
+if __name__ == "__main__":
+    ap = argparse.ArgumentParser(description=__doc__,
+                                 formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("store", nargs="*", choices=sorted(STORES) + [[]],
+                    help="stores to deploy; default all")
+    ap.add_argument("--repos", default=os.path.dirname(REPO), metavar="DIR",
+                    help="directory holding the store clones "
+                         "(default: the directory this repo sits in)")
+    args = ap.parse_args()
+
+    for key in (args.store or sorted(STORES)):
+        dest = os.path.join(args.repos, key)
+        if not os.path.isdir(os.path.join(dest, ".git")):
+            raise SystemExit(f"{dest} is not a git clone. Clone filippov-7kqhi/{key} "
+                             f"there, or pass --repos.")
+        n, gal = deploy(key, dest)
+        print(f"{key}: {n} files -> {dest}, galleries {', '.join(gal)}")
