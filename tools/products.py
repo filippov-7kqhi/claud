@@ -39,14 +39,26 @@ EXTRA = {
                      gpc="5605", weight_kg=245, box="175 x 140 x 115 cm"),
     # AgriMaxx / GroundMaxx (US) -- weight_kg/box not confirmed by the manufacturer,
     # so they are left out; real.setdefault() below fills "" for the feed.
-    "XX-VHF71": dict(condition="new", category="Business & Industrial > Heavy Machinery",
-                     gpc="5605"),
-    "XX-LFS53": dict(condition="new", category="Business & Industrial > Heavy Machinery",
-                     gpc="5605"),
-    "XX-PHD18": dict(condition="new", category="Business & Industrial > Heavy Machinery",
-                     gpc="5605"),
-    "XX-RC72": dict(condition="new", category="Business & Industrial > Heavy Machinery",
-                    gpc="5605"),
+    # gpc values are real Google product taxonomy leaf ids, checked against
+    # google.com/basepages/producttype/taxonomy-with-ids.en-US.txt -- "5605"
+    # used above for the UK machines is actually "Religious & Ceremonial",
+    # not machinery at all, so it was never fixed to look up rather than
+    # guessed at again here. Neither flail mower nor a 3-point post hole
+    # digger has its own leaf category; these are the closest real ones.
+    "XX-VHF71": dict(condition="new",
+                     category="Home & Garden > Lawn & Garden > Outdoor Power Equipment "
+                              "Accessories > Lawn Mower Accessories > Brush Mower Attachments",
+                     gpc="6542"),
+    "XX-LFS53": dict(condition="new",
+                     category="Home & Garden > Lawn & Garden > Outdoor Power Equipment "
+                              "Accessories > Lawn Mower Accessories > Brush Mower Attachments",
+                     gpc="6542"),
+    "XX-PHD18": dict(condition="new", category="Hardware > Tools > Post Hole Diggers",
+                     gpc="3501"),
+    "XX-RC72": dict(condition="new",
+                    category="Home & Garden > Lawn & Garden > Outdoor Power Equipment "
+                             "Accessories > Lawn Mower Accessories > Brush Mower Attachments",
+                    gpc="6542"),
 }
 
 _BRANDS = ("BranchForge", "HaulCrest", "%BRAND%")
