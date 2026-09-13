@@ -1,0 +1,5 @@
+# The generator and its verification tooling.
+Pillow>=10.0          # photo fitting, JPEG twins, contact sheets
+cairosvg>=2.7         # SVG -> PNG/JPEG for the Merchant Center feed (needs system Cairo)
+playwright>=1.40      # render lint and functional pass
+libarchive-c>=5.0     # RAR5 photo archives; 7z cannot decode their entries
