@@ -239,6 +239,7 @@ def main():
         items = catalogue(store, domain, args.local, root)
         print(f"{store} ({domain})")
         links = {}
+        price_ids = {}
         for sku, item in items.items():
             if args.dry_run:
                 have = sku in known
@@ -249,16 +250,25 @@ def main():
             price = price_for(key, product, item["price"] * 100, currency, args.vat_inclusive)
             url, made = link_for(key, sku, price, domain, country, known)
             links[sku] = known[sku] = url
+            price_ids[sku] = price["id"]
             # A Price id (unlike an API key) is not secret -- it grants no
             # access on its own -- so printing it is fine. It is what the
             # optional Worker's PRICES map needs for multi-item checkout.
             print(f"  {'created' if made else 'reused '}  {sku:12} {sym}{item['price']:>6,}  "
                   f"{price['id']:<28} {url}")
         if args.write and not args.dry_run:
-            path = (f"{root}/assets/js/site-config.js" if root
-                    else f"{args.local}/{store}/assets/js/site-config.js")
-            write_config(path, links)
-            print(f"  written to {path}")
+            base = root or f"{args.local}/{store}"
+            write_config(f"{base}/assets/js/site-config.js", links)
+            print(f"  written to {base}/assets/js/site-config.js")
+            # Screenshots and terminal fonts make "l" and "1" (and "O"/"0")
+            # indistinguishable, which has already caused two silent price-id
+            # typos when copied by eye into the Worker's PRICES map. Write the
+            # exact strings to a file instead, so they can be read rather than
+            # transcribed.
+            ids_path = f"{base}/stripe/price_ids.json"
+            os.makedirs(os.path.dirname(ids_path), exist_ok=True)
+            json.dump(price_ids, open(ids_path, "w", encoding="utf-8"), indent=2)
+            print(f"  written to {ids_path}")
         print()
 
     if args.dry_run:
